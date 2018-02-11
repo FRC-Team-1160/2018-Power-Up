@@ -7,36 +7,79 @@
 
 package org.usfirst.frc.team1160.robot;
 
+/*
+import org.usfirst.frc.team1160.robot.commands.constantSpeed;
+import org.usfirst.frc.team1160.robot.commands.climb.Climb;
+import org.usfirst.frc.team1160.robot.commands.dSolenoid.gearForward;
+import org.usfirst.frc.team1160.robot.commands.dSolenoid.gearReverse;
+import org.usfirst.frc.team1160.robot.commands.intake.intakeRun;
+import org.usfirst.frc.team1160.robot.commands.piston.Left;
+import org.usfirst.frc.team1160.robot.commands.piston.Right;
+*/
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-	//// CREATING BUTTONS
-	// One type of button is a joystick button which is any button on a
-	//// joystick.
-	// You create one by telling it which joystick it's on and which button
-	// number it is.
-	// Joystick stick = new Joystick(port);
-	// Button button = new JoystickButton(stick, buttonNumber);
-
-	// There are a few additional built in buttons you can use. Additionally,
-	// by subclassing Button you can create custom triggers and bind those to
-	// commands the same as any other Button.
-
-	//// TRIGGERING COMMANDS WITH BUTTONS
-	// Once you have a button, it's trivial to bind it to a button in one of
-	// three ways:
-
-	// Start the command when the button is pressed and let it run the command
-	// until it is finished as determined by it's isFinished method.
-	// button.whenPressed(new ExampleCommand());
-
-	// Run the command while the button is being held down and interrupt it once
-	// the button is released.
-	// button.whileHeld(new ExampleCommand());
-
-	// Start the command when the button is released and let it run the command
-	// until it is finished as determined by it's isFinished method.
-	// button.whenReleased(new ExampleCommand());
+	private static OI instance;
+	Joystick mainstick;
+	JoystickButton gearForward,gearReverse,gearSwitch,gearOff,
+				   resetPosition,constantSpeed,
+				   intakeEat,intakeSpit,intakeStop,intakeRotate,
+				   climbUp,
+				   pistonLeft,pistonRight;
+	
+	public static OI getInstance() {
+		if(instance == null) {
+			instance = new OI();
+		}
+		return instance;
+	}
+	
+	private OI() {
+		mainstick = new Joystick(0);
+		createButtons();
+	}
+	
+	private void createButtons() {
+		//gearSwitch = new JoystickButton(mainstick,3);
+		gearForward = new JoystickButton(mainstick,4); //low gear
+		gearReverse = new JoystickButton(mainstick,2); //high gear
+		//resetPosition = new JoystickButton(mainstick,1);
+		constantSpeed = new JoystickButton(mainstick,6);
+		intakeEat = new JoystickButton(mainstick,7);
+		intakeRotate = new JoystickButton(mainstick,1);
+		intakeStop = new JoystickButton(mainstick,3);
+		intakeSpit = new JoystickButton(mainstick,8);
+		climbUp = new JoystickButton(mainstick,5);
+		pistonLeft = new JoystickButton(mainstick,9);
+		pistonRight = new JoystickButton(mainstick,10);
+		tieButtons();	
+	}
+	private void tieButtons() {
+		
+		/*
+		//gearSwitch.whenPressed(new gearSwitch());
+		gearForward.whenPressed(new gearForward());
+		gearReverse.whenPressed(new gearReverse());
+		//resetPosition.whenPressed(new resetEncoderPosition());
+		constantSpeed.whileHeld(new constantSpeed());
+		intakeEat.whenPressed(new intakeSet(1.0));
+		intakeRotate.whenPressed(new intakeRotate(0.3));
+		intakeStop.whenPressed(new intakeStop());
+		intakeSpit.whenPressed(new intakeSet(-0.3));
+		climbUp.whileHeld(new Climb(0.5));
+		pistonLeft.whileHeld(new Left());
+		pistonRight.whileHeld(new Right()); 
+		*/
+		
+	}
+	
+	
+	public Joystick getMainstick() {
+		return mainstick;
+	}
 }

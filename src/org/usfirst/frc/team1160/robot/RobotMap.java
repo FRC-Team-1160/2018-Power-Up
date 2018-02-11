@@ -22,6 +22,8 @@ public interface RobotMap {
 	 * PLACEHOLDERS
 	 * 
 	 * REMEMBER TO ADD GEAR RATIO TO ENC_COUNTS_PER_REV
+	 * 
+	 * 
 	 */
 	public static int DT_LEFT_1 = 0;
 	public static int DT_LEFT_2 = 1;
@@ -56,7 +58,26 @@ public interface RobotMap {
 	public static final int  LIFT_MOTOR_LEFT = 0;
 	public static final int  LIFT_MOTOR_RIGHT = 0;
 	
-	public static int LIFT_ENC_COUNTS_PER_REV = 1024;
+	public static int LIFT_ENC_COUNTS_PER_REV = 4096;
+	
+	//Motion Magic Constants - NEED TO BE TUNED
+	public static final double	LIFT_LEFT_KF = 0;
+	public static final double	LIFT_LEFT_KP = 0;
+	public static final double	LIFT_LEFT_KI = 0;
+	public static final double	LIFT_LEFT_KD = 0;
+	//These constants are in native units per 100m
+	public static final int	LIFT_LEFT_MOTION_CRUISE_VELOCITY = 0;
+	public static final int	LIFT_LEFT_MOTION_ACCELERATION = 0;
+	
+	public static final double	LIFT_RIGHT_KF = 0;
+	public static final double	LIFT_RIGHT_KP = 0;
+	public static final double	LIFT_RIGHT_KI = 0;
+	public static final double	LIFT_RIGHT_KD = 0;
+	//These constants are in native units per 100m
+	public static final int	LIFT_RIGHT_MOTION_CRUISE_VELOCITY = 0;
+	public static final int	LIFT_RIGHT_MOTION_ACCELERATION = 0;
+	
+
 	
 	/*
 	 * Climber

@@ -153,7 +153,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	}
 	@Override
 	protected void initDefaultCommand() {
-    	setDefaultCommand(new ManualDrive());
+    	//setDefaultCommand(new ManualDrive());
 	}
 
 }

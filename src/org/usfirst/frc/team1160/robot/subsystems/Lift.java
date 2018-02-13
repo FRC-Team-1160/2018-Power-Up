@@ -1,7 +1,9 @@
 package org.usfirst.frc.team1160.robot.subsystems;
 
+import org.usfirst.frc.team1160.robot.OI;
 import org.usfirst.frc.team1160.robot.RobotMap;
 import org.usfirst.frc.team1160.robot.commands.lift.BrakeEngage;
+import org.usfirst.frc.team1160.robot.commands.lift.LiftManualControl;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -11,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Lift extends Subsystem implements RobotMap{
 	private static Lift instance;
@@ -117,7 +120,15 @@ public class Lift extends Subsystem implements RobotMap{
 		brake.set(DoubleSolenoid.Value.kReverse);
 	}
 	
+	public void joyControl() {
+		//TODO: Check Direction 
+		liftLeft.set(ControlMode.PercentOutput, OI.getInstance().getMainstick().getY()/2);
+		liftRight.set(ControlMode.PercentOutput, OI.getInstance().getMainstick().getY()/2);
+		
+		SmartDashboard.putNumber("Motor %VBus", OI.getInstance().getMainstick().getY()/2);
+	}
+	
 	public void initDefaultCommand() {
-		setDefaultCommand(new BrakeEngage());
+		setDefaultCommand(new LiftManualControl());
     }
 }

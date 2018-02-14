@@ -25,7 +25,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	private Timer timer;
 
 	private boolean lowGear;
-	private DoubleSolenoid ballShifter;
+	private DoubleSolenoid leftBallShifter, rightBallShifter;
 		
 	public static DriveTrain getInstance() {
 		if(instance == null) {
@@ -44,7 +44,8 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		leftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		rightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		
-		ballShifter = new DoubleSolenoid(DT_SOLENOID_0,DT_SOLENOID_1);
+		leftBallShifter = new DoubleSolenoid(LEFT_SOLENOID_0,LEFT_SOLENOID_1);
+		rightBallShifter = new DoubleSolenoid(RIGHT_SOLENOID_0,RIGHT_SOLENOID_1);
 		setFollower();
 		
 	}
@@ -82,13 +83,15 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	 * Ball Shifter Methods
 	 */
 	public void setLowGear() {
-		ballShifter.set(DoubleSolenoid.Value.kForward);
+		leftBallShifter.set(DoubleSolenoid.Value.kForward);
+		rightBallShifter.set(DoubleSolenoid.Value.kForward);
 		lowGear = true;
 		SmartDashboard.putString("Gear/Speed", "low");
 	}
 	
 	public void setHighGear() {
-		ballShifter.set(DoubleSolenoid.Value.kReverse);
+		leftBallShifter.set(DoubleSolenoid.Value.kReverse);
+		rightBallShifter.set(DoubleSolenoid.Value.kReverse);
 		lowGear = false;
 		SmartDashboard.putString("Gear/Speed", "high");
 	}

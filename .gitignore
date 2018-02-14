@@ -1,7 +1,10 @@
 /*
 !src/
+!build/
+
 !.gitignore
 !README.md
 !todo.txt
+!.project
 !save.xml
 

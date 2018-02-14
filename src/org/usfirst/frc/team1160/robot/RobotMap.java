@@ -25,17 +25,16 @@ public interface RobotMap {
 	 * 
 	 * 
 	 */
-	public static int DT_LEFT_1 = 0;
-	public static int DT_LEFT_2 = 1;
-	public static int DT_RIGHT_1 = 2;
-	public static int DT_RIGHT_2 = 3;
+	public static int DT_LEFT_1 = 2;
+	public static int DT_LEFT_2 = 10;
+	public static int DT_RIGHT_1 = 3;
+	public static int DT_RIGHT_2 = 11;
 	
 	public static int DT_ENC_COUNTS_PER_REV = 512;
 	
-	public static final int LEFT_SOLENOID_0 = 1;
-	public static final int LEFT_SOLENOID_1 = 6;
-	public static final int RIGHT_SOLENOID_0 = 0;
-	public static final int RIGHT_SOLENOID_1 = 7;
+	public static final int DT_SOLENOID_0 = 2;
+	public static final int DT_SOLENOID_1 = 5;
+
 	
 	
 	/*
@@ -52,11 +51,11 @@ public interface RobotMap {
 	 * 
 	 * REMEMBER TO ADD GEAR RATIO TO ENC_COUNTS_PER_REV
 	 */
-	public static final int BRAKE_LEFT_SOLENOID = 2;
-	public static final int BRAKE_RIGHT_SOLENOID = 5;
+	public static final int BRAKE_LEFT_SOLENOID = 0;
+	public static final int BRAKE_RIGHT_SOLENOID = 7;
 	
 	public static final int  LIFT_MOTOR_LEFT = 0;
-	public static final int  LIFT_MOTOR_RIGHT = 0;
+	public static final int  LIFT_MOTOR_RIGHT = 1;
 	
 	public static int LIFT_ENC_COUNTS_PER_REV = 4096;
 	
@@ -84,10 +83,10 @@ public interface RobotMap {
 	 * 
 	 * PLACEHOLVERS
 	 */
-	public static final int LATCH_LEFT_SOLENOID = 2;
-	public static final int LATCH_RIGHT_SOLENOID = 5;
+	public static final int LATCH_LEFT_SOLENOID = 3;
+	public static final int LATCH_RIGHT_SOLENOID = 4;
 	
-	public static final int  CLIMBER_MOTOR_1 = 0;
-	public static final int  CLIMBER_MOTOR_2 = 0;
+	public static final int  CLIMBER_MOTOR_1 = 12;
+	public static final int  CLIMBER_MOTOR_2 = 13;
 
 }

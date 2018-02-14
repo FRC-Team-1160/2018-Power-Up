@@ -50,7 +50,7 @@ public class Climber extends Subsystem implements RobotMap{
 	}
 	
 	public void joyControl() {
-		climb(Robot.oi.getMainstick().getY());
+		climb(Robot.oi.getClimbStick().getY());
 	}
 	
 	public void initDefaultCommand() {

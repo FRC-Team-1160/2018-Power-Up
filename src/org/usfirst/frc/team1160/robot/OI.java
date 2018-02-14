@@ -7,6 +7,9 @@
 
 package org.usfirst.frc.team1160.robot;
 
+import org.usfirst.frc.team1160.robot.commands.climb.LatchExtend;
+import org.usfirst.frc.team1160.robot.commands.climb.LatchRetract;
+
 /*
 import org.usfirst.frc.team1160.robot.commands.constantSpeed;
 import org.usfirst.frc.team1160.robot.commands.climb.Climb;
@@ -25,12 +28,14 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 public class OI {
 	private static OI instance;
-	Joystick mainstick;
+	Joystick mainstick, climbStick;
 	JoystickButton gearForward,gearReverse,gearSwitch,gearOff,
 				   resetPosition,constantSpeed,
 				   intakeEat,intakeSpit,intakeStop,intakeRotate,
 				   climbUp,
-				   pistonLeft,pistonRight;
+				   pistonLeft,pistonRight,
+				   
+				   extendClimber, retractClimber;
 	
 	public static OI getInstance() {
 		if(instance == null) {
@@ -41,6 +46,7 @@ public class OI {
 	
 	private OI() {
 		mainstick = new Joystick(0);
+		climbStick = new Joystick(1);
 		createButtons();
 	}
 	
@@ -57,6 +63,9 @@ public class OI {
 		climbUp = new JoystickButton(mainstick,5);
 		pistonLeft = new JoystickButton(mainstick,9);
 		pistonRight = new JoystickButton(mainstick,10);
+		
+		extendClimber = new JoystickButton(climbStick,8);
+		retractClimber = new JoystickButton(climbStick,9);
 		tieButtons();	
 	}
 	private void tieButtons() {
@@ -75,11 +84,17 @@ public class OI {
 		pistonLeft.whileHeld(new Left());
 		pistonRight.whileHeld(new Right()); 
 		*/
+		extendClimber.whenPressed(new LatchExtend());
+		retractClimber.whenPressed(new LatchRetract());
 		
 	}
 	
 	
 	public Joystick getMainstick() {
 		return mainstick;
+	}
+	
+	public Joystick getClimbStick() {
+		return climbStick;
 	}
 }

@@ -21,7 +21,7 @@ public class Lift extends Subsystem implements RobotMap{
 	{
 		liftLeft = new WPI_TalonSRX(LIFT_MOTOR_LEFT);
 		liftRight = new WPI_TalonSRX(LIFT_MOTOR_RIGHT);
-		brake = new DoubleSolenoid(BRAKE_LEFT_SOLENOID,BRAKE_RIGHT_SOLENOID);
+		brake = new DoubleSolenoid(PCM,BRAKE_LEFT_SOLENOID,BRAKE_RIGHT_SOLENOID);
 		
 		liftLeft.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		liftRight.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
@@ -58,6 +58,6 @@ public class Lift extends Subsystem implements RobotMap{
 	}
 	
 	public void initDefaultCommand() {
-		//setDefaultCommand(new BrakeEngage());
+		printLiftSpeed();
     }
 }

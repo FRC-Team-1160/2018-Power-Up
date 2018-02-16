@@ -15,7 +15,7 @@ package org.usfirst.frc.team1160.robot;
  */
 public interface RobotMap {
 	
-
+	public static final int PCM = 4;
 	/*
 	 * DriveTrain
 	 * 
@@ -32,8 +32,8 @@ public interface RobotMap {
 	
 	public static int DT_ENC_COUNTS_PER_REV = 512;
 	
-	public static final int DT_SOLENOID_0 = 2;
-	public static final int DT_SOLENOID_1 = 5;
+	public static final int DT_SOLENOID_0 = 5;
+	public static final int DT_SOLENOID_1 = 6;
 
 	public static final double GYRO_KG = 0.8 * (-1.0/80.0);
 	public static final double GYRO_L = 0.5;
@@ -54,8 +54,8 @@ public interface RobotMap {
 	 * 
 	 * REMEMBER TO ADD GEAR RATIO TO ENC_COUNTS_PER_REV
 	 */
-	public static final int BRAKE_LEFT_SOLENOID = 0;
-	public static final int BRAKE_RIGHT_SOLENOID = 7;
+	public static final int BRAKE_LEFT_SOLENOID = 1;
+	public static final int BRAKE_RIGHT_SOLENOID = 6;
 	
 	public static final int  LIFT_MOTOR_LEFT = 0;
 	public static final int  LIFT_MOTOR_RIGHT = 1;

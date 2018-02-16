@@ -49,7 +49,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		leftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		rightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		
-		ballShifter = new DoubleSolenoid(DT_SOLENOID_0,DT_SOLENOID_1);
+		ballShifter = new DoubleSolenoid(PCM,DT_SOLENOID_0,DT_SOLENOID_1);
 		setFollower();
 		
 	}

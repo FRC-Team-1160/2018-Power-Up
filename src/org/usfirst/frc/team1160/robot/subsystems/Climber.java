@@ -23,7 +23,7 @@ public class Climber extends Subsystem implements RobotMap{
 	{
 		climberMotor1 = new WPI_VictorSPX(CLIMBER_MOTOR_1);
 		climberMotor2 = new WPI_VictorSPX(CLIMBER_MOTOR_2);
-		latch = new DoubleSolenoid(LATCH_LEFT_SOLENOID,LATCH_RIGHT_SOLENOID);
+		latch = new DoubleSolenoid(PCM,LATCH_LEFT_SOLENOID,LATCH_RIGHT_SOLENOID);
 	}
 	
 	public static Climber getInstance()

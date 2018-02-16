@@ -1,0 +1,26 @@
+package org.usfirst.frc.team1160.robot.commands.drive;
+
+import org.usfirst.frc.team1160.robot.Robot;
+
+import edu.wpi.first.wpilibj.command.Command;
+
+public class LowGear extends Command{
+
+	
+	public LowGear() {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	requires(Robot.dt);
+    }
+
+    // Called just before this Command runs the first time
+    protected void initialize() {
+    	Robot.dt.setLowGear();
+    }
+	@Override
+	protected boolean isFinished() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+}

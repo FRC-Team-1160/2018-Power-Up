@@ -7,3 +7,6 @@
 !todo.txt
 !.project
 !save.xml
+!.classpath
+!build.xml
+!build.properties

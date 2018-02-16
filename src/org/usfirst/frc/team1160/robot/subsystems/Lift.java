@@ -1,12 +1,12 @@
 package org.usfirst.frc.team1160.robot.subsystems;
 
+import org.usfirst.frc.team1160.robot.Robot;
 import org.usfirst.frc.team1160.robot.RobotMap;
-import org.usfirst.frc.team1160.robot.commands.lift.BrakeEngage;
+import org.usfirst.frc.team1160.robot.commands.lift.LiftJoyControl;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -39,7 +39,7 @@ public class Lift extends Subsystem implements RobotMap{
 		return instance;
 	}
 	
-	public void liftMove(double percentOutput) { //this probably should not be used since the lift is going to be a pid-exclusive
+	public void setPercentOutput(double percentOutput) { //this probably should not be used since the lift is going to be a pid-exclusive
 		liftLeft.set(ControlMode.PercentOutput,percentOutput);
 		liftRight.set(ControlMode.PercentOutput,percentOutput);
 	}
@@ -57,7 +57,12 @@ public class Lift extends Subsystem implements RobotMap{
 		brake.set(DoubleSolenoid.Value.kReverse);
 	}
 	
+	public void joyControl() {
+		setPercentOutput(0.5*Robot.oi.getClimbStick().getY());
+		System.out.println(0.5*Robot.oi.getClimbStick().getY());
+	}
+	
 	public void initDefaultCommand() {
-		printLiftSpeed();
+		setDefaultCommand(new LiftJoyControl());
     }
 }

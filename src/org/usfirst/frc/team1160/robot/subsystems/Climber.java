@@ -54,7 +54,7 @@ public class Climber extends Subsystem implements RobotMap{
 	}
 	
 	public void initDefaultCommand() {
-		setDefaultCommand(new JoyControl());
+		//setDefaultCommand(new JoyControl());
     }
 }
 

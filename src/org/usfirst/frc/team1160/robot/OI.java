@@ -9,9 +9,12 @@ package org.usfirst.frc.team1160.robot;
 
 import org.usfirst.frc.team1160.robot.commands.climb.LatchExtend;
 import org.usfirst.frc.team1160.robot.commands.climb.LatchRetract;
+import org.usfirst.frc.team1160.robot.commands.drive.HighGear;
+import org.usfirst.frc.team1160.robot.commands.drive.LowGear;
 import org.usfirst.frc.team1160.robot.commands.intake.IntakeRotate;
 import org.usfirst.frc.team1160.robot.commands.lift.BrakeEngage;
 import org.usfirst.frc.team1160.robot.commands.lift.BrakeRelease;
+import org.usfirst.frc.team1160.robot.commands.lift.SetLift;
 
 /*
 import org.usfirst.frc.team1160.robot.commands.constantSpeed;
@@ -34,8 +37,10 @@ public class OI {
 	Joystick mainStick, climbStick;
 	JoystickButton intakeEat,intakeSpit,intakeSet,intakeStop,
 				   engageBrake,releaseBrake,
+				   highGear, lowGear,
+				   extendClimber, retractClimber,
 				   
-				   extendClimber, retractClimber;
+				   setLift;
 	
 	public static OI getInstance() {
 		if(instance == null) {
@@ -51,6 +56,9 @@ public class OI {
 	}
 	
 	private void createButtons() {
+		highGear = new JoystickButton(mainStick,2);
+		lowGear = new JoystickButton(mainStick,4);
+		
 		intakeEat = new JoystickButton(mainStick,5);
 		intakeSpit = new JoystickButton(mainStick,6);
 		
@@ -60,9 +68,14 @@ public class OI {
 		engageBrake = new JoystickButton(mainStick,7);
 		releaseBrake = new JoystickButton(mainStick,8);
 		
+		setLift = new JoystickButton(climbStick,1);
+		
 		tieButtons();	
 	}
 	private void tieButtons() {
+		
+		highGear.whenPressed(new HighGear());
+		lowGear.whenPressed(new LowGear());
 		
 		intakeEat.whileHeld(new IntakeRotate(0.5));
 		intakeSpit.whileHeld(new IntakeRotate(-0.5));
@@ -72,6 +85,8 @@ public class OI {
 		
 		engageBrake.whenPressed(new BrakeEngage());
 		releaseBrake.whenPressed(new BrakeRelease());
+		
+		//setLift.whileHeld(new SetLift(0.1));
 		
 	}
 	

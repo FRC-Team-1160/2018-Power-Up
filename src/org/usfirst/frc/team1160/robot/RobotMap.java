@@ -54,8 +54,8 @@ public interface RobotMap {
 	 * 
 	 * REMEMBER TO ADD GEAR RATIO TO ENC_COUNTS_PER_REV
 	 */
-	public static final int BRAKE_LEFT_SOLENOID = 1;
-	public static final int BRAKE_RIGHT_SOLENOID = 6;
+	public static final int BRAKE_LEFT_SOLENOID = 3;
+	public static final int BRAKE_RIGHT_SOLENOID = 4;
 	
 	public static final int  LIFT_MOTOR_LEFT = 0;
 	public static final int  LIFT_MOTOR_RIGHT = 1;
@@ -86,8 +86,8 @@ public interface RobotMap {
 	 * 
 	 * PLACEHOLDERS
 	 */
-	public static final int LATCH_LEFT_SOLENOID = 3;
-	public static final int LATCH_RIGHT_SOLENOID = 4;
+	public static final int LATCH_LEFT_SOLENOID = 1;
+	public static final int LATCH_RIGHT_SOLENOID = 6;
 	
 	public static final int  CLIMBER_MOTOR_1 = 12;
 	public static final int  CLIMBER_MOTOR_2 = 13;

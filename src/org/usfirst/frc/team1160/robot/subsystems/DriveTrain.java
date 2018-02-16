@@ -160,13 +160,23 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	public void zeroGyro() {
 		gyro.zeroYaw();
 	}
-	public void turn(double angle) {
+	/*
+	public void turn_test(double angle) {
 		while (Math.abs(gyro.getYaw()-angle) > GYRO_TOLERANCE) {
 			double angle_difference = angle - gyro.getYaw();
 			double turn = GYRO_KG * angle_difference;
 			leftMaster.set(ControlMode.PercentOutput,GYRO_L + turn);
 			rightMaster.set(ControlMode.PercentOutput,GYRO_R - turn);
 		}
+	} */
+	public void turn(double angle) {
+		double angle_difference = angle - gyro.getYaw();
+		double turn = GYRO_KG * angle_difference;
+		leftMaster.set(ControlMode.PercentOutput,GYRO_L + turn);
+		rightMaster.set(ControlMode.PercentOutput,GYRO_R - turn);
+	}
+	public AHRS getGyro() {
+		return gyro;
 	}
 	@Override
 	protected void initDefaultCommand() {

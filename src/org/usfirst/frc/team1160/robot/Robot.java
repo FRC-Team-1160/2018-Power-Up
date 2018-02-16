@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team1160.robot;
 
+import org.usfirst.frc.team1160.robot.commands.drive.Turn;
 import org.usfirst.frc.team1160.robot.subsystems.Climber;
 import org.usfirst.frc.team1160.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1160.robot.subsystems.Intake;
@@ -45,6 +46,8 @@ public class Robot extends TimedRobot {
 		intake = Intake.getInstance();
 		climber = Climber.getInstance();
 		lift = Lift.getInstance();
+		
+		autonomousCommand = new Turn(90);
 	}
 
 	/**

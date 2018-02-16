@@ -9,6 +9,9 @@ package org.usfirst.frc.team1160.robot;
 
 import org.usfirst.frc.team1160.robot.commands.climb.LatchExtend;
 import org.usfirst.frc.team1160.robot.commands.climb.LatchRetract;
+import org.usfirst.frc.team1160.robot.commands.intake.IntakeRotate;
+import org.usfirst.frc.team1160.robot.commands.lift.BrakeEngage;
+import org.usfirst.frc.team1160.robot.commands.lift.BrakeRelease;
 
 /*
 import org.usfirst.frc.team1160.robot.commands.constantSpeed;
@@ -28,12 +31,9 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 public class OI {
 	private static OI instance;
-	Joystick mainstick, climbStick;
-	JoystickButton gearForward,gearReverse,gearSwitch,gearOff,
-				   resetPosition,constantSpeed,
-				   intakeEat,intakeSpit,intakeStop,intakeRotate,
-				   climbUp,
-				   pistonLeft,pistonRight,
+	Joystick mainStick, climbStick;
+	JoystickButton intakeEat,intakeSpit,intakeSet,intakeStop,
+				   engageBrake,releaseBrake,
 				   
 				   extendClimber, retractClimber;
 	
@@ -45,53 +45,39 @@ public class OI {
 	}
 	
 	private OI() {
-		mainstick = new Joystick(0);
+		mainStick = new Joystick(0);
 		climbStick = new Joystick(1);
 		createButtons();
 	}
 	
 	private void createButtons() {
-		//gearSwitch = new JoystickButton(mainstick,3);
-		gearForward = new JoystickButton(mainstick,4); //low gear
-		gearReverse = new JoystickButton(mainstick,2); //high gear
-		//resetPosition = new JoystickButton(mainstick,1);
-		constantSpeed = new JoystickButton(mainstick,6);
-		intakeEat = new JoystickButton(mainstick,7);
-		intakeRotate = new JoystickButton(mainstick,1);
-		intakeStop = new JoystickButton(mainstick,3);
-		intakeSpit = new JoystickButton(mainstick,8);
-		climbUp = new JoystickButton(mainstick,5);
-		pistonLeft = new JoystickButton(mainstick,9);
-		pistonRight = new JoystickButton(mainstick,10);
+		intakeEat = new JoystickButton(mainStick,5);
+		intakeSpit = new JoystickButton(mainStick,6);
 		
 		extendClimber = new JoystickButton(climbStick,8);
 		retractClimber = new JoystickButton(climbStick,9);
+		
+		engageBrake = new JoystickButton(mainStick,7);
+		releaseBrake = new JoystickButton(mainStick,8);
+		
 		tieButtons();	
 	}
 	private void tieButtons() {
 		
-		/*
-		//gearSwitch.whenPressed(new gearSwitch());
-		gearForward.whenPressed(new gearForward());
-		gearReverse.whenPressed(new gearReverse());
-		//resetPosition.whenPressed(new resetEncoderPosition());
-		constantSpeed.whileHeld(new constantSpeed());
-		intakeEat.whenPressed(new intakeSet(1.0));
-		intakeRotate.whenPressed(new intakeRotate(0.3));
-		intakeStop.whenPressed(new intakeStop());
-		intakeSpit.whenPressed(new intakeSet(-0.3));
-		climbUp.whileHeld(new Climb(0.5));
-		pistonLeft.whileHeld(new Left());
-		pistonRight.whileHeld(new Right()); 
-		*/
+		intakeEat.whileHeld(new IntakeRotate(0.5));
+		intakeSpit.whileHeld(new IntakeRotate(-0.5));
+		
 		extendClimber.whenPressed(new LatchExtend());
 		retractClimber.whenPressed(new LatchRetract());
+		
+		engageBrake.whenPressed(new BrakeEngage());
+		releaseBrake.whenPressed(new BrakeRelease());
 		
 	}
 	
 	
 	public Joystick getMainstick() {
-		return mainstick;
+		return mainStick;
 	}
 	
 	public Joystick getClimbStick() {

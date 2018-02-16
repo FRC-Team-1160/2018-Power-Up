@@ -1,6 +1,8 @@
 package org.usfirst.frc.team1160.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -9,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.kauailabs.navx.frc.AHRS;
 
 import org.usfirst.frc.team1160.robot.*;
 import org.usfirst.frc.team1160.robot.commands.drive.ManualDrive;
@@ -19,8 +22,9 @@ import org.usfirst.frc.team1160.robot.commands.drive.ManualDrive;
 public class DriveTrain extends Subsystem implements RobotMap{
 
 	public static DriveTrain instance;
-	public WPI_TalonSRX leftMaster, rightMaster;
-	public WPI_VictorSPX leftSlave,rightSlave;
+	private WPI_TalonSRX leftMaster, rightMaster;
+	private WPI_VictorSPX leftSlave,rightSlave;
+	private AHRS gyro;
 	
 	private Timer timer;
 
@@ -40,6 +44,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		rightMaster = new WPI_TalonSRX(DT_RIGHT_1);
 		rightSlave = new WPI_VictorSPX(DT_RIGHT_2);
 		timer = new Timer();
+		gyro = new AHRS(Port.kMXP);
 
 		leftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		rightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
@@ -147,6 +152,10 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	public void driveDistance(double input) {//this is in revolutions
 		leftMaster.set(ControlMode.Position,-input);
 		rightMaster.set(ControlMode.Position,input);
+	}
+	public void resetGyro()
+	{
+		gyro.reset();
 	}
 	@Override
 	protected void initDefaultCommand() {

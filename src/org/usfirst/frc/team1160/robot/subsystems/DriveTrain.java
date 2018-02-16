@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1160.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SerialPort.Port;
@@ -25,7 +26,7 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	private WPI_TalonSRX leftMaster, rightMaster;
 	private WPI_VictorSPX leftSlave,rightSlave;
 	private AHRS gyro;
-	
+	private Compressor comp;
 	private Timer timer;
 
 	private boolean lowGear;
@@ -45,7 +46,8 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		rightSlave = new WPI_VictorSPX(DT_RIGHT_2);
 		timer = new Timer();
 		gyro = new AHRS(Port.kMXP);
-
+		comp = new Compressor(PCM);
+		comp.start();
 		leftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		rightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		
@@ -69,8 +71,9 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	 */
 	public void manualDrive() {
 		
-		leftMaster.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() - Robot.oi.getMainstick().getY()));
-		rightMaster.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() + Robot.oi.getMainstick().getY()));
+		leftMaster.set(ControlMode.PercentOutput, (Robot.oi.getMainstick().getZ() - Robot.oi.getMainstick().getY()));
+		rightMaster.set(ControlMode.PercentOutput, (Robot.oi.getMainstick().getZ() + Robot.oi.getMainstick().getY()));
+		printVoltageMass();
 		
 	}
 

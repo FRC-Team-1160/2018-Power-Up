@@ -12,8 +12,8 @@ public class IntakeRotate extends Command {
 	double speed;
 
     public IntakeRotate(double speed) {
-    	requires(Robot.intake);
     	this.speed = speed;
+    	requires(Robot.intake);
     }
 
     // Called just before this Command runs the first time

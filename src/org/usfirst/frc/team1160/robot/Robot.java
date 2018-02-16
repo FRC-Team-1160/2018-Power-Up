@@ -41,11 +41,11 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		oi = OI.getInstance();
 		dt = DriveTrain.getInstance();
 		intake = Intake.getInstance();
 		climber = Climber.getInstance();
 		lift = Lift.getInstance();
+		oi = OI.getInstance();
 		
 		autonomousCommand = new Turn(90);
 	}

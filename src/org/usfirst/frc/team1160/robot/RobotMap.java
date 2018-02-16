@@ -32,8 +32,8 @@ public interface RobotMap {
 	
 	public static int DT_ENC_COUNTS_PER_REV = 512;
 	
-	public static final int DT_SOLENOID_0 = 5;
-	public static final int DT_SOLENOID_1 = 6;
+	public static final int DT_SOLENOID_0 = 2;
+	public static final int DT_SOLENOID_1 = 5;
 
 	public static final double GYRO_KG = 0.8 * (-1.0/80.0);
 	public static final double GYRO_L = 0.5;
@@ -84,7 +84,7 @@ public interface RobotMap {
 	/*
 	 * Climber
 	 * 
-	 * PLACEHOLVERS
+	 * PLACEHOLDERS
 	 */
 	public static final int LATCH_LEFT_SOLENOID = 3;
 	public static final int LATCH_RIGHT_SOLENOID = 4;

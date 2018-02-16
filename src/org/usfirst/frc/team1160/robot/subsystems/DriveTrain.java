@@ -70,10 +70,13 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	 * Drive Methods
 	 */
 	public void manualDrive() {
-		
+
 		leftMaster.set(ControlMode.PercentOutput, (Robot.oi.getMainstick().getZ() - Robot.oi.getMainstick().getY()));
 		rightMaster.set(ControlMode.PercentOutput, (Robot.oi.getMainstick().getZ() + Robot.oi.getMainstick().getY()));
-		printVoltageMass();
+		leftMaster.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() - Robot.oi.getMainstick().getY()));
+		rightMaster.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() + Robot.oi.getMainstick().getY()));
+		leftSlave.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() - Robot.oi.getMainstick().getY()));
+		rightSlave.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() + Robot.oi.getMainstick().getY()));
 		
 	}
 

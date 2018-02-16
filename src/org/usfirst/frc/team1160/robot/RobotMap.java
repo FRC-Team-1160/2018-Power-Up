@@ -35,7 +35,10 @@ public interface RobotMap {
 	public static final int DT_SOLENOID_0 = 2;
 	public static final int DT_SOLENOID_1 = 5;
 
-	
+	public static final double GYRO_KG = 0.8 * (-1.0/80.0);
+	public static final double GYRO_L = 0.5;
+	public static final double GYRO_R = -0.5;
+	public static final double GYRO_TOLERANCE = 2;
 	
 	/*
 	 * Intake

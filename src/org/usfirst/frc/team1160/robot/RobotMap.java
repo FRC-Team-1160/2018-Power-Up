@@ -32,6 +32,7 @@ public interface RobotMap {
 	public static final int DT_SOLENOID_1 = 5;
 	
 	public static int DT_ENC_COUNTS_PER_REV = 512;				//Encoder counts per revolution
+	public static double WHEEL_BASE_DISTANCE = 5;
 	
 	public static final double GYRO_KG = 0.8 * (-1.0/80.0);		//Gyro constants
 	public static final double GYRO_TURN = 0.5;					//Base PercentOutput input to each master talon to turn
@@ -48,9 +49,6 @@ public interface RobotMap {
 	public static final double MAX_ACCELERATION = 0;
 	public static final double MAX_JERK = 0;
 	public static final double TIME_BETWEEN_POINTS = 1;			//Time (in seconds) between each Waypoint of the config
-	public static final Waypoint[] POINTS = new Waypoint[] {new Waypoint(0, 0, 0), 
-															new Waypoint(3, 0, 0),};
-	public static final Config CONFIG = new Config(FitMethod.HERMITE_CUBIC, Config.SAMPLES_HIGH, TIME_BETWEEN_POINTS, MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
 	
 	/*
 	 * Intake

@@ -18,6 +18,7 @@ import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Trajectory.Config;
 import jaci.pathfinder.Trajectory.FitMethod;
+import jaci.pathfinder.Trajectory.Segment;
 import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 import jaci.pathfinder.Waypoint;
@@ -29,7 +30,7 @@ import org.usfirst.frc.team1160.robot.commands.drive.*;
 //TODO: Remember that you can't configure ENC COUNTS PER REV
 //TODO: Implement basic drivetrain PID control
 
-public class DriveTrain extends Subsystem implements RobotMap{
+public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoints{
 
 	public static DriveTrain instance;
 	private WPI_TalonSRX leftMaster, rightMaster;
@@ -200,14 +201,61 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	}
 	
 	public void pidOn() {
+		leftMaster.config_kP(0, DRIVE_KP, 0);
+		leftMaster.config_kI(0, DRIVE_KI, 0);
+		leftMaster.config_kD(0, DRIVE_KD, 0);
 		
+		rightMaster.config_kP(0, DRIVE_KP, 0);
+		rightMaster.config_kI(0, DRIVE_KI, 0);
+		rightMaster.config_kD(0, DRIVE_KD, 0);
+	}
+	public void pidOff() {
+		leftMaster.config_kP(0, 0, 0);
+		leftMaster.config_kI(0, 0, 0);
+		leftMaster.config_kD(0, 0, 0);
+		
+		rightMaster.config_kP(0, 0, 0);
+		rightMaster.config_kI(0, 0, 0);
+		rightMaster.config_kD(0, 0, 0);
 	}
 	
 	public void generateTrajectory(Waypoint[] points) {
-		
+		config = new Config(FitMethod.HERMITE_CUBIC, Config.SAMPLES_HIGH, TIME_BETWEEN_POINTS, MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
+		traj = Pathfinder.generate(points, config);
+		modifier = new TankModifier(traj).modify(WHEEL_BASE_DISTANCE);
+		left = new EncoderFollower(modifier.getLeftTrajectory());
+		right = new EncoderFollower(modifier.getRightTrajectory());
 	}
 	public void generateTrajectory() {
 		config = new Config(FitMethod.HERMITE_CUBIC, Config.SAMPLES_HIGH, TIME_BETWEEN_POINTS, MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
+		traj = Pathfinder.generate(POINTS_1, config);
+		modifier = new TankModifier(traj).modify(WHEEL_BASE_DISTANCE);
+		left = new EncoderFollower(modifier.getLeftTrajectory());
+		right = new EncoderFollower(modifier.getRightTrajectory());
+		
+		for (int i = 0;i < traj.length();i++) {
+			Segment seg = traj.get(i);
+			/*
+			 *System.out.printf("%f,%f,%f,%f,%f,%f,%f,%f\n", 
+		        seg.dt, seg.x, seg.y, seg.position, seg.velocity, 
+		            seg.acceleration, seg.jerk, seg.heading);
+			 */
+		}
+	}
+	
+	public void followTrajectory() {
+		double l = left.calculate(leftMaster.getSelectedSensorPosition(0));
+		double r = right.calculate(rightMaster.getSelectedSensorPosition(0));
+		
+		double gyro_heading = gyro.getYaw() * -1;
+		double desired_heading = Pathfinder.r2d(left.getHeading());
+		
+		double angleError = Pathfinder.boundHalfDegrees(desired_heading-gyro_heading);
+		double turn = 0.8 * (-1.0 / 80.0) * angleError;
+		
+		leftMaster.set(-l-turn);
+		rightMaster.set(-r+turn);
+		
 	}
 	
 	@Override

@@ -14,11 +14,20 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
+import jaci.pathfinder.Pathfinder;
+import jaci.pathfinder.Trajectory;
+import jaci.pathfinder.Trajectory.Config;
+import jaci.pathfinder.Trajectory.FitMethod;
+import jaci.pathfinder.followers.EncoderFollower;
+import jaci.pathfinder.modifiers.TankModifier;
+import jaci.pathfinder.Waypoint;
+
 import org.usfirst.frc.team1160.robot.*;
 import org.usfirst.frc.team1160.robot.commands.drive.*;
 
 //TODO: Implement Pathfinder encoder followers
 //TODO: Remember that you can't configure ENC COUNTS PER REV
+//TODO: Implement basic drivetrain PID control
 
 public class DriveTrain extends Subsystem implements RobotMap{
 
@@ -28,6 +37,11 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	private AHRS gyro;
 	private Compressor comp;
 	private Timer timer;
+	
+	private EncoderFollower left,right;
+	private Trajectory traj;
+	private TankModifier modifier;
+	private Config config;
 
 	private boolean lowGear;
 	private DoubleSolenoid ballShifter;
@@ -184,6 +198,18 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	public AHRS getGyro() {
 		return gyro;
 	}
+	
+	public void pidOn() {
+		
+	}
+	
+	public void generateTrajectory(Waypoint[] points) {
+		
+	}
+	public void generateTrajectory() {
+		config = new Config(FitMethod.HERMITE_CUBIC, Config.SAMPLES_HIGH, TIME_BETWEEN_POINTS, MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
+	}
+	
 	@Override
 	protected void initDefaultCommand() {
     	setDefaultCommand(new ManualDrive());

@@ -7,6 +7,10 @@
 
 package org.usfirst.frc.team1160.robot;
 
+import jaci.pathfinder.Trajectory.Config;
+import jaci.pathfinder.Trajectory.FitMethod;
+import jaci.pathfinder.Waypoint;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -38,6 +42,15 @@ public interface RobotMap {
 	public static final double DRIVE_KI = 0;
 	public static final double DRIVE_KD = 0;
 	public static final double DRIVE_KF = 0;
+	
+	
+	public static final double MAX_VELOCITY = 0;				//Drivetrain trajectory constants
+	public static final double MAX_ACCELERATION = 0;
+	public static final double MAX_JERK = 0;
+	public static final double TIME_BETWEEN_POINTS = 1;			//Time (in seconds) between each Waypoint of the config
+	public static final Waypoint[] POINTS = new Waypoint[] {new Waypoint(0, 0, 0), 
+															new Waypoint(3, 0, 0),};
+	public static final Config CONFIG = new Config(FitMethod.HERMITE_CUBIC, Config.SAMPLES_HIGH, TIME_BETWEEN_POINTS, MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
 	
 	/*
 	 * Intake

@@ -256,7 +256,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		rightMaster.config_kD(0, 0, 0);
 	}
 	
-	public void generateTrajectory(Waypoint[] points) {
+	public void generateTrajectory(Waypoint[] points) { //custom generateTrajectory()
 		config = new Config(FitMethod.HERMITE_CUBIC, Config.SAMPLES_HIGH, TIME_BETWEEN_POINTS, MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
 		traj = Pathfinder.generate(points, config);
 		modifier = new TankModifier(traj).modify(WHEEL_BASE_DISTANCE);
@@ -264,7 +264,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		right = new EncoderFollower(modifier.getRightTrajectory());
 	}
 	
-	public void generateTrajectory() {
+	public void generateTrajectory() { //uses point arrays from TrajectoryWaypoints.java
 		config = new Config(FitMethod.HERMITE_CUBIC, Config.SAMPLES_HIGH, TIME_BETWEEN_POINTS, MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
 		traj = Pathfinder.generate(POINTS_1, config);
 		modifier = new TankModifier(traj).modify(WHEEL_BASE_DISTANCE);

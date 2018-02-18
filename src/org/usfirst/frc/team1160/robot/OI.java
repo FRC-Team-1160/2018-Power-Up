@@ -86,7 +86,7 @@ public class OI {
 		engageBrake.whenPressed(new BrakeEngage());
 		releaseBrake.whenPressed(new BrakeRelease());
 		
-		//setLift.whileHeld(new SetLift(0.1));
+		setLift.whileHeld(new SetLift(0.1));
 		
 	}
 	

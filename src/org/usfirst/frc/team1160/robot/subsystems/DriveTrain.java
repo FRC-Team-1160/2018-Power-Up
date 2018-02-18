@@ -233,21 +233,6 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	public void printYaw() {
 		SmartDashboard.putNumber("Current Yaw", gyro.getYaw());
 	}
-	/*
-	public void turn_test(double angle) {
-		while (Math.abs(gyro.getYaw()-angle) > GYRO_TOLERANCE) {
-			double angle_difference = angle - gyro.getYaw();
-			double turn = GYRO_KG * angle_difference;
-			leftMaster.set(ControlMode.PercentOutput,GYRO_L + turn);
-			rightMaster.set(ControlMode.PercentOutput,GYRO_R - turn);
-		}
-	} */
-	public void turn(double angle) { //ghetto PID with the navX sensor
-		double angle_difference = angle - gyro.getYaw();
-		double turn = GYRO_KG * angle_difference;
-		leftMaster.set(ControlMode.PercentOutput,GYRO_TURN + turn);
-		rightMaster.set(ControlMode.PercentOutput,-1*GYRO_TURN - turn);
-	}
 	public AHRS getGyro() {
 		return gyro;
 	}

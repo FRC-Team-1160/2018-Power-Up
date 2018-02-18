@@ -35,7 +35,6 @@ public interface RobotMap {
 	public static double WHEEL_BASE_DISTANCE = 5;
 	
 	public static final double GYRO_KG = 0.8 * (-1.0/80.0);		//Gyro constants
-	public static final double GYRO_TURN = 0.5;					//Base PercentOutput input to each master talon to turn
 	public static final double GYRO_TOLERANCE = 2;				//Smaller value means higher accuracy but more time spent
 																//achieving said accuracy
 	

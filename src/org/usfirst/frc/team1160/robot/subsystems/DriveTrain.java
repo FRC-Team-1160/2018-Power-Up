@@ -1,6 +1,9 @@
 package org.usfirst.frc.team1160.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -9,20 +12,37 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.kauailabs.navx.frc.AHRS;
+
+import jaci.pathfinder.Pathfinder;
+import jaci.pathfinder.Trajectory;
+import jaci.pathfinder.Trajectory.Config;
+import jaci.pathfinder.Trajectory.FitMethod;
+import jaci.pathfinder.Trajectory.Segment;
+import jaci.pathfinder.followers.EncoderFollower;
+import jaci.pathfinder.modifiers.TankModifier;
+import jaci.pathfinder.Waypoint;
 
 import org.usfirst.frc.team1160.robot.*;
-import org.usfirst.frc.team1160.robot.commands.drive.ManualDrive;
+import org.usfirst.frc.team1160.robot.commands.drive.*;
 
-//TODO: Implement Pathfinder encoder followers and heading control (add a gyro/ NavX)
+//TODO: Implement Pathfinder encoder followers
 //TODO: Remember that you can't configure ENC COUNTS PER REV
+//TODO: Implement basic drivetrain PID control
 
-public class DriveTrain extends Subsystem implements RobotMap{
+public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoints{
 
 	public static DriveTrain instance;
-	public WPI_TalonSRX leftMaster, rightMaster;
-	public WPI_VictorSPX leftSlave,rightSlave;
-	
+	private WPI_TalonSRX leftMaster, rightMaster;
+	private WPI_VictorSPX leftSlave,rightSlave;
+	private AHRS gyro;
+	private Compressor comp;
 	private Timer timer;
+	
+	private EncoderFollower left,right;
+	private Trajectory traj;
+	private TankModifier modifier;
+	private Config config;
 
 	private boolean lowGear;
 	private DoubleSolenoid ballShifter;
@@ -40,11 +60,14 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		rightMaster = new WPI_TalonSRX(DT_RIGHT_1);
 		rightSlave = new WPI_VictorSPX(DT_RIGHT_2);
 		timer = new Timer();
-
+		gyro = new AHRS(Port.kMXP);
+		comp = new Compressor(PCM);
+		comp.start();
 		leftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		rightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		
-		ballShifter = new DoubleSolenoid(DT_SOLENOID_0,DT_SOLENOID_1);
+		
+		ballShifter = new DoubleSolenoid(PCM,DT_SOLENOID_0,DT_SOLENOID_1);
 		setFollower();
 		
 	}
@@ -54,20 +77,70 @@ public class DriveTrain extends Subsystem implements RobotMap{
 	 */
 	public void setFollower()
 	{
-		leftSlave.set(ControlMode.Follower,DT_LEFT_1);
-		rightSlave.set(ControlMode.Follower,DT_RIGHT_1);
+		leftSlave.follow(leftMaster);
+		rightSlave.follow(rightMaster);
 		
 	}
 
+	public void configureVoltage() {
+		/*
+		 * Prevents motor controllers from attempting to instantaneously ramp to full voltage.
+		 */
+		leftMaster.configOpenloopRamp(0.5,0);
+		leftSlave.configOpenloopRamp(0.5,0);
+		rightMaster.configOpenloopRamp(0.5,0);
+		rightSlave.configOpenloopRamp(0.5,0);
+		
+		
+		/*
+		 * Constrains the maximum voltage output of the motor controllers to limit variability in drive performance due to battery voltage.
+		 */
+		leftMaster.configVoltageCompSaturation(11,0);
+		leftSlave.configVoltageCompSaturation(11,0);
+		rightMaster.configVoltageCompSaturation(11,0);
+		rightSlave.configVoltageCompSaturation(11,0);
+		
+		leftMaster.enableVoltageCompensation(true);
+		leftSlave.enableVoltageCompensation(true);
+		rightMaster.enableVoltageCompensation(true);
+		rightSlave.enableVoltageCompensation(true);
+		
+		leftMaster.configVoltageMeasurementFilter(32,0);
+		leftSlave.configVoltageMeasurementFilter(32,0);
+		rightMaster.configVoltageMeasurementFilter(32,0);
+		rightSlave.configVoltageMeasurementFilter(32,0);
+	}
+	
 	/*
 	 * Drive Methods
 	 */
 	public void manualDrive() {
-		
+
+
 		leftMaster.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() - Robot.oi.getMainstick().getY()));
-		rightMaster.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() + Robot.oi.getMainstick().getY()));
+		//leftSlave.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() - Robot.oi.getMainstick().getY()));
 		
+		rightMaster.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() + Robot.oi.getMainstick().getY()));
+		//rightSlave.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() + Robot.oi.getMainstick().getY()));
+		
+		printYaw();
 	}
+	
+	public void setPercentOutput(double percentOutput) {
+		leftMaster.set(ControlMode.PercentOutput, -1.02*percentOutput);
+		rightMaster.set(ControlMode.PercentOutput, percentOutput);
+		}
+
+	public void setPercentOutputGyro(double percentOutput, double targetAngle) {
+		double angleError = targetAngle - gyro.getYaw();
+		double kTurn = -0.05;
+		double turnCorrection = angleError*kTurn;
+		
+		SmartDashboard.putNumber("Angle Error", angleError);
+		
+		leftMaster.set(ControlMode.PercentOutput, -percentOutput + turnCorrection);
+		rightMaster.set(ControlMode.PercentOutput, percentOutput + turnCorrection);
+		}
 
 	/*
 	 * Encoder Methods
@@ -148,6 +221,81 @@ public class DriveTrain extends Subsystem implements RobotMap{
 		leftMaster.set(ControlMode.Position,-input);
 		rightMaster.set(ControlMode.Position,input);
 	}
+
+	public void resetGyro()
+	{
+		gyro.reset();
+	}
+	public void zeroGyro() {
+		gyro.zeroYaw();
+	}
+	
+	public void printYaw() {
+		SmartDashboard.putNumber("Current Yaw", gyro.getYaw());
+	}
+	public AHRS getGyro() {
+		return gyro;
+	}
+	
+	public void pidOn() {
+		leftMaster.config_kP(0, DRIVE_KP, 0);
+		leftMaster.config_kI(0, DRIVE_KI, 0);
+		leftMaster.config_kD(0, DRIVE_KD, 0);
+		
+		rightMaster.config_kP(0, DRIVE_KP, 0);
+		rightMaster.config_kI(0, DRIVE_KI, 0);
+		rightMaster.config_kD(0, DRIVE_KD, 0);
+	}
+	public void pidOff() {
+		leftMaster.config_kP(0, 0, 0);
+		leftMaster.config_kI(0, 0, 0);
+		leftMaster.config_kD(0, 0, 0);
+		
+		rightMaster.config_kP(0, 0, 0);
+		rightMaster.config_kI(0, 0, 0);
+		rightMaster.config_kD(0, 0, 0);
+	}
+	
+	public void generateTrajectory(Waypoint[] points) {
+		config = new Config(FitMethod.HERMITE_CUBIC, Config.SAMPLES_HIGH, TIME_BETWEEN_POINTS, MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
+		traj = Pathfinder.generate(points, config);
+		modifier = new TankModifier(traj).modify(WHEEL_BASE_DISTANCE);
+		left = new EncoderFollower(modifier.getLeftTrajectory());
+		right = new EncoderFollower(modifier.getRightTrajectory());
+	}
+	
+	public void generateTrajectory() {
+		config = new Config(FitMethod.HERMITE_CUBIC, Config.SAMPLES_HIGH, TIME_BETWEEN_POINTS, MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
+		traj = Pathfinder.generate(POINTS_1, config);
+		modifier = new TankModifier(traj).modify(WHEEL_BASE_DISTANCE);
+		left = new EncoderFollower(modifier.getLeftTrajectory());
+		right = new EncoderFollower(modifier.getRightTrajectory());
+		
+		for (int i = 0;i < traj.length();i++) {
+			Segment seg = traj.get(i);
+			/*
+			 *System.out.printf("%f,%f,%f,%f,%f,%f,%f,%f\n", 
+		        seg.dt, seg.x, seg.y, seg.position, seg.velocity, 
+		            seg.acceleration, seg.jerk, seg.heading);
+			 */
+		}
+	}
+	
+	public void followTrajectory() {
+		double l = left.calculate(leftMaster.getSelectedSensorPosition(0));
+		double r = right.calculate(rightMaster.getSelectedSensorPosition(0));
+		
+		double gyro_heading = gyro.getYaw() * -1;
+		double desired_heading = Pathfinder.r2d(left.getHeading());
+		
+		double angleError = Pathfinder.boundHalfDegrees(desired_heading-gyro_heading);
+		double turn = 0.8 * (-1.0 / 80.0) * angleError;
+		
+		leftMaster.set(-l-turn);
+		rightMaster.set(-r+turn);
+		
+	}
+	
 	@Override
 	protected void initDefaultCommand() {
     	setDefaultCommand(new ManualDrive());

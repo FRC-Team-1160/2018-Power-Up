@@ -1,33 +1,31 @@
-package org.usfirst.frc.team1160.robot.commands.intake;
+package org.usfirst.frc.team1160.robot.commands.lift;
 
 import org.usfirst.frc.team1160.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
-public class IntakeRotate extends Command {
-	
-	double speed;
+public class SetLift extends Command{
 
-    public IntakeRotate(double speed) {
-    	this.speed = speed;
-    	requires(Robot.intake);
+	private double percentOutput;
+	
+	public SetLift(double percentOutput) {       
+    	requires(Robot.lift);
+    	
+    	this.percentOutput = percentOutput;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.lift.setPercentOutput(percentOutput);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.intake.rotate(speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

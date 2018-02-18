@@ -1,14 +1,16 @@
 package org.usfirst.frc.team1160.robot.subsystems;
 
+import org.usfirst.frc.team1160.robot.Robot;
 import org.usfirst.frc.team1160.robot.RobotMap;
-import org.usfirst.frc.team1160.robot.commands.lift.BrakeEngage;
+import org.usfirst.frc.team1160.robot.commands.lift.LiftJoyControl;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Lift extends Subsystem implements RobotMap{
 	private static Lift instance;
@@ -19,7 +21,7 @@ public class Lift extends Subsystem implements RobotMap{
 	{
 		liftLeft = new WPI_TalonSRX(LIFT_MOTOR_LEFT);
 		liftRight = new WPI_TalonSRX(LIFT_MOTOR_RIGHT);
-		//brake = new DoubleSolenoid(BRAKE_LEFT_SOLENOID,BRAKE_RIGHT_SOLENOID);
+		brake = new DoubleSolenoid(PCM,BRAKE_LEFT_SOLENOID,BRAKE_RIGHT_SOLENOID);
 		
 		liftLeft.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		liftRight.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
@@ -37,6 +39,15 @@ public class Lift extends Subsystem implements RobotMap{
 		return instance;
 	}
 	
+	public void setPercentOutput(double percentOutput) { //this probably should not be used since the lift is going to be a pid-exclusive
+		liftLeft.set(ControlMode.PercentOutput,percentOutput);
+		liftRight.set(ControlMode.PercentOutput,percentOutput);
+	}
+	
+	public void printLiftSpeed() {
+		SmartDashboard.putNumber("left lift speed", liftLeft.getSelectedSensorVelocity(0));
+		SmartDashboard.putNumber("right lift speed", liftRight.getSelectedSensorVelocity(0));
+	}
 	
 	public void brakeEngage(){
 		brake.set(DoubleSolenoid.Value.kForward);
@@ -46,7 +57,12 @@ public class Lift extends Subsystem implements RobotMap{
 		brake.set(DoubleSolenoid.Value.kReverse);
 	}
 	
+	public void joyControl() {
+		setPercentOutput(1*Robot.oi.getClimbStick().getY());
+		System.out.println(1*Robot.oi.getClimbStick().getY());
+	}
+	
 	public void initDefaultCommand() {
-		//setDefaultCommand(new BrakeEngage());
+		setDefaultCommand(new LiftJoyControl());
     }
 }

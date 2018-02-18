@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1160.robot.commands.intake;
+package org.usfirst.frc.team1160.robot.commands.lift;
 
 import org.usfirst.frc.team1160.robot.Robot;
 
@@ -7,22 +7,20 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class IntakeRotate extends Command {
-	
-	double speed;
+public class LiftJoyControl extends Command {
 
-    public IntakeRotate(double speed) {
-    	this.speed = speed;
-    	requires(Robot.intake);
+    public LiftJoyControl() {       
+    	requires(Robot.lift);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	//Robot.dt.setManual();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.intake.rotate(speed);
+    	Robot.lift.joyControl();
     }
 
     // Make this return true when this Command no longer needs to run execute()

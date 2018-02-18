@@ -1,6 +1,8 @@
 package org.usfirst.frc.team1160.robot.subsystems;
 
+import org.usfirst.frc.team1160.robot.Robot;
 import org.usfirst.frc.team1160.robot.RobotMap;
+import org.usfirst.frc.team1160.robot.commands.climb.JoyControl;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
@@ -21,7 +23,7 @@ public class Climber extends Subsystem implements RobotMap{
 	{
 		climberMotor1 = new WPI_VictorSPX(CLIMBER_MOTOR_1);
 		climberMotor2 = new WPI_VictorSPX(CLIMBER_MOTOR_2);
-		latch = new DoubleSolenoid(LATCH_LEFT_SOLENOID,LATCH_RIGHT_SOLENOID);
+		latch = new DoubleSolenoid(PCM,LATCH_LEFT_SOLENOID,LATCH_RIGHT_SOLENOID);
 	}
 	
 	public static Climber getInstance()
@@ -47,7 +49,12 @@ public class Climber extends Subsystem implements RobotMap{
 		latch.set(DoubleSolenoid.Value.kReverse);
 	}
 	
+	public void joyControl() {
+		climb((Robot.oi.getClimbStick().getY()));
+	}
+	
 	public void initDefaultCommand() {
+		//setDefaultCommand(new JoyControl());
     }
 }
 

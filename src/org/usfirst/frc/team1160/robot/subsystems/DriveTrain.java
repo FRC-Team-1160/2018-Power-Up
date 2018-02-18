@@ -66,6 +66,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		leftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		rightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		
+		
 		ballShifter = new DoubleSolenoid(PCM,DT_SOLENOID_0,DT_SOLENOID_1);
 		setFollower();
 		
@@ -76,11 +77,40 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	 */
 	public void setFollower()
 	{
-		leftSlave.set(ControlMode.Follower,DT_LEFT_1);
-		rightSlave.set(ControlMode.Follower,DT_RIGHT_1);
+		leftSlave.follow(leftMaster);
+		rightSlave.follow(rightMaster);
 		
 	}
 
+	public void configureVoltage() {
+		/*
+		 * Prevents motor controllers from attempting to instantaneously ramp to full voltage.
+		 */
+		leftMaster.configOpenloopRamp(0.5,0);
+		leftSlave.configOpenloopRamp(0.5,0);
+		rightMaster.configOpenloopRamp(0.5,0);
+		rightSlave.configOpenloopRamp(0.5,0);
+		
+		
+		/*
+		 * Constrains the maximum voltage output of the motor controllers to limit variability in drive performance due to battery voltage.
+		 */
+		leftMaster.configVoltageCompSaturation(11,0);
+		leftSlave.configVoltageCompSaturation(11,0);
+		rightMaster.configVoltageCompSaturation(11,0);
+		rightSlave.configVoltageCompSaturation(11,0);
+		
+		leftMaster.enableVoltageCompensation(true);
+		leftSlave.enableVoltageCompensation(true);
+		rightMaster.enableVoltageCompensation(true);
+		rightSlave.enableVoltageCompensation(true);
+		
+		leftMaster.configVoltageMeasurementFilter(32,0);
+		leftSlave.configVoltageMeasurementFilter(32,0);
+		rightMaster.configVoltageMeasurementFilter(32,0);
+		rightSlave.configVoltageMeasurementFilter(32,0);
+	}
+	
 	/*
 	 * Drive Methods
 	 */
@@ -88,12 +118,29 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 
 
 		leftMaster.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() - Robot.oi.getMainstick().getY()));
-		leftSlave.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() - Robot.oi.getMainstick().getY()));
+		//leftSlave.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() - Robot.oi.getMainstick().getY()));
 		
 		rightMaster.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() + Robot.oi.getMainstick().getY()));
-		rightSlave.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() + Robot.oi.getMainstick().getY()));
+		//rightSlave.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() + Robot.oi.getMainstick().getY()));
 		
+		printYaw();
 	}
+	
+	public void setPercentOutput(double percentOutput) {
+		leftMaster.set(ControlMode.PercentOutput, -1.02*percentOutput);
+		rightMaster.set(ControlMode.PercentOutput, percentOutput);
+		}
+
+	public void setPercentOutputGyro(double percentOutput, double targetAngle) {
+		double angleError = targetAngle - gyro.getYaw();
+		double kTurn = -0.05;
+		double turnCorrection = angleError*kTurn;
+		
+		SmartDashboard.putNumber("Angle Error", angleError);
+		
+		leftMaster.set(ControlMode.PercentOutput, -percentOutput + turnCorrection);
+		rightMaster.set(ControlMode.PercentOutput, percentOutput + turnCorrection);
+		}
 
 	/*
 	 * Encoder Methods
@@ -174,12 +221,17 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		leftMaster.set(ControlMode.Position,-input);
 		rightMaster.set(ControlMode.Position,input);
 	}
+
 	public void resetGyro()
 	{
 		gyro.reset();
 	}
 	public void zeroGyro() {
 		gyro.zeroYaw();
+	}
+	
+	public void printYaw() {
+		SmartDashboard.putNumber("Current Yaw", gyro.getYaw());
 	}
 	/*
 	public void turn_test(double angle) {
@@ -226,6 +278,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		left = new EncoderFollower(modifier.getLeftTrajectory());
 		right = new EncoderFollower(modifier.getRightTrajectory());
 	}
+	
 	public void generateTrajectory() {
 		config = new Config(FitMethod.HERMITE_CUBIC, Config.SAMPLES_HIGH, TIME_BETWEEN_POINTS, MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
 		traj = Pathfinder.generate(POINTS_1, config);

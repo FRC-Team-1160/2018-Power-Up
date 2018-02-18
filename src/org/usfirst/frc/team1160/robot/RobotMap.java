@@ -7,10 +7,6 @@
 
 package org.usfirst.frc.team1160.robot;
 
-import jaci.pathfinder.Trajectory.Config;
-import jaci.pathfinder.Trajectory.FitMethod;
-import jaci.pathfinder.Waypoint;
-
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking

@@ -2,7 +2,6 @@ package org.usfirst.frc.team1160.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -141,7 +140,12 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		leftMaster.set(ControlMode.PercentOutput, -percentOutput + turnCorrection);
 		rightMaster.set(ControlMode.PercentOutput, percentOutput + turnCorrection);
 		}
-
+	public void turnAngle(double percentOutput, double targetAngle) { //ghetto PID with the navX sensor
+ 		double angle_difference = targetAngle - gyro.getYaw();
+ 		double turn = GYRO_KG * angle_difference;
+ 		leftMaster.set(ControlMode.PercentOutput,percentOutput + turn);
+ 		rightMaster.set(ControlMode.PercentOutput,-1*percentOutput - turn);
+ 	}
 	/*
 	 * Encoder Methods
 	 */
@@ -273,11 +277,11 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		
 		for (int i = 0;i < traj.length();i++) {
 			Segment seg = traj.get(i);
-			/*
-			 *System.out.printf("%f,%f,%f,%f,%f,%f,%f,%f\n", 
+			
+			 System.out.printf("%f,%f,%f,%f,%f,%f,%f,%f\n", 
 		        seg.dt, seg.x, seg.y, seg.position, seg.velocity, 
-		            seg.acceleration, seg.jerk, seg.heading);
-			 */
+		        seg.acceleration, seg.jerk, seg.heading);
+			 
 		}
 	}
 	
@@ -289,7 +293,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		double desired_heading = Pathfinder.r2d(left.getHeading());
 		
 		double angleError = Pathfinder.boundHalfDegrees(desired_heading-gyro_heading);
-		double turn = 0.8 * (-1.0 / 80.0) * angleError;
+		double turn = GYRO_KG * angleError;
 		
 		leftMaster.set(-l-turn);
 		rightMaster.set(-r+turn);

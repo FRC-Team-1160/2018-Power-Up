@@ -12,7 +12,6 @@ import org.usfirst.frc.team1160.robot.commands.climb.LatchRetract;
 import org.usfirst.frc.team1160.robot.commands.drive.HighGear;
 import org.usfirst.frc.team1160.robot.commands.drive.LowGear;
 import org.usfirst.frc.team1160.robot.commands.intake.IntakeRotate;
-import org.usfirst.frc.team1160.robot.commands.intake.IntakeSet;
 import org.usfirst.frc.team1160.robot.commands.lift.BrakeEngage;
 import org.usfirst.frc.team1160.robot.commands.lift.BrakeRelease;
 import org.usfirst.frc.team1160.robot.commands.lift.SetLift;

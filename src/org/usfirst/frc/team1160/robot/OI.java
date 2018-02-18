@@ -12,6 +12,7 @@ import org.usfirst.frc.team1160.robot.commands.climb.LatchRetract;
 import org.usfirst.frc.team1160.robot.commands.drive.HighGear;
 import org.usfirst.frc.team1160.robot.commands.drive.LowGear;
 import org.usfirst.frc.team1160.robot.commands.intake.IntakeRotate;
+import org.usfirst.frc.team1160.robot.commands.intake.IntakeSet;
 import org.usfirst.frc.team1160.robot.commands.lift.BrakeEngage;
 import org.usfirst.frc.team1160.robot.commands.lift.BrakeRelease;
 import org.usfirst.frc.team1160.robot.commands.lift.SetLift;
@@ -65,10 +66,10 @@ public class OI {
 		extendClimber = new JoystickButton(climbStick,8);
 		retractClimber = new JoystickButton(climbStick,9);
 		
-		engageBrake = new JoystickButton(mainStick,7);
-		releaseBrake = new JoystickButton(mainStick,8);
+		engageBrake = new JoystickButton(climbStick,1);
+		releaseBrake = new JoystickButton(climbStick,3);
 		
-		setLift = new JoystickButton(climbStick,1);
+		//setLift = new JoystickButton(climbStick,1);
 		
 		tieButtons();	
 	}

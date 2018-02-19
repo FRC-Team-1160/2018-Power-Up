@@ -1,27 +1,31 @@
-package org.usfirst.frc.team1160.robot.commands.drive;
+package org.usfirst.frc.team1160.robot.commands.auto;
 
 import org.usfirst.frc.team1160.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class ManualDrive extends Command {
+public class MoveForward extends Command {
 
-    public ManualDrive() {       
+	double distance;
+    public MoveForward(double distance) {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
     	requires(Robot.dt);
+    	this.distance = distance;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	//Robot.dt.setManual();
+    	Robot.dt.setLowGear();
+    	Robot.dt.resetPosition();
+    	Robot.dt.resetGyro();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.dt.manualDrive();
     }
 
     // Make this return true when this Command no longer needs to run execute()

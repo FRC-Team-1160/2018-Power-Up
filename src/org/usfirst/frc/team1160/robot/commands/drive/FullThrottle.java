@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class ManualDrive extends Command {
+public class FullThrottle extends Command {
 
-    public ManualDrive() {       
+    public FullThrottle() {       
     	requires(Robot.dt);
     }
 
@@ -21,7 +21,8 @@ public class ManualDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.dt.manualDrive();
+    	Robot.dt.fullThrottle();
+    	Robot.dt.printEncoderVelocity();
     }
 
     // Make this return true when this Command no longer needs to run execute()

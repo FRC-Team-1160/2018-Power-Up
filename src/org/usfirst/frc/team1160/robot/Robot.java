@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team1160.robot;
 
+import org.usfirst.frc.team1160.robot.commands.auto.MoveForward;
 import org.usfirst.frc.team1160.robot.commands.auto.StraightAuto;
 import org.usfirst.frc.team1160.robot.subsystems.Climber;
 import org.usfirst.frc.team1160.robot.subsystems.DriveTrain;
@@ -47,7 +48,7 @@ public class Robot extends TimedRobot {
 		lift = Lift.getInstance();
 		oi = OI.getInstance();
 		
-		autonomousCommand = new StraightAuto();
+		autonomousCommand = new MoveForward(4000);
 	}
 
 	/**

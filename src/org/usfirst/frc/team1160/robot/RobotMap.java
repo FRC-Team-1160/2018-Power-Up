@@ -34,7 +34,7 @@ public interface RobotMap {
 	public static final double GYRO_TOLERANCE = 2;				//Smaller value means higher accuracy but more time spent
 																//achieving said accuracy
 	
-	public static final double DRIVE_KP = 0;					//Drivetrain PID constants
+	public static final double DRIVE_KP = 0.3;					//Drivetrain PID constants
 	public static final double DRIVE_KI = 0;
 	public static final double DRIVE_KD = 0;
 	public static final double DRIVE_KF = 0;

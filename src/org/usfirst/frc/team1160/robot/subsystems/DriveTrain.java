@@ -43,7 +43,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	private TankModifier modifier;
 	private Config config;
 
-	private boolean lowGear;
+	//private boolean lowGear;
 	private DoubleSolenoid ballShifter;
 		
 	public static DriveTrain getInstance() {
@@ -160,13 +160,13 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	 */
 	public void setLowGear() {
 		ballShifter.set(DoubleSolenoid.Value.kForward);
-		lowGear = true;
+		//lowGear = true;
 		SmartDashboard.putString("Gear/Speed", "low");
 	}
 	
 	public void setHighGear() {
 		ballShifter.set(DoubleSolenoid.Value.kReverse);
-		lowGear = false;
+		//lowGear = false;
 		SmartDashboard.putString("Gear/Speed", "high");
 	}
 	

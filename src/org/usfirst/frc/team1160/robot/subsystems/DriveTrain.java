@@ -124,7 +124,10 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		
 		printYaw();
 	}
-	
+	public void fullThrottle() {
+		leftMaster.set(ControlMode.PercentOutput,1);
+		rightMaster.set(ControlMode.PercentOutput,1);
+	}
 	public void setPercentOutput(double percentOutput) {
 		leftMaster.set(ControlMode.PercentOutput, -1.02*percentOutput);
 		rightMaster.set(ControlMode.PercentOutput, percentOutput);
@@ -221,7 +224,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		SmartDashboard.putNumber("delta time",getDeltaTime());
 	}
 	
-	public void driveDistance(double input) {//this is in revolutions
+	public void drivePercentOutput(double input) {//this is in revolutions
 		leftMaster.set(ControlMode.Position,-input);
 		rightMaster.set(ControlMode.Position,input);
 	}
@@ -242,6 +245,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	}
 	
 	public void pidOn() {
+		
 		leftMaster.config_kP(0, DRIVE_KP, 0);
 		leftMaster.config_kI(0, DRIVE_KI, 0);
 		leftMaster.config_kD(0, DRIVE_KD, 0);
@@ -249,15 +253,24 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		rightMaster.config_kP(0, DRIVE_KP, 0);
 		rightMaster.config_kI(0, DRIVE_KI, 0);
 		rightMaster.config_kD(0, DRIVE_KD, 0);
+		
+		//left.configurePIDVA(DRIVE_KP,DRIVE_KI,DRIVE_KD,0,0);
+		//right.configurePIDVA(DRIVE_KP,DRIVE_KI,DRIVE_KD,0,0);
 	}
 	public void pidOff() {
 		leftMaster.config_kP(0, 0, 0);
 		leftMaster.config_kI(0, 0, 0);
 		leftMaster.config_kD(0, 0, 0);
+		//leftMaster.config_kF(0, 0, 0);
 		
 		rightMaster.config_kP(0, 0, 0);
 		rightMaster.config_kI(0, 0, 0);
 		rightMaster.config_kD(0, 0, 0);
+		//rightMaster.config_kF(0, 0, 0);
+	}
+	public void drivePosition(double distance) {
+		leftMaster.set(ControlMode.Position,distance);
+		rightMaster.set(ControlMode.Position,distance);
 	}
 	
 	public void generateTrajectory(Waypoint[] points) { //custom generateTrajectory()
@@ -302,7 +315,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	
 	@Override
 	protected void initDefaultCommand() {
-    	setDefaultCommand(new ManualDrive());
+    	setDefaultCommand(new FullThrottle());
 	}
 
 }

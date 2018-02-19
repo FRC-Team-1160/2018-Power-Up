@@ -153,8 +153,8 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	 * Encoder Methods
 	 */
 	public void resetPosition() {
-		leftMaster.setSelectedSensorPosition(0,0,0);
-		rightMaster.setSelectedSensorPosition(0,0,0);
+		leftMaster.setSelectedSensorPosition(0,0,100);
+		rightMaster.setSelectedSensorPosition(0,0,100);
 				
 	}
 	
@@ -273,8 +273,8 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		rightMaster.set(ControlMode.Position,distance);
 	}
 	public void configureEncoderFollowers() {
-		left.configureEncoder(leftMaster.getSelectedSensorPosition(0),2259,0.5);
-		right.configureEncoder(rightMaster.getSelectedSensorPosition(0),2259,0.5);
+		left.configureEncoder(leftMaster.getSelectedSensorPosition(0),2259,6.25/12);
+		right.configureEncoder(rightMaster.getSelectedSensorPosition(0),2259,6.25/12);
 		left.configurePIDVA(LEFT_KP,0,0,LEFT_KF,0);
 		right.configurePIDVA(RIGHT_KP, 0, 0, RIGHT_KF, 0);
 	}

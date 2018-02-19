@@ -34,17 +34,17 @@ public interface RobotMap {
 	public static final double GYRO_TOLERANCE = 2;				//Smaller value means higher accuracy but more time spent
 																//achieving said accuracy
 	
-	public static final double DRIVE_KP = 0.3;					//Drivetrain Talon PID constants
+	public static final double DRIVE_KP = 0.1;					//Drivetrain Talon PID constants
 	public static final double DRIVE_KI = 0;
 	public static final double DRIVE_KD = 0;
 	public static final double DRIVE_KF = 0;
 	
-	public static final double LEFT_KP = 0.3; 					//EncoderFOllower shit
+	public static final double LEFT_KP = 0.1; 					//EncoderFOllower shit
 	public static final double LEFT_KI = 0;
 	public static final double LEFT_KD = 0;
 	public static final double LEFT_KF = 0.155;
 	
-	public static final double RIGHT_KP = 0.3;
+	public static final double RIGHT_KP = 0.1;
 	public static final double RIGHT_KI = 0;
 	public static final double RIGHT_KD = 0;
 	public static final double RIGHT_KF = 0.14;

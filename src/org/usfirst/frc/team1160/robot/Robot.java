@@ -88,7 +88,9 @@ public class Robot extends TimedRobot {
 		 * = new MyAutoCommand(); break; case "Default Auto": default:
 		 * autonomousCommand = new ExampleCommand(); break; }
 		 */
-
+		Robot.dt.resetPosition();
+		Robot.dt.resetEncoderFollowers();
+		
 		// schedule the autonomous command (example)
 		autonomousCommand.start();
 	}

@@ -20,6 +20,7 @@ public class FollowTrajectory extends Command {
     protected void initialize() {
     	n = 0;
     	Robot.dt.setLowGear();
+    	Robot.dt.resetPosition();
     	Robot.dt.resetEncoderFollowers();
     	Robot.dt.configureEncoderFollowers();
     	Robot.dt.zeroGyro();
@@ -46,10 +47,12 @@ public class FollowTrajectory extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.dt.resetPosition();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	Robot.dt.resetPosition();
     }
 }

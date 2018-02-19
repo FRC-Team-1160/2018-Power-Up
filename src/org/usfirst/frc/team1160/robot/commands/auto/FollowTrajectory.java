@@ -34,10 +34,11 @@ public class FollowTrajectory extends Command {
     	Robot.dt.followTrajectory();
     	System.out.println("Time: " + Robot.dt.getTime());
     	n++;
-    	System.out.println("Angle: " + Robot.dt.getGyro().getYaw());
+    	Robot.dt.printYaw();
     	System.out.println("n = " + n);
     	Robot.dt.printEncoderDistanceConsoleFeet();
     	Robot.dt.printEncoderDistance();
+    	Robot.dt.printEncoderVelocity();
     }
 
     // Make this return true when this Command no longer needs to run execute()

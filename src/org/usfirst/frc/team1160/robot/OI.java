@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team1160.robot;
 
+import org.usfirst.frc.team1160.robot.commands.ResetEncoderYaw;
 import org.usfirst.frc.team1160.robot.commands.climb.LatchExtend;
 import org.usfirst.frc.team1160.robot.commands.climb.LatchRetract;
 import org.usfirst.frc.team1160.robot.commands.drive.HighGear;
@@ -39,7 +40,7 @@ public class OI {
 				   engageBrake,releaseBrake,
 				   highGear, lowGear,
 				   extendClimber, retractClimber,
-				   
+				   resetEncodersYaw,
 				   setLift;
 	
 	public static OI getInstance() {
@@ -56,6 +57,8 @@ public class OI {
 	}
 	
 	private void createButtons() {
+		resetEncodersYaw = new JoystickButton(mainStick,1);
+		
 		highGear = new JoystickButton(mainStick,2);
 		lowGear = new JoystickButton(mainStick,4);
 		
@@ -73,6 +76,7 @@ public class OI {
 		tieButtons();	
 	}
 	private void tieButtons() {
+		resetEncodersYaw.whenPressed(new ResetEncoderYaw());
 		
 		highGear.whenPressed(new HighGear());
 		lowGear.whenPressed(new LowGear());

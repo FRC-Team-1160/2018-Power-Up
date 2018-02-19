@@ -123,6 +123,11 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		//rightSlave.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() + Robot.oi.getMainstick().getY()));
 		
 		//printYaw();
+		printEncoderDistance();
+	}
+	public void resetEncodersYaw() {
+		resetGyro();
+		resetPosition();
 	}
 	public void fullThrottle() {
 		leftMaster.set(ControlMode.PercentOutput,1);
@@ -186,8 +191,8 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	}
 	
 	public void printEncoderVelocity(){
-		SmartDashboard.putNumber("left velocity", leftMaster.getSelectedSensorVelocity(0));
-		SmartDashboard.putNumber("right velocity", rightMaster.getSelectedSensorVelocity(0));
+		SmartDashboard.putNumber("left velocity", (double)leftMaster.getSelectedSensorVelocity(0)*10/1438);
+		SmartDashboard.putNumber("right velocity", (double)rightMaster.getSelectedSensorVelocity(0)*10/1438);
 	}
 	
 	public void printVoltage(String name,WPI_TalonSRX talon){
@@ -324,11 +329,12 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		
 		double angleError = Pathfinder.boundHalfDegrees(desired_heading-gyro_heading);
 		double turn = 0 * angleError;
+		SmartDashboard.putNumber("AngleError: ", angleError);
 		//leftMaster.setInverted(true);
-		leftMaster.set(ControlMode.PercentOutput,-l-turn);
-		rightMaster.set(ControlMode.PercentOutput,r+turn);
-		SmartDashboard.putNumber("left master percentoutput",-l-turn);
-		SmartDashboard.putNumber("right master percentoutput", r+turn);
+		leftMaster.set(ControlMode.PercentOutput,-(l+turn));
+		rightMaster.set(ControlMode.PercentOutput,r-turn);
+		SmartDashboard.putNumber("left master percentoutput",-(l+turn));
+		SmartDashboard.putNumber("right master percentoutput", r-turn);
 		//System.out.println("we got here");
 		//leftMaster.set(ControlMode.PercentOutput,-0.5);
 		//rightMaster.set(ControlMode.PercentOutput,0.5);

@@ -28,7 +28,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
  * creating this project, you must also update the build.properties file in the
  * project.
  */
-public class Robot extends TimedRobot {
+public class Robot extends TimedRobot implements TrajectoryWaypoints{
 	public static OI oi;
 
 	public Command autonomousCommand;
@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
 		lift = Lift.getInstance();
 		oi = OI.getInstance();
 		
-		Robot.dt.generateTrajectory();	
+		Robot.dt.generateTrajectory(POINTS_2);	
 		autonomousCommand = new FollowTrajectory();
 	}
 

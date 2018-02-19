@@ -28,7 +28,7 @@ public interface RobotMap {
 	public static final int DT_SOLENOID_1 = 5;
 	
 	public static int DT_ENC_COUNTS_PER_REV = 512;				//Encoder counts per revolution
-	public static double WHEEL_BASE_DISTANCE = 5;
+	public static double WHEEL_BASE_DISTANCE = 2.538;
 	
 	public static final double GYRO_KG = 0.8 * (-1.0/80.0);		//Gyro constants
 	public static final double GYRO_TOLERANCE = 2;				//Smaller value means higher accuracy but more time spent
@@ -39,15 +39,15 @@ public interface RobotMap {
 	public static final double DRIVE_KD = 0;
 	public static final double DRIVE_KF = 0;
 	
-	public static final double LEFT_KP = 0.1; 					//EncoderFOllower shit
+	public static final double LEFT_KP = 0.5; 					//MotionProfiling Constants for Low Gear
 	public static final double LEFT_KI = 0;
 	public static final double LEFT_KD = 0;
-	public static final double LEFT_KF = 0.155;
+	public static final double LEFT_KF = 0.125;
 	
-	public static final double RIGHT_KP = 0.1;
+	public static final double RIGHT_KP = 0.5;
 	public static final double RIGHT_KI = 0;
 	public static final double RIGHT_KD = 0;
-	public static final double RIGHT_KF = 0.14;
+	public static final double RIGHT_KF = 0.127;
 	
 	public static final double MAX_VELOCITY = 7.92*.8;				//Drivetrain trajectory constants
 	public static final double MAX_ACCELERATION = 3;

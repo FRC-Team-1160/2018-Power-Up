@@ -34,16 +34,26 @@ public interface RobotMap {
 	public static final double GYRO_TOLERANCE = 2;				//Smaller value means higher accuracy but more time spent
 																//achieving said accuracy
 	
-	public static final double DRIVE_KP = 0.3;					//Drivetrain PID constants
+	public static final double DRIVE_KP = 0.3;					//Drivetrain Talon PID constants
 	public static final double DRIVE_KI = 0;
 	public static final double DRIVE_KD = 0;
 	public static final double DRIVE_KF = 0;
 	
+	public static final double LEFT_KP = 0.0; 					//EncoderFOllower shit
+	public static final double LEFT_KI = 0;
+	public static final double LEFT_KD = 0;
+	public static final double LEFT_KF = 0.12537;
 	
-	public static final double MAX_VELOCITY = 0;				//Drivetrain trajectory constants
-	public static final double MAX_ACCELERATION = 0;
-	public static final double MAX_JERK = 0;
-	public static final double TIME_BETWEEN_POINTS = 1;			//Time (in seconds) between each Waypoint of the config
+	public static final double RIGHT_KP = 0.0;
+	public static final double RIGHT_KI = 0;
+	public static final double RIGHT_KD = 0;
+	public static final double RIGHT_KF = 0.12692;
+	
+	
+	public static final double MAX_VELOCITY = 7.92*.8;				//Drivetrain trajectory constants
+	public static final double MAX_ACCELERATION = 3;
+	public static final double MAX_JERK = 10;
+	public static final double TIME_BETWEEN_POINTS = 0.05;			//Time (in seconds) between each Waypoint of the config
 	
 	/*
 	 * Intake

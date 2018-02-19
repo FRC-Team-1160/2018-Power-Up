@@ -297,6 +297,12 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 			 
 		}
 	}
+	public void resetLeftEncoderFollower() {
+		left.reset();
+	}
+	public void resetRightEncoderFollower() {
+		right.reset();
+	}
 	
 	public void followTrajectory() {
 		double l = left.calculate(leftMaster.getSelectedSensorPosition(0));
@@ -307,7 +313,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		
 		double angleError = Pathfinder.boundHalfDegrees(desired_heading-gyro_heading);
 		double turn = GYRO_KG * angleError;
-		
+		leftMaster.setInverted(true);
 		leftMaster.set(-l-turn);
 		rightMaster.set(-r+turn);
 		

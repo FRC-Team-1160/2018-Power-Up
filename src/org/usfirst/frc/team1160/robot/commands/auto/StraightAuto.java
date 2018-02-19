@@ -24,8 +24,7 @@ public class StraightAuto extends Command{
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.dt.setPercentOutputGyro(0.5,0);
-    	currentTime = Robot.dt.getDeltaTime();
-    	Robot.dt.printDeltaTime();
+    	currentTime = Robot.dt.getTime();
     	Robot.dt.printEncoderVelocity();
     	Robot.dt.printEncoderDistance();
     	Robot.dt.printYaw();

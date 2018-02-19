@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class FollowTrajectory extends Command {
 
+	int n;
     public FollowTrajectory() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -17,20 +18,30 @@ public class FollowTrajectory extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.dt.generateTrajectory();
-    	Robot.dt.resetLeftEncoderFollower();
-    	Robot.dt.resetRightEncoderFollower();
+    	n = 0;
+    	Robot.dt.setLowGear();
+    	Robot.dt.resetEncoderFollowers();
+    	Robot.dt.configureEncoderFollowers();
     	Robot.dt.zeroGyro();
+    	Robot.dt.resetTime();
+    	Robot.dt.startTime();
+    	System.out.println("we got here fuckers");
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.dt.followTrajectory();
+    	System.out.println("Time: " + Robot.dt.getTime());
+    	n++;
+    	System.out.println("Angle: " + Robot.dt.getGyro().getYaw());
+    	System.out.println("n = " + n);
+    	Robot.dt.printEncoderDistanceConsoleFeet();
+    	Robot.dt.printEncoderDistance();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return (Robot.dt.getTrajectory().segments.length == n);
     }
 
     // Called once after isFinished returns true

@@ -39,21 +39,20 @@ public interface RobotMap {
 	public static final double DRIVE_KD = 0;
 	public static final double DRIVE_KF = 0;
 	
-	public static final double LEFT_KP = 0.0; 					//EncoderFOllower shit
+	public static final double LEFT_KP = 0.3; 					//EncoderFOllower shit
 	public static final double LEFT_KI = 0;
 	public static final double LEFT_KD = 0;
-	public static final double LEFT_KF = 0.12537;
+	public static final double LEFT_KF = 0.155;
 	
-	public static final double RIGHT_KP = 0.0;
+	public static final double RIGHT_KP = 0.3;
 	public static final double RIGHT_KI = 0;
 	public static final double RIGHT_KD = 0;
-	public static final double RIGHT_KF = 0.12692;
-	
+	public static final double RIGHT_KF = 0.14;
 	
 	public static final double MAX_VELOCITY = 7.92*.8;				//Drivetrain trajectory constants
 	public static final double MAX_ACCELERATION = 3;
-	public static final double MAX_JERK = 10;
-	public static final double TIME_BETWEEN_POINTS = 0.05;			//Time (in seconds) between each Waypoint of the config
+	public static final double MAX_JERK = 3;
+	public static final double TIME_BETWEEN_POINTS = 0.02;			//Time (in seconds) between each Waypoint of the config
 	
 	/*
 	 * Intake

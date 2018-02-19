@@ -122,7 +122,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		rightMaster.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() + Robot.oi.getMainstick().getY()));
 		//rightSlave.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() + Robot.oi.getMainstick().getY()));
 		
-		printYaw();
+		//printYaw();
 	}
 	public void fullThrottle() {
 		leftMaster.set(ControlMode.PercentOutput,1);
@@ -162,13 +162,13 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	 * Ball Shifter Methods
 	 */
 	public void setLowGear() {
-		ballShifter.set(DoubleSolenoid.Value.kForward);
+		ballShifter.set(DoubleSolenoid.Value.kReverse);
 		//lowGear = true;
 		SmartDashboard.putString("Gear/Speed", "low");
 	}
 	
 	public void setHighGear() {
-		ballShifter.set(DoubleSolenoid.Value.kReverse);
+		ballShifter.set(DoubleSolenoid.Value.kForward);
 		//lowGear = false;
 		SmartDashboard.putString("Gear/Speed", "high");
 	}
@@ -179,6 +179,10 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	public void printEncoderDistance(){
 		SmartDashboard.putNumber("left revolutions", leftMaster.getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("right revolutions",rightMaster.getSelectedSensorPosition(0));
+	}
+	public void printEncoderDistanceConsoleFeet() {
+		System.out.println("left side: " + (double)leftMaster.getSelectedSensorPosition(0)/1438 + " ft");
+		System.out.println("right side: " + (double)rightMaster.getSelectedSensorPosition(0)/1438 + " ft");
 	}
 	
 	public void printEncoderVelocity(){
@@ -216,12 +220,8 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		timer.stop();
 	}
 	
-	public double getDeltaTime(){
+	public double getTime(){
 		return timer.get();
-	}
-	
-	public void printDeltaTime(){
-		SmartDashboard.putNumber("delta time",getDeltaTime());
 	}
 	
 	public void drivePercentOutput(double input) {//this is in revolutions
@@ -272,7 +272,12 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		leftMaster.set(ControlMode.Position,distance);
 		rightMaster.set(ControlMode.Position,distance);
 	}
-	
+	public void configureEncoderFollowers() {
+		left.configureEncoder(leftMaster.getSelectedSensorPosition(0),2259,0.5);
+		right.configureEncoder(rightMaster.getSelectedSensorPosition(0),2259,0.5);
+		left.configurePIDVA(LEFT_KP,0,0,LEFT_KF,0);
+		right.configurePIDVA(RIGHT_KP, 0, 0, RIGHT_KF, 0);
+	}
 	public void generateTrajectory(Waypoint[] points) { //custom generateTrajectory()
 		config = new Config(FitMethod.HERMITE_CUBIC, Config.SAMPLES_HIGH, TIME_BETWEEN_POINTS, MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
 		traj = Pathfinder.generate(points, config);
@@ -294,8 +299,10 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 			 System.out.printf("%f,%f,%f,%f,%f,%f,%f,%f\n", 
 		        seg.dt, seg.x, seg.y, seg.position, seg.velocity, 
 		        seg.acceleration, seg.jerk, seg.heading);
-			 
+			}
 		}
+	public Trajectory getTrajectory() {
+		return traj;
 	}
 	public void resetLeftEncoderFollower() {
 		left.reset();
@@ -303,25 +310,33 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	public void resetRightEncoderFollower() {
 		right.reset();
 	}
+	public void resetEncoderFollowers() {
+		left.reset();
+		right.reset();
+	}
 	
 	public void followTrajectory() {
-		double l = left.calculate(leftMaster.getSelectedSensorPosition(0));
+		double l = left.calculate(-leftMaster.getSelectedSensorPosition(0));
 		double r = right.calculate(rightMaster.getSelectedSensorPosition(0));
 		
 		double gyro_heading = gyro.getYaw() * -1;
 		double desired_heading = Pathfinder.r2d(left.getHeading());
 		
 		double angleError = Pathfinder.boundHalfDegrees(desired_heading-gyro_heading);
-		double turn = GYRO_KG * angleError;
-		leftMaster.setInverted(true);
-		leftMaster.set(-l-turn);
-		rightMaster.set(-r+turn);
-		
+		double turn = 0 * angleError;
+		//leftMaster.setInverted(true);
+		leftMaster.set(ControlMode.PercentOutput,-l-turn);
+		rightMaster.set(ControlMode.PercentOutput,r+turn);
+		SmartDashboard.putNumber("left master percentoutput",-l-turn);
+		SmartDashboard.putNumber("right master percentoutput", r+turn);
+		//System.out.println("we got here");
+		//leftMaster.set(ControlMode.PercentOutput,-0.5);
+		//rightMaster.set(ControlMode.PercentOutput,0.5);
 	}
 	
 	@Override
 	protected void initDefaultCommand() {
-    	setDefaultCommand(new FullThrottle());
+    	setDefaultCommand(new ManualDrive());
 	}
 
 }

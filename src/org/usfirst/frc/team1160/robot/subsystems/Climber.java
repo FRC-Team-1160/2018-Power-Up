@@ -2,6 +2,7 @@ package org.usfirst.frc.team1160.robot.subsystems;
 
 import org.usfirst.frc.team1160.robot.Robot;
 import org.usfirst.frc.team1160.robot.RobotMap;
+import org.usfirst.frc.team1160.robot.commands.climb.JoyControl;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
@@ -53,6 +54,7 @@ public class Climber extends Subsystem implements RobotMap{
 	}
 	
 	public void initDefaultCommand() {
+		//setDefaultCommand(new JoyControl());
     }
 }
 

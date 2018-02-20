@@ -58,8 +58,8 @@ public class Lift extends Subsystem implements RobotMap{
 	}
 	
 	public void joyControl() {
-		setPercentOutput(1*Robot.oi.getClimbStick().getY());
-		System.out.println(1*Robot.oi.getClimbStick().getY());
+		setPercentOutput(-1*Robot.oi.getClimbStick().getY());
+		System.out.println(-1*Robot.oi.getClimbStick().getY());
 	}
 	
 	public void initDefaultCommand() {

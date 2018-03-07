@@ -122,8 +122,9 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		rightMaster.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() + Robot.oi.getMainstick().getY()));
 		//rightSlave.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() + Robot.oi.getMainstick().getY()));
 		
-		//printYaw();
+		printYaw();
 		printEncoderDistance();
+		printEncoderVelocity();
 	}
 	public void resetEncodersYaw() {
 		resetGyro();
@@ -148,12 +149,27 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		leftMaster.set(ControlMode.PercentOutput, -percentOutput + turnCorrection);
 		rightMaster.set(ControlMode.PercentOutput, percentOutput + turnCorrection);
 		}
-	public void turnAngle(double percentOutput, double targetAngle) { //ghetto PID with the navX sensor
+	/*(public void turnAngle(double percentOutput, double targetAngle) { //ghetto PID with the navX sensor
  		double angle_difference = targetAngle - gyro.getYaw();
  		double turn = GYRO_KG * angle_difference;
- 		leftMaster.set(ControlMode.PercentOutput,percentOutput + turn);
- 		rightMaster.set(ControlMode.PercentOutput,-1*percentOutput - turn);
+ 		
+ 		leftMaster.set(ControlMode.PercentOutput, turn);
+ 		rightMaster.set(ControlMode.PercentOutput,turn);
+ 		//leftMaster.set(ControlMode.PercentOutput, 0.8);
+ 		//rightMaster.set(ControlMode.PercentOutput, 0.8);
+ 		printYaw();
  	}
+ 	*/
+	public void turnAngle(double angle){
+		resetPosition();
+		
+		double arcLength = (angle/360) * (2 * Math.PI);
+		double targetPosition = arcLength / (2 * Math.PI);
+		
+		leftMaster.set(ControlMode.PercentOutput, -targetPosition);
+		rightMaster.set(ControlMode.PercentOutput,-targetPosition);
+		printYaw();
+	}
 	/*
 	 * Encoder Methods
 	 */
@@ -244,6 +260,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	
 	public void printYaw() {
 		SmartDashboard.putNumber("Current Yaw", gyro.getYaw());
+		System.out.println("Current Yaw: " + gyro.getYaw());
 	}
 	public AHRS getGyro() {
 		return gyro;
@@ -277,6 +294,12 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		leftMaster.set(ControlMode.Position,distance);
 		rightMaster.set(ControlMode.Position,distance);
 	}
+	
+	
+	
+	/*
+	 * Encoder follower shit (trajectory stuff)
+	 */
 	public void configureEncoderFollowers() {
 		left.configureEncoder(leftMaster.getSelectedSensorPosition(0),2259,6.25/12);
 		right.configureEncoder(rightMaster.getSelectedSensorPosition(0),2259,6.25/12);

@@ -13,11 +13,13 @@ public class ResetEncoderYaw extends Command {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.dt);
+    	requires(Robot.lift);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.dt.resetEncodersYaw();
+    	Robot.lift.resetLiftEncoders();
     }
 
     // Called repeatedly when this Command is scheduled to run

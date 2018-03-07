@@ -40,13 +40,18 @@ public class Lift extends Subsystem implements RobotMap{
 	}
 	
 	public void setPercentOutput(double percentOutput) { //this probably should not be used since the lift is going to be a pid-exclusive
-		liftLeft.set(ControlMode.PercentOutput,percentOutput);
+		liftLeft.set(ControlMode.PercentOutput,-percentOutput);
 		liftRight.set(ControlMode.PercentOutput,percentOutput);
 	}
 	
 	public void printLiftSpeed() {
 		SmartDashboard.putNumber("left lift speed", liftLeft.getSelectedSensorVelocity(0));
 		SmartDashboard.putNumber("right lift speed", liftRight.getSelectedSensorVelocity(0));
+	}
+	
+	public void resetLiftEncoders() {
+		liftLeft.setSelectedSensorPosition(0,0,100);
+		liftRight.setSelectedSensorPosition(0, 0, 100);
 	}
 	
 	public void brakeEngage(){
@@ -58,8 +63,10 @@ public class Lift extends Subsystem implements RobotMap{
 	}
 	
 	public void joyControl() {
-		setPercentOutput(-1*Robot.oi.getClimbStick().getY());
-		System.out.println(-1*Robot.oi.getClimbStick().getY());
+		setPercentOutput(Robot.oi.getClimbStick().getY());
+		System.out.println(Robot.oi.getClimbStick().getY());
+		SmartDashboard.putNumber("Lift Position Left", liftLeft.getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("Lift Position Right", liftRight.getSelectedSensorPosition(0));
 	}
 	
 	public void initDefaultCommand() {

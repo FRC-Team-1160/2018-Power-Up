@@ -8,6 +8,7 @@
 package org.usfirst.frc.team1160.robot;
 
 import org.usfirst.frc.team1160.robot.commands.ResetEncoderYaw;
+import org.usfirst.frc.team1160.robot.commands.auto.TurnAngle;
 import org.usfirst.frc.team1160.robot.commands.climb.Climb;
 import org.usfirst.frc.team1160.robot.commands.climb.LatchExtend;
 import org.usfirst.frc.team1160.robot.commands.climb.LatchRetract;
@@ -43,7 +44,8 @@ public class OI {
 				   extendClimber, retractClimber,
 				   climbUp,climbDown,
 				   resetEncodersYaw,
-				   setLift;
+				   setLift,
+				   turnAngle;
 	
 	public static OI getInstance() {
 		if(instance == null) {
@@ -53,8 +55,8 @@ public class OI {
 	}
 	
 	private OI() {
-		mainStick = new Joystick(0);
-		climbStick = new Joystick(1);
+		mainStick = new Joystick(0); //dual action
+		climbStick = new Joystick(1); //attack
 		createButtons();
 	}
 	
@@ -70,11 +72,13 @@ public class OI {
 		extendClimber = new JoystickButton(climbStick,8);
 		retractClimber = new JoystickButton(climbStick,9);
 		
-		climbUp = new JoystickButton(climbStick,6);
+		//climbUp = new JoystickButton(climbStick,6);
 		climbDown = new JoystickButton(climbStick,7);
 		
-		engageBrake = new JoystickButton(climbStick,1);
-		releaseBrake = new JoystickButton(climbStick,3);
+		engageBrake = new JoystickButton(climbStick,3);
+		releaseBrake = new JoystickButton(climbStick,1);
+		
+//		/turnAngle = new JoystickButton(climbStick, 6);
 		
 		//setLift = new JoystickButton(climbStick,1);
 		
@@ -92,11 +96,13 @@ public class OI {
 		extendClimber.whenPressed(new LatchExtend());
 		retractClimber.whenPressed(new LatchRetract());
 		
-		climbUp.whileHeld(new Climb(1));
-		climbDown.whileHeld(new Climb(-1));
+		//climbUp.whileHeld(new Climb(0.75));
+		climbDown.whileHeld(new Climb(-0.75));
 		
 		engageBrake.whenPressed(new BrakeEngage());
 		releaseBrake.whenPressed(new BrakeRelease());
+
+		//turnAngle.whenPressed(new TurnAngle(90,0));
 		
 		//setLift.whileHeld(new SetLift(0.1));
 		

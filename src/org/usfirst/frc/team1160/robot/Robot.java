@@ -49,7 +49,7 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 		lift = Lift.getInstance();
 		oi = OI.getInstance();
 		
-		//Robot.dt.generateTrajectory(POINTS_2);	
+		//Robot.dt.generateTrajectory(POINTS_1);	
 		autonomousCommand = new FollowTrajectory();
 	}
 

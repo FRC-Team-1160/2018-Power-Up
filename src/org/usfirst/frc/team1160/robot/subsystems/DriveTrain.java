@@ -34,6 +34,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 
 	public static DriveTrain instance;
 	private WPI_TalonSRX leftMaster, rightMaster;
+	// Nice name
 	private WPI_VictorSPX leftSlave,rightSlave;
 	private AHRS gyro;
 	private Compressor comp;
@@ -282,9 +283,16 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	}
 	
 	public void followTrajectory() {
+		/*
+		double l and r are the result of the calculation that each talon needs to get to according to the next trajectory point
+		*/
 		double l = left.calculate(leftMaster.getSelectedSensorPosition(0));
 		double r = right.calculate(rightMaster.getSelectedSensorPosition(0));
 		
+		/*
+		discover the current angle of the robot and the desired heading (again, from the next trajectory point)
+		find the error and create a constant
+		*/
 		double gyro_heading = gyro.getYaw() * -1;
 		double desired_heading = Pathfinder.r2d(left.getHeading());
 		

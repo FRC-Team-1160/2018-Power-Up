@@ -72,7 +72,7 @@ public class OI {
 		extendClimber = new JoystickButton(climbStick,8);
 		retractClimber = new JoystickButton(climbStick,9);
 		
-		//climbUp = new JoystickButton(climbStick,6);
+		climbUp = new JoystickButton(climbStick,6);
 		climbDown = new JoystickButton(climbStick,7);
 		
 		engageBrake = new JoystickButton(climbStick,3);
@@ -96,7 +96,7 @@ public class OI {
 		extendClimber.whenPressed(new LatchExtend());
 		retractClimber.whenPressed(new LatchRetract());
 		
-		//climbUp.whileHeld(new Climb(0.75));
+		climbUp.whileHeld(new Climb(0.75));
 		climbDown.whileHeld(new Climb(-0.75));
 		
 		engageBrake.whenPressed(new BrakeEngage());

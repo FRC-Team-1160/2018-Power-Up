@@ -15,6 +15,8 @@ import org.usfirst.frc.team1160.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1160.robot.subsystems.Intake;
 import org.usfirst.frc.team1160.robot.subsystems.Lift;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -48,6 +50,8 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 		climber = Climber.getInstance();
 		lift = Lift.getInstance();
 		oi = OI.getInstance();
+		
+		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		
 		//Robot.dt.generateTrajectory(POINTS_1);	
 		autonomousCommand = new FollowTrajectory();

@@ -63,8 +63,16 @@ public class Lift extends Subsystem implements RobotMap{
 	}
 	
 	public void joyControl() {
-		setPercentOutput(Robot.oi.getClimbStick().getY());
-		System.out.println(Robot.oi.getClimbStick().getY());
+		if (Robot.oi.getClimbStick().getY() < 0)
+		{
+			setPercentOutput(Robot.oi.getClimbStick().getY() * .50);
+			System.out.println("REDUCED LIFT SPEED: " + Robot.oi.getClimbStick().getY() * .50);
+		}
+		else
+		{
+			setPercentOutput(Robot.oi.getClimbStick().getY() * .75);
+			System.out.println("NORMAL LIFT SPEED: " + Robot.oi.getClimbStick().getY() * .75);
+		}
 		SmartDashboard.putNumber("Lift Position Left", liftLeft.getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("Lift Position Right", liftRight.getSelectedSensorPosition(0));
 	}

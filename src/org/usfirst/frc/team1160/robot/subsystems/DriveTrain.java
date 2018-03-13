@@ -65,7 +65,6 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		leftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		rightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		
-		
 		ballShifter = new DoubleSolenoid(PCM,DT_SOLENOID_0,DT_SOLENOID_1);
 		setFollower();
 		
@@ -138,16 +137,6 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		rightMaster.set(ControlMode.PercentOutput, percentOutput);
 		}
 
-	public void setPercentOutputGyro(double percentOutput, double targetAngle) {
-		double angleError = targetAngle - gyro.getYaw();
-		double kTurn = -0.05;
-		double turnCorrection = angleError*kTurn;
-		
-		SmartDashboard.putNumber("Angle Error", angleError);
-		
-		leftMaster.set(ControlMode.PercentOutput, -percentOutput + turnCorrection);
-		rightMaster.set(ControlMode.PercentOutput, percentOutput + turnCorrection);
-		}
 	public void turnAngle(double targetAngle) { //ghetto PID with the navX sensor
  		double angle_difference = targetAngle - gyro.getYaw();
  		double turn = GYRO_KP * angle_difference;

@@ -5,7 +5,9 @@ import org.usfirst.frc.team1160.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * 3/13/18
+ * THIS IS A PID BASED DISTANCE MOVEMENT METHOD, BUT WE REALLY DON'T NEED THIS BECAUSE IT RELIES ON TALON ENCODER CONSTANTS.
+ * WE USE ENCODER FOLLOWERS. THEREFORE, THIS METHOD IS PRETTY MUCH IRRELEVANT.
  */
 public class MoveForward extends Command {
 

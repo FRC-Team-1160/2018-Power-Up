@@ -3,11 +3,12 @@ package org.usfirst.frc.team1160.robot.commands.auto;
 import org.usfirst.frc.team1160.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team1160.robot.TrajectoryWaypoints;
 
 /**
  *
  */
-public class FollowTrajectory extends Command {
+public class FollowTrajectory extends Command implements TrajectoryWaypoints{
 
 	int n;
     public FollowTrajectory() {

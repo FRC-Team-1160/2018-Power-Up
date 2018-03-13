@@ -24,13 +24,13 @@ public interface RobotMap {
 	public static int DT_LEFT_2 = 10;
 	public static int DT_RIGHT_1 = 3;
 	public static int DT_RIGHT_2 = 11;
-	public static final int DT_SOLENOID_0 = 2;
-	public static final int DT_SOLENOID_1 = 5;
+	public static final int DT_SOLENOID_0 = 1;
+	public static final int DT_SOLENOID_1 = 6;
 	
 	public static int DT_ENC_COUNTS_PER_REV = 512;				//Encoder counts per revolution
 	public static double WHEEL_BASE_DISTANCE = 2.538;
 	
-	public static final double GYRO_KG = 0.8 * (-1.0/80.0);		//Gyro constants
+	public static final double GYRO_KP = 0.8 * (-1.0/80.0);		//Gyro constants
 	public static final double GYRO_TOLERANCE = 2;				//Smaller value means higher accuracy but more time spent
 																//achieving said accuracy
 	
@@ -98,8 +98,8 @@ public interface RobotMap {
 	 * 
 	 * PLACEHOLDERS
 	 */
-	public static final int LATCH_LEFT_SOLENOID = 1;			//Ports
-	public static final int LATCH_RIGHT_SOLENOID = 6;
+	public static final int LATCH_LEFT_SOLENOID = 0;			//Ports
+	public static final int LATCH_RIGHT_SOLENOID = 7;
 	public static final int  CLIMBER_MOTOR_1 = 12;
 	public static final int  CLIMBER_MOTOR_2 = 13;
 

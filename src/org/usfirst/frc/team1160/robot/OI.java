@@ -63,22 +63,22 @@ public class OI {
 	private void createButtons() {
 		resetEncodersYaw = new JoystickButton(mainStick,1);
 		
-		highGear = new JoystickButton(mainStick,2);
-		lowGear = new JoystickButton(mainStick,4);
+		highGear = new JoystickButton(mainStick,4);
+		lowGear = new JoystickButton(mainStick,10);
 		
 		intakeEat = new JoystickButton(mainStick,5);
 		intakeSpit = new JoystickButton(mainStick,6);
 		
-		extendClimber = new JoystickButton(climbStick,8);
-		retractClimber = new JoystickButton(climbStick,9);
+		extendClimber = new JoystickButton(mainStick,3);
+		retractClimber = new JoystickButton(mainStick,2);
 		
-		climbUp = new JoystickButton(climbStick,6);
+		//climbUp = new JoystickButton(climbStick,6);
 		climbDown = new JoystickButton(climbStick,7);
 		
 		engageBrake = new JoystickButton(climbStick,3);
 		releaseBrake = new JoystickButton(climbStick,1);
 		
-//		/turnAngle = new JoystickButton(climbStick, 6);
+		turnAngle = new JoystickButton(climbStick, 6);
 		
 		//setLift = new JoystickButton(climbStick,1);
 		
@@ -96,13 +96,13 @@ public class OI {
 		extendClimber.whenPressed(new LatchExtend());
 		retractClimber.whenPressed(new LatchRetract());
 		
-		climbUp.whileHeld(new Climb(0.75));
+		//.climbUp.whileHeld(new Climb(0.75));
 		climbDown.whileHeld(new Climb(-0.75));
 		
 		engageBrake.whenPressed(new BrakeEngage());
 		releaseBrake.whenPressed(new BrakeRelease());
 
-		//turnAngle.whenPressed(new TurnAngle(90,0));
+		turnAngle.whenPressed(new TurnAngle(90));
 		
 		//setLift.whileHeld(new SetLift(0.1));
 		
@@ -116,4 +116,4 @@ public class OI {
 	public Joystick getClimbStick() {
 		return climbStick;
 	}
-}
+}              

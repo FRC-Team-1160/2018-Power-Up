@@ -115,16 +115,15 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	 */
 	public void manualDrive() {
 
-
 		leftMaster.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() - Robot.oi.getMainstick().getY()));
 		//leftSlave.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() - Robot.oi.getMainstick().getY()));
 		
 		rightMaster.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() + Robot.oi.getMainstick().getY()));
 		//rightSlave.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() + Robot.oi.getMainstick().getY()));
 		
-		printYaw();
-		printEncoderDistance();
-		printEncoderVelocity();
+		//printYaw();
+		//printEncoderDistance();
+		//printEncoderVelocity();
 	}
 	public void resetEncodersYaw() {
 		resetGyro();
@@ -149,9 +148,9 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		leftMaster.set(ControlMode.PercentOutput, -percentOutput + turnCorrection);
 		rightMaster.set(ControlMode.PercentOutput, percentOutput + turnCorrection);
 		}
-	/*(public void turnAngle(double percentOutput, double targetAngle) { //ghetto PID with the navX sensor
+	public void turnAngle(double targetAngle) { //ghetto PID with the navX sensor
  		double angle_difference = targetAngle - gyro.getYaw();
- 		double turn = GYRO_KG * angle_difference;
+ 		double turn = GYRO_KP * angle_difference;
  		
  		leftMaster.set(ControlMode.PercentOutput, turn);
  		rightMaster.set(ControlMode.PercentOutput,turn);
@@ -159,17 +158,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
  		//rightMaster.set(ControlMode.PercentOutput, 0.8);
  		printYaw();
  	}
- 	*/
-	public void turnAngle(double angle){
-		resetPosition();
-		
-		double arcLength = (angle/360) * (2 * Math.PI);
-		double targetPosition = arcLength / (2 * Math.PI);
-		
-		leftMaster.set(ControlMode.PercentOutput, -targetPosition);
-		rightMaster.set(ControlMode.PercentOutput,-targetPosition);
-		printYaw();
-	}
+ 	
 	/*
 	 * Encoder Methods
 	 */
@@ -186,12 +175,14 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		ballShifter.set(DoubleSolenoid.Value.kReverse);
 		//lowGear = true;
 		SmartDashboard.putString("Gear/Speed", "low");
+		//System.out.println("LOW GEAR");
 	}
 	
 	public void setHighGear() {
 		ballShifter.set(DoubleSolenoid.Value.kForward);
 		//lowGear = false;
 		SmartDashboard.putString("Gear/Speed", "high");
+		//System.out.println("HIGH GEAR");
 	}
 	
 	/*
@@ -202,8 +193,8 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		SmartDashboard.putNumber("right revolutions",rightMaster.getSelectedSensorPosition(0));
 	}
 	public void printEncoderDistanceConsoleFeet() {
-		System.out.println("left side: " + (double)leftMaster.getSelectedSensorPosition(0)/1438 + " ft");
-		System.out.println("right side: " + (double)rightMaster.getSelectedSensorPosition(0)/1438 + " ft");
+		//System.out.println("left side: " + (double)leftMaster.getSelectedSensorPosition(0)/1438 + " ft");
+		//System.out.println("right side: " + (double)rightMaster.getSelectedSensorPosition(0)/1438 + " ft");
 	}
 	
 	public void printEncoderVelocity(){
@@ -260,7 +251,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	
 	public void printYaw() {
 		SmartDashboard.putNumber("Current Yaw", gyro.getYaw());
-		System.out.println("Current Yaw: " + gyro.getYaw());
+		//System.out.println("Current Yaw: " + gyro.getYaw());
 	}
 	public AHRS getGyro() {
 		return gyro;
@@ -306,14 +297,15 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		left.configurePIDVA(LEFT_KP,0,0,LEFT_KF,0);
 		right.configurePIDVA(RIGHT_KP, 0, 0, RIGHT_KF, 0);
 	}
+	
 	public void generateTrajectory(Waypoint[] points) { //custom generateTrajectory()
 		config = new Config(FitMethod.HERMITE_CUBIC, Config.SAMPLES_HIGH, TIME_BETWEEN_POINTS, MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
-		traj = Pathfinder.generate(points, config);
+		traj = Pathfinder.generate(POINTS_1,config);
 		modifier = new TankModifier(traj).modify(WHEEL_BASE_DISTANCE);
 		left = new EncoderFollower(modifier.getLeftTrajectory());
 		right = new EncoderFollower(modifier.getRightTrajectory());
 	}
-	
+	/*
 	public void generateTrajectory() { //uses point arrays from TrajectoryWaypoints.java
 		config = new Config(FitMethod.HERMITE_CUBIC, Config.SAMPLES_HIGH, TIME_BETWEEN_POINTS, MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
 		traj = Pathfinder.generate(POINTS_1, config);
@@ -329,6 +321,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		        seg.acceleration, seg.jerk, seg.heading);
 			}
 		}
+		*/
 	public Trajectory getTrajectory() {
 		return traj;
 	}

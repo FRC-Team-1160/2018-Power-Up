@@ -17,10 +17,22 @@ public class LowGear extends Command{
     protected void initialize() {
     	Robot.dt.setLowGear();
     }
+    @Override
+    protected void execute() {
+    	
+    }
 	@Override
 	protected boolean isFinished() {
 		// TODO Auto-generated method stub
 		return true;
+	}
+	@Override
+	protected void end() {
+		
+	}
+	@Override
+	protected void interrupted() {
+		
 	}
 
 }

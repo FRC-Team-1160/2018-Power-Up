@@ -9,6 +9,7 @@ package org.usfirst.frc.team1160.robot;
 
 import org.usfirst.frc.team1160.robot.commands.auto.FollowTrajectory;
 import org.usfirst.frc.team1160.robot.commands.auto.MoveForward;
+import org.usfirst.frc.team1160.robot.commands.auto.MoveTurnMove;
 import org.usfirst.frc.team1160.robot.commands.auto.StraightAuto;
 import org.usfirst.frc.team1160.robot.subsystems.Climber;
 import org.usfirst.frc.team1160.robot.subsystems.DriveTrain;
@@ -52,8 +53,8 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 		oi = OI.getInstance();
 		
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-		
-		//Robot.dt.generateTrajectory(POINTS_1);	
+		System.out.println(System.getProperty("java.library.path"));
+		dt.generateTrajectory(POINTS_1);
 		autonomousCommand = new FollowTrajectory();
 	}
 
@@ -92,8 +93,6 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 		 * = new MyAutoCommand(); break; case "Default Auto": default:
 		 * autonomousCommand = new ExampleCommand(); break; }
 		 */
-		Robot.dt.resetPosition();
-		Robot.dt.resetEncoderFollowers();
 		
 		// schedule the autonomous command (example)
 		autonomousCommand.start();

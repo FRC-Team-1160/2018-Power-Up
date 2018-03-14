@@ -61,10 +61,10 @@ public class OI {
 	}
 	
 	private void createButtons() {
-		resetEncodersYaw = new JoystickButton(mainStick,1);
+		resetEncodersYaw = new JoystickButton(mainStick,9);
 		
 		highGear = new JoystickButton(mainStick,4);
-		lowGear = new JoystickButton(mainStick,10);
+		lowGear = new JoystickButton(mainStick,1);
 		
 		intakeEat = new JoystickButton(mainStick,5);
 		intakeSpit = new JoystickButton(mainStick,6);

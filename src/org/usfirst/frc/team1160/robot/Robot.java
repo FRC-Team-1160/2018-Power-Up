@@ -9,6 +9,7 @@ package org.usfirst.frc.team1160.robot;
 
 import org.usfirst.frc.team1160.robot.commands.auto.FollowTrajectory;
 import org.usfirst.frc.team1160.robot.commands.auto.MoveForward;
+import org.usfirst.frc.team1160.robot.commands.auto.TurnAngle;
 import org.usfirst.frc.team1160.robot.subsystems.Climber;
 import org.usfirst.frc.team1160.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1160.robot.subsystems.Intake;
@@ -93,6 +94,9 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 		 */
 		
 		// schedule the autonomous command (example)
+		dt.zeroGyro();
+		dt.resetEncoderFollowers();
+		dt.resetPosition();
 		autonomousCommand.start();
 	}
 

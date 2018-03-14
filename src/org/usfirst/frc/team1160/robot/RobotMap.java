@@ -31,6 +31,7 @@ public interface RobotMap {
 	public static double WHEEL_BASE_DISTANCE = 2.538;
 	
 	public static final double GYRO_KP = 0.8 * (-1.0/80.0);		//Gyro constants
+	public static final double GYRO_KP_2 = 0.6 * (-1.0/80.0);	//TURN ANGLE KP
 	public static final double GYRO_TOLERANCE = 2;				//Smaller value means higher accuracy but more time spent
 																//achieving said accuracy
 	
@@ -39,12 +40,12 @@ public interface RobotMap {
 	public static final double DRIVE_KD = 0;
 	public static final double DRIVE_KF = 0;
 	
-	public static final double LEFT_KP = 0.5; 					//MotionProfiling Constants for Low Gear
+	public static final double LEFT_KP = 0.8; 					//MotionProfiling Constants for Low Gear
 	public static final double LEFT_KI = 0;
 	public static final double LEFT_KD = 0;
 	public static final double LEFT_KF = 0.125;
 	
-	public static final double RIGHT_KP = 0.5;
+	public static final double RIGHT_KP = 0.8;
 	public static final double RIGHT_KI = 0;
 	public static final double RIGHT_KD = 0;
 	public static final double RIGHT_KF = 0.127;

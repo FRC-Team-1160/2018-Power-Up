@@ -27,7 +27,6 @@ public class FollowTrajectory extends Command implements TrajectoryWaypoints{
     	Robot.dt.zeroGyro();
     	Robot.dt.resetTime();
     	Robot.dt.startTime();
-    	System.out.println("we got here fuckers");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -37,7 +36,6 @@ public class FollowTrajectory extends Command implements TrajectoryWaypoints{
     	n++;
     	Robot.dt.printYaw();
     	System.out.println("n = " + n);
-    	Robot.dt.printEncoderDistanceConsoleFeet();
     	Robot.dt.printEncoderDistance();
     	Robot.dt.printEncoderVelocity();
     }

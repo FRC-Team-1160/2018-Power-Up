@@ -3,6 +3,7 @@ package org.usfirst.frc.team1160.robot.commands.auto;
 import org.usfirst.frc.team1160.robot.Robot;
 import org.usfirst.frc.team1160.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -12,6 +13,7 @@ public class TurnAngle extends Command implements RobotMap{
 
 	public double targetAngle;
 	public boolean test = true;
+	public Timer time;
     
 	public TurnAngle(double targetAngle) {
         // Use requires() here to declare subsystem dependencies
@@ -29,6 +31,8 @@ public class TurnAngle extends Command implements RobotMap{
     	Robot.dt.setLowGear();
     	//Robot.dt.resetPosition();
     	Robot.dt.resetGyro();
+    	time.reset();
+    	time.start();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -38,7 +42,7 @@ public class TurnAngle extends Command implements RobotMap{
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Math.abs(Robot.dt.getGyro().getYaw() - targetAngle) < GYRO_TOLERANCE;
+        return ((Math.abs(Robot.dt.getGyro().getYaw() - targetAngle) < GYRO_TOLERANCE) || (time.get() > 2));
     }
 
     // Called once after isFinished returns true

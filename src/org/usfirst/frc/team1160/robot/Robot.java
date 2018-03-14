@@ -9,6 +9,7 @@ package org.usfirst.frc.team1160.robot;
 
 import org.usfirst.frc.team1160.robot.commands.auto.FollowTrajectory;
 import org.usfirst.frc.team1160.robot.commands.auto.MoveForward;
+import org.usfirst.frc.team1160.robot.commands.auto.MoveL;
 import org.usfirst.frc.team1160.robot.commands.auto.TurnAngle;
 import org.usfirst.frc.team1160.robot.subsystems.Climber;
 import org.usfirst.frc.team1160.robot.subsystems.DriveTrain;
@@ -20,6 +21,7 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import jaci.pathfinder.Trajectory;
 //import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -38,6 +40,7 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 	public static Intake intake;
 	public static Climber climber;
 	public static Lift lift;
+	public static Trajectory segment_one,segment_two;
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -53,8 +56,14 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 		
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		System.out.println(System.getProperty("java.library.path"));
-		dt.generateTrajectory(POINTS_1);
-		autonomousCommand = new FollowTrajectory();
+		
+		
+		segment_one = dt.generateTrajectorySetup(POINTS_1);
+		segment_two = dt.generateTrajectorySetup(POINTS_1);
+		
+		//autonomousCommand = new FollowTrajectory();
+		autonomousCommand = new TurnAngle(90);
+		//autonomousCommand = new MoveL();
 	}
 
 	/**
@@ -94,9 +103,6 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 		 */
 		
 		// schedule the autonomous command (example)
-		dt.zeroGyro();
-		dt.resetEncoderFollowers();
-		dt.resetPosition();
 		autonomousCommand.start();
 	}
 

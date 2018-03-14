@@ -288,6 +288,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		right.configurePIDVA(RIGHT_KP, 0, 0, RIGHT_KF, 0);
 	}
 	
+	
 	public void generateTrajectory(Waypoint[] points) { //custom generateTrajectory()
 		config = new Config(FitMethod.HERMITE_CUBIC, Config.SAMPLES_HIGH, TIME_BETWEEN_POINTS, MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
 		traj = Pathfinder.generate(points,config);
@@ -295,6 +296,19 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		left = new EncoderFollower(modifier.getLeftTrajectory());
 		right = new EncoderFollower(modifier.getRightTrajectory());
 	}
+	
+	public Trajectory generateTrajectorySetup(Waypoint[] points) {
+		config = new Config(FitMethod.HERMITE_CUBIC, Config.SAMPLES_HIGH, TIME_BETWEEN_POINTS, MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
+		traj = Pathfinder.generate(points,config);
+		return traj;
+	}
+	
+	public void generateModifiers(Trajectory traj) { //generate modifiers based off the given trajectory
+		modifier = new TankModifier(traj).modify(WHEEL_BASE_DISTANCE);
+		left = new EncoderFollower(modifier.getLeftTrajectory());
+		right = new EncoderFollower(modifier.getRightTrajectory());
+	}
+	
 	
 	public Trajectory getTrajectory() {
 		return traj;

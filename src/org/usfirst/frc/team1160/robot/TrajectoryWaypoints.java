@@ -9,6 +9,6 @@ public interface TrajectoryWaypoints {
 	public static final Waypoint[] POINTS_1 =
 			new Waypoint[] {new Waypoint(0, 0, 0), new Waypoint(7, 0, 0)};
 	public static final Waypoint[] POINTS_2 = 
-			new Waypoint[] {new Waypoint(0,0,0),new Waypoint(7,7,90)};
+			new Waypoint[] {new Waypoint(0,0,0),new Waypoint(3,3,90)};
 
 }

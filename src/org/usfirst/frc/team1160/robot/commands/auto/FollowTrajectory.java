@@ -3,6 +3,8 @@ package org.usfirst.frc.team1160.robot.commands.auto;
 import org.usfirst.frc.team1160.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import jaci.pathfinder.Trajectory;
+
 import org.usfirst.frc.team1160.robot.TrajectoryWaypoints;
 
 /**
@@ -11,15 +13,20 @@ import org.usfirst.frc.team1160.robot.TrajectoryWaypoints;
 public class FollowTrajectory extends Command implements TrajectoryWaypoints{
 
 	int n;
-    public FollowTrajectory() {
+	Trajectory traj;
+	
+    public FollowTrajectory(Trajectory traj) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.dt);
+    	this.traj = traj;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	n = 0;
+    	Robot.dt.generateModifiers(traj);
+    	System.out.println("We got here in FollowTrajectory");
     	Robot.dt.setLowGear();
     	Robot.dt.resetPosition();
     	Robot.dt.resetEncoderFollowers();
@@ -27,6 +34,7 @@ public class FollowTrajectory extends Command implements TrajectoryWaypoints{
     	Robot.dt.zeroGyro();
     	Robot.dt.resetTime();
     	Robot.dt.startTime();
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run

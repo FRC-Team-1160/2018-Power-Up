@@ -37,7 +37,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 public class OI {
 	private static OI instance;
-	Joystick mainStick, climbStick;
+	Joystick mainStick, climbStick, dsStick;
 	JoystickButton intakeEat,intakeSpit,intakeSet,intakeStop,
 				   engageBrake,releaseBrake,
 				   highGear, lowGear,
@@ -56,11 +56,16 @@ public class OI {
 	
 	private OI() {
 		mainStick = new Joystick(0); //dual action
-		climbStick = new Joystick(1); //attack
+		climbStick = new Joystick(1); //attack 3
+		dsStick = new Joystick(2); //generic driverstation joystick
 		createButtons();
 	}
 	
 	private void createButtons() {
+		
+		/*
+		 * Dual Action
+		 */
 		resetEncodersYaw = new JoystickButton(mainStick,9);
 		
 		highGear = new JoystickButton(mainStick,4);
@@ -72,16 +77,30 @@ public class OI {
 		extendClimber = new JoystickButton(mainStick,3);
 		retractClimber = new JoystickButton(mainStick,2);
 		
-		//climbUp = new JoystickButton(climbStick,6);
+		/*
+		 * Attack 3
+		 */
+		
+		climbUp = new JoystickButton(climbStick,6);
 		climbDown = new JoystickButton(climbStick,7);
 		
 		engageBrake = new JoystickButton(climbStick,3);
 		releaseBrake = new JoystickButton(climbStick,1);
 		
-		turnAngle = new JoystickButton(climbStick, 6);
+		//turnAngle = new JoystickButton(climbStick, 6);
 		
 		//setLift = new JoystickButton(climbStick,1);
 		
+		/*
+		 * Generic
+		 */
+		//dsLiftDown = new JoystickButton(dsStick,)
+		//dsLiftUp = new Joystickbutton(dsStick,)
+		dsEngageBrake = new JoystickButton(dsStick,1);
+		dsReleaseBrake = new JoystickButton(dsStick,2);
+		dsExtendClimber = new JoystickButton(dsStick,3);
+		dsRetractClimber = new JoystickButton(dsStick,4);
+		dsClimbUp = 
 		tieButtons();	
 	}
 	private void tieButtons() {

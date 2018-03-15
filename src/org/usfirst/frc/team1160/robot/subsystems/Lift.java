@@ -71,7 +71,7 @@ public class Lift extends Subsystem implements RobotMap{
 		}
 		else
 		{
-			setPercentOutput(-1*(Robot.oi.getClimbStick().getY()*.50));
+			setPercentOutput(-1*(Robot.oi.getClimbStick().getY()));
 			//System.out.println("NORMAL LIFT SPEED: " + Robot.oi.getClimbStick().getY());
 		}
 		

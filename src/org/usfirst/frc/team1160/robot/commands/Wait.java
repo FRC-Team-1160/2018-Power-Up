@@ -1,23 +1,26 @@
-package org.usfirst.frc.team1160.robot.commands.intake;
+package org.usfirst.frc.team1160.robot.commands;
 
 import org.usfirst.frc.team1160.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * 3/14/18 THIS IS ALSO FUNCTIONALLY USELESS WE ALSO LITERALLY DO NOT USE THIS COMMAND
+ *
  */
-public class IntakeStop extends Command {
+public class Wait extends Command {
 	
-	double speed;
-
-    public IntakeStop() {
-    	requires(Robot.intake);
+	private double finishTime;
+    public Wait(double finishTime) {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	requires(Robot.dt);
+    	this.finishTime = finishTime;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.intake.stop();
+    	Robot.dt.resetTime();
+    	Robot.dt.startTime();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -26,7 +29,7 @@ public class IntakeStop extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return Robot.dt.done(finishTime);
     }
 
     // Called once after isFinished returns true

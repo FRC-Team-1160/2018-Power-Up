@@ -25,13 +25,13 @@ public class FollowTrajectory extends Command implements TrajectoryWaypoints{
     // Called just before this Command runs the first time
     protected void initialize() {
     	n = 0;
-    	Robot.dt.generateModifiers(traj);
+    	//Robot.dt.generateModifiers(traj);
     	System.out.println("We got here in FollowTrajectory");
     	Robot.dt.setLowGear();
     	Robot.dt.resetPosition();
-    	Robot.dt.resetEncoderFollowers();
+		Robot.dt.generateModifiers(traj);
     	Robot.dt.configureEncoderFollowers();
-    	Robot.dt.zeroGyro();
+    	Robot.dt.resetAngleDifference();
     	Robot.dt.resetTime();
     	Robot.dt.startTime();
     	

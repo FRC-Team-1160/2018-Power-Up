@@ -31,8 +31,9 @@ public interface RobotMap {
 	public static double WHEEL_BASE_DISTANCE = 2.538;
 	
 	public static final double GYRO_KP = 0.8 * (-1.0/80.0);		//Gyro constants
-	public static final double GYRO_KP_2 = 0.65 * (-1.0/80.0);	//TURN ANGLE KP
-	public static final double GYRO_TOLERANCE = 1;				//Smaller value means higher accuracy but more time spent
+	public static final double GYRO_KP_2 = 1 * (-1.0/80.0);
+	public static final double GYRO_KD = (1.0/15.0) * (-1.0/80.0);//TURN ANGLE KP
+	public static final double GYRO_TOLERANCE = 2;				//Smaller value means higher accuracy but more time spent
 																//achieving said accuracy
 	
 	public static final double DRIVE_KP = 0.1;					//Drivetrain Talon PID constants
@@ -50,7 +51,7 @@ public interface RobotMap {
 	public static final double RIGHT_KD = 0;
 	public static final double RIGHT_KF = 0.127;
 	
-	public static final double MAX_VELOCITY = 7.92*.8;				//Drivetrain trajectory constants
+	public static final double MAX_VELOCITY = 5;				//Drivetrain trajectory constants
 	public static final double MAX_ACCELERATION = 3;
 	public static final double MAX_JERK = 3;
 	public static final double TIME_BETWEEN_POINTS = 0.02;			//Time (in seconds) between each Waypoint of the config
@@ -60,17 +61,17 @@ public interface RobotMap {
 	 */
 	public static final int LEFT_INTAKE_SPARK = 0;				//Ports
 	public static final int RIGHT_INTAKE_SPARK = 1;
+	public static final int LEFT_INTAKE_SOLENOID = 0;
+	public static final int RIGHT_INTAKE_SOLENOID = 7;
 	
 
 	/*
 	 * Lift
 	 * 
-	 * PLACEHOLDERS
-	 * 
 	 * REMEMBER TO ADD GEAR RATIO TO ENC_COUNTS_PER_REV
 	 */
-	public static final int BRAKE_LEFT_SOLENOID = 3;			//Ports
-	public static final int BRAKE_RIGHT_SOLENOID = 4;
+	public static final int LEFT_BRAKE_SOLENOID = 3;			//Ports
+	public static final int RIGHT_BRAKE_SOLENOID = 4;
 	public static final int  LIFT_MOTOR_LEFT = 0;
 	public static final int  LIFT_MOTOR_RIGHT = 1;
 	
@@ -96,12 +97,10 @@ public interface RobotMap {
 	
 	/*
 	 * Climber
-	 * 
-	 * PLACEHOLDERS
 	 */
-	public static final int LATCH_LEFT_SOLENOID = 0;			//Ports
-	public static final int LATCH_RIGHT_SOLENOID = 7;
-	public static final int  CLIMBER_MOTOR_1 = 12;
-	public static final int  CLIMBER_MOTOR_2 = 13;
+	public static final int LATCH_LEFT_SOLENOID = 2;			//Ports
+	public static final int LATCH_RIGHT_SOLENOID = 5;
+	public static final int CLIMBER_MOTOR_1 = 12;
+	public static final int CLIMBER_MOTOR_2 = 13;
 
 }

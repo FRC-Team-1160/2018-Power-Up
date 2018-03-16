@@ -5,7 +5,7 @@ import org.usfirst.frc.team1160.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * 3/14/18 THIS IS FUNCTIONALLY USELESS WE LITERALLY DO NOT USE THIS COMMAND
  */
 public class IntakeSet extends Command {
 	

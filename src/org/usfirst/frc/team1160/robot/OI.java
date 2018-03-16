@@ -14,20 +14,14 @@ import org.usfirst.frc.team1160.robot.commands.climb.LatchExtend;
 import org.usfirst.frc.team1160.robot.commands.climb.LatchRetract;
 import org.usfirst.frc.team1160.robot.commands.drive.HighGear;
 import org.usfirst.frc.team1160.robot.commands.drive.LowGear;
+import org.usfirst.frc.team1160.robot.commands.intake.IntakeExtend;
+import org.usfirst.frc.team1160.robot.commands.intake.IntakeExtendRetract;
+import org.usfirst.frc.team1160.robot.commands.intake.IntakeRetract;
 import org.usfirst.frc.team1160.robot.commands.intake.IntakeRotate;
 import org.usfirst.frc.team1160.robot.commands.lift.BrakeEngage;
 import org.usfirst.frc.team1160.robot.commands.lift.BrakeRelease;
 import org.usfirst.frc.team1160.robot.commands.lift.SetLift;
 
-/*
-import org.usfirst.frc.team1160.robot.commands.constantSpeed;
-import org.usfirst.frc.team1160.robot.commands.climb.Climb;
-import org.usfirst.frc.team1160.robot.commands.dSolenoid.gearForward;
-import org.usfirst.frc.team1160.robot.commands.dSolenoid.gearReverse;
-import org.usfirst.frc.team1160.robot.commands.intake.intakeRun;
-import org.usfirst.frc.team1160.robot.commands.piston.Left;
-import org.usfirst.frc.team1160.robot.commands.piston.Right;
-*/
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -38,14 +32,15 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 public class OI {
 	private static OI instance;
 	Joystick mainStick, climbStick, dsStick;
-	JoystickButton intakeEat,intakeSpit,intakeSet,intakeStop,
+	JoystickButton intakeEat,intakeSpit,intakeSet,intakeStop,intakeExtend,intakeRetract,intakeExtendRetract,
 				   engageBrake,releaseBrake,
 				   highGear, lowGear,
 				   extendClimber, retractClimber,
 				   climbUp,climbDown,
 				   resetEncodersYaw,
 				   setLift,
-				   turnAngle;
+				   turnAngle,
+				   dsEngageBrake,dsReleaseBrake,dsExtendClimber,dsRetractClimber,dsClimbUp,dsClimbDown;
 	
 	public static OI getInstance() {
 		if(instance == null) {
@@ -74,8 +69,8 @@ public class OI {
 		intakeEat = new JoystickButton(mainStick,5);
 		intakeSpit = new JoystickButton(mainStick,6);
 		
-		extendClimber = new JoystickButton(mainStick,3);
-		retractClimber = new JoystickButton(mainStick,2);
+		intakeExtend = new JoystickButton(mainStick,3);
+		intakeRetract = new JoystickButton(mainStick,2);
 		
 		/*
 		 * Attack 3
@@ -87,23 +82,34 @@ public class OI {
 		engageBrake = new JoystickButton(climbStick,3);
 		releaseBrake = new JoystickButton(climbStick,1);
 		
-		//turnAngle = new JoystickButton(climbStick, 6);
+		extendClimber = new JoystickButton(climbStick,8);
+		retractClimber = new JoystickButton(climbStick,9);
+		
+		intakeExtendRetract = new JoystickButton(climbStick,11);
+		
+		turnAngle = new JoystickButton(climbStick,10);
 		
 		//setLift = new JoystickButton(climbStick,1);
 		
 		/*
 		 * Generic
 		 */
-		//dsLiftDown = new JoystickButton(dsStick,)
-		//dsLiftUp = new Joystickbutton(dsStick,)
+		//dsHighGear = new JoystickButton(dsStick,)
+		//dsLowGear = new JoystickButton(dsStick,)
 		dsEngageBrake = new JoystickButton(dsStick,1);
 		dsReleaseBrake = new JoystickButton(dsStick,2);
 		dsExtendClimber = new JoystickButton(dsStick,3);
 		dsRetractClimber = new JoystickButton(dsStick,4);
-		dsClimbUp = 
+		dsClimbUp = new JoystickButton(dsStick,5);
+		dsClimbDown = new JoystickButton(dsStick,6);
 		tieButtons();	
 	}
 	private void tieButtons() {
+		
+		intakeExtendRetract.whenPressed(new IntakeExtendRetract());
+		intakeExtend.whenPressed(new IntakeExtend());
+		intakeRetract.whenPressed(new IntakeRetract());
+		
 		resetEncodersYaw.whenPressed(new ResetEncoderYaw());
 		
 		highGear.whenPressed(new HighGear());

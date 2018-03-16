@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 import org.usfirst.frc.team1160.robot.RobotMap;
 import org.usfirst.frc.team1160.robot.commands.intake.IntakeStop;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Spark;
 
 /**
@@ -14,11 +16,13 @@ public class Intake extends Subsystem implements RobotMap{
     private static Intake instance;
     private Spark left;
     private Spark right;
+    private DoubleSolenoid arm;
     
     private Intake() {
     	//plugged into pd
     	left = new Spark(LEFT_INTAKE_SPARK);
     	right = new Spark(RIGHT_INTAKE_SPARK);
+    	arm = new DoubleSolenoid(PCM,LEFT_INTAKE_SOLENOID,RIGHT_INTAKE_SOLENOID);
     }
     
     public static Intake getInstance() {
@@ -50,6 +54,13 @@ public class Intake extends Subsystem implements RobotMap{
     	left.set(-speed);
     	right.set(speed);
    }
+   
+    public void extend() { //actuate
+    	arm.set(DoubleSolenoid.Value.kForward);
+    }
+    public void retract() { //actuate
+    	arm.set(DoubleSolenoid.Value.kReverse);
+    }
 
     public void stop(){
     	left.set(0);

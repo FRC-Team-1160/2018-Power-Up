@@ -12,8 +12,6 @@ import edu.wpi.first.wpilibj.command.Command;
 public class TurnAngle extends Command implements RobotMap{
 
 	public double targetAngle;
-	public boolean test = true;
-	public Timer time;
     
 	public TurnAngle(double targetAngle) {
         // Use requires() here to declare subsystem dependencies
@@ -24,15 +22,13 @@ public class TurnAngle extends Command implements RobotMap{
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if (test)
-    	{
-    		test = !test;
-    	}
     	Robot.dt.setLowGear();
-    	//Robot.dt.resetPosition();
+    	Robot.dt.resetPosition();
     	Robot.dt.resetGyro();
-    	time.reset();
-    	time.start();
+    	
+    	Robot.dt.resetTime();
+    	Robot.dt.startTime();
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -42,7 +38,7 @@ public class TurnAngle extends Command implements RobotMap{
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return ((Math.abs(Robot.dt.getGyro().getYaw() - targetAngle) < GYRO_TOLERANCE) || (time.get() > 2));
+        return ((Math.abs(Robot.dt.getGyro().getYaw() - targetAngle) < GYRO_TOLERANCE));
     }
 
     // Called once after isFinished returns true

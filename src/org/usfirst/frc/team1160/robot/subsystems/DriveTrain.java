@@ -42,6 +42,16 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	private Trajectory traj;
 	private TankModifier modifier;
 	private Config config;
+	
+	/*
+	 * turnAngle variables
+	 */
+	private double deltaTime;
+	private double angle_difference_now;
+	private double angle_difference;
+	private double derivative;
+	private double turn;
+	
 
 	//private boolean lowGear;
 	private DoubleSolenoid ballShifter;
@@ -66,6 +76,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		rightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		
 		ballShifter = new DoubleSolenoid(PCM,DT_SOLENOID_0,DT_SOLENOID_1);
+		
 		setFollower();
 		
 	}
@@ -136,17 +147,23 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		leftMaster.set(ControlMode.PercentOutput, -1.02*percentOutput);
 		rightMaster.set(ControlMode.PercentOutput, percentOutput);
 		}
+	
+	public void resetAngleDifference() {
+		angle_difference = 0;
+	}
 
 	public void turnAngle(double targetAngle) { //ghetto PID with the navX sensor
- 		double angle_difference = targetAngle - gyro.getYaw();
- 		double turn = GYRO_KP_2 * angle_difference;
+		deltaTime = getTime();
+ 		angle_difference_now = targetAngle - gyro.getYaw();
+ 		turn = GYRO_KP_2 * angle_difference;
+ 		derivative = GYRO_KD * (angle_difference_now - angle_difference)/deltaTime;
+ 		angle_difference = angle_difference_now;
  		
- 		leftMaster.set(ControlMode.PercentOutput, turn);
- 		rightMaster.set(ControlMode.PercentOutput,turn);
- 		
- 		//leftMaster.set(ControlMode.PercentOutput, -0.3);
- 		//rightMaster.set(ControlMode.PercentOutput, -0.3);
+ 		leftMaster.set(ControlMode.PercentOutput, turn+derivative);
+ 		rightMaster.set(ControlMode.PercentOutput, turn+derivative);
  		printYaw();
+ 		resetTime();
+ 		startTime();
  	}
  	
 	/*
@@ -225,6 +242,12 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	public double getTime(){
 		return timer.get();
 	}
+	
+	public boolean done(double finishTime) {
+		return (timer.get() >= finishTime);
+	}
+	
+	
 	
 	public void drivePercentOutput(double input) {//this is in revolutions
 		leftMaster.set(ControlMode.Position,-input);
@@ -338,7 +361,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		
 		
 		double angleError = Pathfinder.boundHalfDegrees(desired_heading-gyro_heading);
-		double turn = GYRO_KP * angleError;
+		double turn = 0 * angleError;
 		SmartDashboard.putNumber("AngleError: ", angleError);
 		//leftMaster.setInverted(true);
 		leftMaster.set(ControlMode.PercentOutput,-(l+turn));

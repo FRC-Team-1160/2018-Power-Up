@@ -5,19 +5,19 @@ import org.usfirst.frc.team1160.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * 3/14/18 THIS IS ALSO FUNCTIONALLY USELESS WE ALSO LITERALLY DO NOT USE THIS COMMAND
+ *
  */
-public class IntakeStop extends Command {
-	
-	double speed;
+public class IntakeRetract extends Command {
 
-    public IntakeStop() {
+    public IntakeRetract() {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
     	requires(Robot.intake);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.intake.stop();
+    	Robot.intake.retract();
     }
 
     // Called repeatedly when this Command is scheduled to run

@@ -59,10 +59,10 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 		
 		
 		segment_one = dt.generateTrajectorySetup(POINTS_1);
-		//segment_two = dt.generateTrajectorySetup(POINTS_1);
+		segment_two = dt.generateTrajectorySetup(POINTS_1);
 		//autonomousCommand = new TurnAngle(90);
-		//autonomousCommand = new MoveL();
 		autonomousCommand = new MoveL();
+		//autonomousCommand = new TurnAngle(-45);
 	}
 
 	/**

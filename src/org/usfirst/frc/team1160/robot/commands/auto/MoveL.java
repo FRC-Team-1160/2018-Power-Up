@@ -14,6 +14,7 @@ public class MoveL extends CommandGroup {
         addSequential(new ResetEncoderYaw());
     	addSequential(new FollowTrajectory(Robot.segment_one));
         addSequential(new TurnAngle(-90));
+        addSequential(new ResetEncoderYaw());
         addSequential(new FollowTrajectory(Robot.segment_one));
     }
 }

@@ -20,6 +20,7 @@ public class ResetEncoderYaw extends Command {
     protected void initialize() {
     	Robot.dt.resetEncodersYaw(); //resets talon encoders and gyro
     	Robot.lift.resetLiftEncoders();
+    	Robot.dt.resetPosition();
     }
 
     // Called repeatedly when this Command is scheduled to run

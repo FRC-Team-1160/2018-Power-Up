@@ -52,7 +52,8 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	private double angle_difference_now;
 	private double angle_difference;
 	private double derivative;
-	private double turn; //proportional
+	private double proportion;
+	private double integral; 
 	
 
 	//private boolean lowGear;
@@ -154,19 +155,24 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	public void resetAngleDifference() {
 		angle_difference = 0;
 	}
+	public void resetTurnAngleIntegral() {
+		integral = 0;
+	}
 
 	public void turnAngle(double targetAngle) { //ghetto PID with the navX sensor
 		deltaTime = getTime();
  		angle_difference_now = targetAngle - gyro.getYaw();
- 		turn = GYRO_KP_2 * angle_difference; //proportion
+ 		proportion = GYRO_KP_2 * angle_difference;
  		derivative = GYRO_KD * (angle_difference_now - angle_difference)/deltaTime;
+ 		if (Math.abs(angle_difference_now) < 10) {
+ 			integral += GYRO_KI*deltaTime*(angle_difference_now);
+ 		}
  		angle_difference = angle_difference_now;
  		
+ 		SmartDashboard.putNumber("turnAngle PercentOutput input", proportion+derivative+integral);
  		
- 		SmartDashboard.putNumber("turnAngle PercentOutput input", turn+derivative);
- 		
- 		leftMaster.set(ControlMode.PercentOutput, turn+derivative);
- 		rightMaster.set(ControlMode.PercentOutput, turn+derivative);
+ 		leftMaster.set(ControlMode.PercentOutput, proportion+derivative+integral);
+ 		rightMaster.set(ControlMode.PercentOutput, proportion+derivative+integral);
  		printYaw();
  		resetTime();
  		startTime();
@@ -387,7 +393,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		
 		
 		double angleError = Pathfinder.boundHalfDegrees(desired_heading-gyro_heading);
-		double turn = 0 * angleError;
+		double turn = GYRO_KP * angleError;
 		SmartDashboard.putNumber("AngleError: ", angleError);
 		//leftMaster.setInverted(true);
 		leftMaster.set(ControlMode.PercentOutput,-(l+turn));

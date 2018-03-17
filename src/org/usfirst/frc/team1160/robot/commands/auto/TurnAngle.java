@@ -25,7 +25,7 @@ public class TurnAngle extends Command implements RobotMap{
     	Robot.dt.setLowGear();
     	Robot.dt.resetPosition();
     	Robot.dt.resetGyro();
-    	
+    	Robot.dt.resetTurnAngleIntegral();
     	Robot.dt.resetTime();
     	Robot.dt.startTime();
     	
@@ -40,7 +40,7 @@ public class TurnAngle extends Command implements RobotMap{
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	if ((Math.abs(Robot.dt.getGyro().getYaw() - targetAngle) < GYRO_TOLERANCE)) {
-			Robot.dt.turnAngleCheck(targetAngle);
+			//Robot.dt.turnAngleCheck(targetAngle);
 			return true;
 		}
     	return false;

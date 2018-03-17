@@ -36,7 +36,9 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	private WPI_VictorSPX leftSlave,rightSlave;
 	private AHRS gyro;
 	private Compressor comp;
-	private Timer timer;
+	private Timer timer,timerCheck;
+		//timerCheck is supposed to run only upon the turnAngle method
+		//hitting ninety degrees and activating the checking clause
 	
 	private EncoderFollower left,right;
 	private Trajectory traj;
@@ -50,7 +52,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	private double angle_difference_now;
 	private double angle_difference;
 	private double derivative;
-	private double turn;
+	private double turn; //proportional
 	
 
 	//private boolean lowGear;
@@ -69,6 +71,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		rightMaster = new WPI_TalonSRX(DT_RIGHT_1);
 		rightSlave = new WPI_VictorSPX(DT_RIGHT_2);
 		timer = new Timer();
+		timerCheck = new Timer();
 		gyro = new AHRS(Port.kMXP);
 		comp = new Compressor(PCM);
 		comp.start();
@@ -155,9 +158,12 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	public void turnAngle(double targetAngle) { //ghetto PID with the navX sensor
 		deltaTime = getTime();
  		angle_difference_now = targetAngle - gyro.getYaw();
- 		turn = GYRO_KP_2 * angle_difference;
+ 		turn = GYRO_KP_2 * angle_difference; //proportion
  		derivative = GYRO_KD * (angle_difference_now - angle_difference)/deltaTime;
  		angle_difference = angle_difference_now;
+ 		
+ 		
+ 		SmartDashboard.putNumber("turnAngle PercentOutput input", turn+derivative);
  		
  		leftMaster.set(ControlMode.PercentOutput, turn+derivative);
  		rightMaster.set(ControlMode.PercentOutput, turn+derivative);
@@ -165,6 +171,14 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
  		resetTime();
  		startTime();
  	}
+	
+	public void turnAngleCheck(double targetAngle) {
+		resetTimeCheck();
+		startTimeCheck();
+		while (getTimeCheck() < 2) {
+			turnAngle(targetAngle);
+		}
+	}
  	
 	/*
 	 * Encoder Methods
@@ -245,6 +259,18 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	
 	public boolean done(double finishTime) {
 		return (timer.get() >= finishTime);
+	}
+	public void resetTimeCheck() {
+		timerCheck.reset();
+	}
+	public void startTimeCheck() {
+		timerCheck.start();
+	}
+	public void stopTimeCheck() {
+		timerCheck.stop();
+	}
+	public double getTimeCheck() {
+		return timerCheck.get();
 	}
 	
 	

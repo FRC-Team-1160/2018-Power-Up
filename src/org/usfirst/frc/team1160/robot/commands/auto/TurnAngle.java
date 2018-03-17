@@ -34,11 +34,17 @@ public class TurnAngle extends Command implements RobotMap{
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
 		Robot.dt.turnAngle(targetAngle);
+		//time for the ghetto isFinished()
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return ((Math.abs(Robot.dt.getGyro().getYaw() - targetAngle) < GYRO_TOLERANCE));
+    	if ((Math.abs(Robot.dt.getGyro().getYaw() - targetAngle) < GYRO_TOLERANCE)) {
+			Robot.dt.turnAngleCheck(targetAngle);
+			return true;
+		}
+    	return false;
+    	
     }
 
     // Called once after isFinished returns true

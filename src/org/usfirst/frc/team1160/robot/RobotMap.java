@@ -33,9 +33,9 @@ public interface RobotMap {
 	public static final double GYRO_KP = 0.8 * (-1.0/80.0);		//Gyro constants
 	
 	public static final double GYRO_KP_2 = .55*2.5 * (-1.0/80.0);
-	public static final double GYRO_KI = -2*3/(1.3*100);
+	public static final double GYRO_KI = -3*3/(1.3*100);
 	public static final double GYRO_KD = 3*2.5*1.3/40 * (-1.0/80.0); //0.01 * (-1.0/80.0);//TURN ANGLE KP
-	public static final double GYRO_TOLERANCE = 1;				//Smaller value means higher accuracy but more time spent
+	public static final double GYRO_TOLERANCE = 0.75;				//Smaller value means higher accuracy but more time spent
 																//achieving said accuracy
 	
 	public static final double DRIVE_KP = 0.1;					//Drivetrain Talon PID constants

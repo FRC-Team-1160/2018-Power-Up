@@ -10,6 +10,7 @@ package org.usfirst.frc.team1160.robot;
 import org.usfirst.frc.team1160.robot.commands.auto.FollowTrajectory;
 import org.usfirst.frc.team1160.robot.commands.auto.MoveForward;
 import org.usfirst.frc.team1160.robot.commands.auto.TurnAngle;
+import org.usfirst.frc.team1160.robot.commands.auto.paths.Center_LeftSwitch;
 import org.usfirst.frc.team1160.robot.commands.auto.paths.MoveL;
 import org.usfirst.frc.team1160.robot.subsystems.Climber;
 import org.usfirst.frc.team1160.robot.subsystems.DriveTrain;
@@ -57,12 +58,31 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		System.out.println(System.getProperty("java.library.path"));
 		
-		
+		generateSegments(1);
+		/*
 		segment_one = dt.generateTrajectorySetup(POINTS_1);
 		segment_two = dt.generateTrajectorySetup(POINTS_1);
 		//autonomousCommand = new TurnAngle(90);
 		autonomousCommand = new MoveL();
 		//autonomousCommand = new TurnAngle(-45);
+		 */
+		autonomousCommand = new Center_LeftSwitch();
+	}
+	
+	public void generateSegments(int choice) {
+		switch (choice) {
+			case 1: //Center to Left Switch
+				segment_one = dt.generateTrajectorySetup(CENTER_LEFT_SWITCH_1);
+				segment_two = dt.generateTrajectorySetup(CENTER_LEFT_SWITCH_2);
+				segment_three = dt.generateTrajectorySetup(CENTER_LEFT_SWITCH_3);
+				break;
+				
+			default:
+				System.out.println("Hold this L");
+				break;
+			
+			
+		}
 	}
 
 	/**

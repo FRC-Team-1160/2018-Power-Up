@@ -53,9 +53,9 @@ public interface RobotMap {
 	public static final double RIGHT_KD = 0;
 	public static final double RIGHT_KF = 0.127;
 	
-	public static final double MAX_VELOCITY = 5;				//Drivetrain trajectory constants
-	public static final double MAX_ACCELERATION = 3;
-	public static final double MAX_JERK = 3;
+	public static final double MAX_VELOCITY = 7;				//Drivetrain trajectory constants
+	public static final double MAX_ACCELERATION = 5;
+	public static final double MAX_JERK = 10;
 	public static final double TIME_BETWEEN_POINTS = 0.02;			//Time (in seconds) between each Waypoint of the config
 	
 	/*

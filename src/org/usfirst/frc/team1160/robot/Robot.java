@@ -9,8 +9,8 @@ package org.usfirst.frc.team1160.robot;
 
 import org.usfirst.frc.team1160.robot.commands.auto.FollowTrajectory;
 import org.usfirst.frc.team1160.robot.commands.auto.MoveForward;
-import org.usfirst.frc.team1160.robot.commands.auto.MoveL;
 import org.usfirst.frc.team1160.robot.commands.auto.TurnAngle;
+import org.usfirst.frc.team1160.robot.commands.auto.paths.MoveL;
 import org.usfirst.frc.team1160.robot.subsystems.Climber;
 import org.usfirst.frc.team1160.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1160.robot.subsystems.Intake;
@@ -40,7 +40,7 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 	public static Intake intake;
 	public static Climber climber;
 	public static Lift lift;
-	public static Trajectory segment_one,segment_two;
+	public static Trajectory segment_one,segment_two,segment_three;
 	
 	/**
 	 * This function is run when the robot is first started up and should be

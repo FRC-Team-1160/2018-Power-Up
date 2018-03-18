@@ -7,20 +7,12 @@
 
 package org.usfirst.frc.team1160.robot;
 
-import org.usfirst.frc.team1160.robot.commands.ResetEncoderYaw;
-import org.usfirst.frc.team1160.robot.commands.auto.TurnAngle;
-import org.usfirst.frc.team1160.robot.commands.climb.Climb;
-import org.usfirst.frc.team1160.robot.commands.climb.LatchExtend;
-import org.usfirst.frc.team1160.robot.commands.climb.LatchRetract;
-import org.usfirst.frc.team1160.robot.commands.drive.HighGear;
-import org.usfirst.frc.team1160.robot.commands.drive.LowGear;
-import org.usfirst.frc.team1160.robot.commands.intake.IntakeExtend;
-import org.usfirst.frc.team1160.robot.commands.intake.IntakeExtendRetract;
-import org.usfirst.frc.team1160.robot.commands.intake.IntakeRetract;
-import org.usfirst.frc.team1160.robot.commands.intake.IntakeRotate;
-import org.usfirst.frc.team1160.robot.commands.lift.BrakeEngage;
-import org.usfirst.frc.team1160.robot.commands.lift.BrakeRelease;
-import org.usfirst.frc.team1160.robot.commands.lift.SetLift;
+import org.usfirst.frc.team1160.robot.commands.*;
+import org.usfirst.frc.team1160.robot.commands.auto.*;
+import org.usfirst.frc.team1160.robot.commands.climb.*;
+import org.usfirst.frc.team1160.robot.commands.drive.*;
+import org.usfirst.frc.team1160.robot.commands.intake.*;
+import org.usfirst.frc.team1160.robot.commands.lift.*;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -40,6 +32,7 @@ public class OI {
 				   resetEncodersYaw,
 				   setLift,
 				   turnAngle,
+				   fullExtend,fullRetract,
 				   dsEngageBrake,dsReleaseBrake,dsExtendClimber,dsRetractClimber,dsClimbUp,dsClimbDown;
 	
 	public static OI getInstance() {
@@ -62,6 +55,8 @@ public class OI {
 		 * Dual Action
 		 */
 		resetEncodersYaw = new JoystickButton(mainStick,9);
+		
+		fullExtend = new JoystickButton(mainStick,8);
 		
 		highGear = new JoystickButton(mainStick,4);
 		lowGear = new JoystickButton(mainStick,1);
@@ -109,6 +104,8 @@ public class OI {
 		intakeExtendRetract.whenPressed(new IntakeExtendRetract());
 		intakeExtend.whenPressed(new IntakeExtend());
 		intakeRetract.whenPressed(new IntakeRetract());
+		
+		fullExtend.whenPressed(new FullExtend());
 		
 		resetEncodersYaw.whenPressed(new ResetEncoderYaw());
 		

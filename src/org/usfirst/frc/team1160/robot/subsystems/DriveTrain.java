@@ -160,9 +160,9 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	}
 
 	public void turnAngle(double targetAngle) { //ghetto PID with the navX sensor
-		deltaTime = getTime();
  		angle_difference_now = targetAngle - gyro.getYaw();
  		proportion = GYRO_KP_2 * angle_difference;
+ 		deltaTime = getTime();
  		derivative = GYRO_KD * (angle_difference_now - angle_difference)/deltaTime;
  		if (Math.abs(angle_difference_now) < 10) {
  			integral += GYRO_KI*deltaTime*(angle_difference_now);

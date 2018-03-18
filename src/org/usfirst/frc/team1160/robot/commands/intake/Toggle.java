@@ -7,28 +7,26 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class IntakeRotate extends Command {
-	
-	double speed;
+public class Toggle extends Command {
 
-    public IntakeRotate(double speed) {
-    	this.speed = speed;
+    public Toggle() {
     	requires(Robot.intake);
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.intake.toggle();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.intake.rotate(speed);
-    	System.out.println("we got to execute() in intakerotate");
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

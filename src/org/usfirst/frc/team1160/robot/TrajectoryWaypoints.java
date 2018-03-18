@@ -21,6 +21,14 @@ public interface TrajectoryWaypoints {
 			new Waypoint[] {new Waypoint(0,0,0),new Waypoint(40*Math.pow(2, 0.5)/12,0,0)};
 	public static final Waypoint[] CENTER_LEFT_SWITCH_3 = 
 			new Waypoint[] {new Waypoint(0,0,0),new Waypoint(64/12,0,0)};
+
+	//From the center to the left switch BACKWARDS
+	public static final Waypoint[] CENTER_LEFT_SWITCH_1_BACKWARDS = 
+			new Waypoint[] {new Waypoint(0,0,0),new Waypoint(-3,0,0)};
+	public static final Waypoint[] CENTER_LEFT_SWITCH_2_BACKWARDS = 
+			new Waypoint[] {new Waypoint(0,0,0),new Waypoint(-40*Math.pow(2, 0.5)/12,0,0)};
+	public static final Waypoint[] CENTER_LEFT_SWITCH_3_BACKWARDS = 
+			new Waypoint[] {new Waypoint(0,0,0),new Waypoint(-64/12,0,0)};
 	
 	//From the X side to the X switch where X is either left or right
 	public static final Waypoint[] X_X_SWITCH_1 = 

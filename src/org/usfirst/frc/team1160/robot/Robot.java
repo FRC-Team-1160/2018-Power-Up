@@ -76,6 +76,9 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 				segment_two = dt.generateTrajectorySetup(CENTER_LEFT_SWITCH_2);
 				segment_three = dt.generateTrajectorySetup(CENTER_LEFT_SWITCH_3);
 				break;
+			case 2: //X to X Switch
+				segment_one = dt.generateTrajectorySetup(X_X_SWITCH_1);
+				segment_two = dt.generateTrajectorySetup(X_X_SWITCH_2);
 				
 			default:
 				System.out.println("Hold this L");

@@ -58,7 +58,7 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		System.out.println(System.getProperty("java.library.path"));
 		
-		generateSegments(3);
+		generateSegments(1); // <----- make sure this corresponds, look at the switch below
 		/*
 		segment_one = dt.generateTrajectorySetup(POINTS_1);
 		segment_two = dt.generateTrajectorySetup(POINTS_1);
@@ -79,10 +79,17 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 			case 2: //X to X Switch
 				segment_one = dt.generateTrajectorySetup(X_X_SWITCH_1);
 				segment_two = dt.generateTrajectorySetup(X_X_SWITCH_2);
+				break;
+				
 			case 3: //Center to Left Switch backwards
 				segment_one = dt.generateTrajectorySetup(CENTER_LEFT_SWITCH_1_BACKWARDS);
 				segment_two = dt.generateTrajectorySetup(CENTER_LEFT_SWITCH_2_BACKWARDS);
 				segment_three = dt.generateTrajectorySetup(CENTER_LEFT_SWITCH_3_BACKWARDS);
+				break;
+				
+			case 4: //Center to Right Switch
+				segment_one = dt.generateTrajectorySetup(CENTER_RIGHT_SWITCH);
+				break;
 				
 			default:
 				System.out.println("Hold this L");

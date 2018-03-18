@@ -30,6 +30,10 @@ public interface TrajectoryWaypoints {
 	public static final Waypoint[] CENTER_LEFT_SWITCH_3_BACKWARDS = 
 			new Waypoint[] {new Waypoint(0,0,0),new Waypoint(-64/12,0,0)};
 	
+	//From the center to the right switch
+	public static final Waypoint[] CENTER_RIGHT_SWITCH = 
+			new Waypoint[] {new Waypoint(0,0,0),new Waypoint(140/12,0,0)};
+	
 	//From the X side to the X switch where X is either left or right
 	public static final Waypoint[] X_X_SWITCH_1 = 
 			new Waypoint[] {new Waypoint(0,0,0),new Waypoint(168/12,0,0)};

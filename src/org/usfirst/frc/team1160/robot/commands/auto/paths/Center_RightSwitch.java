@@ -10,14 +10,11 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class X_XSwitch extends CommandGroup {
+public class Center_RightSwitch extends CommandGroup {
 
-    public X_XSwitch() {
+    public Center_RightSwitch() {
     	addSequential(new ResetEncoderYaw());
     	addSequential(new FollowTrajectory(Robot.segment_one));
-    	addSequential(new TurnAngle(90));
-    	addSequential(new ResetEncoderYaw());
-    	addSequential(new FollowTrajectory(Robot.segment_two));
     	
     	//and then now we manipulate the lift
     }

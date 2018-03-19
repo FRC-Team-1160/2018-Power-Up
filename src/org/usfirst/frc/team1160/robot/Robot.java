@@ -7,11 +7,10 @@
 
 package org.usfirst.frc.team1160.robot;
 
-import org.usfirst.frc.team1160.robot.commands.auto.FollowTrajectory;
-import org.usfirst.frc.team1160.robot.commands.auto.MoveForward;
-import org.usfirst.frc.team1160.robot.commands.auto.TurnAngle;
-import org.usfirst.frc.team1160.robot.commands.auto.paths.Center_LeftSwitch;
-import org.usfirst.frc.team1160.robot.commands.auto.paths.MoveL;
+import org.usfirst.frc.team1160.robot.commands.auto.drive.FollowTrajectory;
+import org.usfirst.frc.team1160.robot.commands.auto.drive.MoveForward;
+import org.usfirst.frc.team1160.robot.commands.auto.drive.TurnAngle;
+import org.usfirst.frc.team1160.robot.commands.auto.paths.*;
 import org.usfirst.frc.team1160.robot.subsystems.Climber;
 import org.usfirst.frc.team1160.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1160.robot.subsystems.Intake;
@@ -56,17 +55,20 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 		oi = OI.getInstance();
 		
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-		System.out.println(System.getProperty("java.library.path"));
+		//System.out.println(System.getProperty("java.library.path"));
 		
-		generateSegments(1); // <----- make sure this corresponds, look at the switch below
+		
 		/*
-		segment_one = dt.generateTrajectorySetup(POINTS_1);
-		segment_two = dt.generateTrajectorySetup(POINTS_1);
-		//autonomousCommand = new TurnAngle(90);
-		autonomousCommand = new MoveL();
-		//autonomousCommand = new TurnAngle(-45);
+		 * generateSegments() Parameters
+		 * 
+		 * Center to Left Switch: 1
+		 * Left to Left Switch: 2
+		 * Right to Right Switch: 3
+		 * Center to Left Switch Backwards: 4
+		 * Center to Right Switch: 5
 		 */
-		autonomousCommand = new Center_LeftSwitch();
+		
+		generateSegments(2); // <----- make sure this corresponds, look at the switch below
 	}
 	
 	public void generateSegments(int choice) {
@@ -75,22 +77,28 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 				segment_one = dt.generateTrajectorySetup(CENTER_LEFT_SWITCH_1);
 				segment_two = dt.generateTrajectorySetup(CENTER_LEFT_SWITCH_2);
 				segment_three = dt.generateTrajectorySetup(CENTER_LEFT_SWITCH_3);
+				autonomousCommand = new Center_LeftSwitch();
 				break;
-			case 2: //X to X Switch
+			case 2: //Left to Left Switch
 				segment_one = dt.generateTrajectorySetup(X_X_SWITCH_1);
 				segment_two = dt.generateTrajectorySetup(X_X_SWITCH_2);
+				autonomousCommand = new Left_LeftSwitch();
 				break;
-				
-			case 3: //Center to Left Switch backwards
+			case 3: //Right to Right Switch
+				segment_one = dt.generateTrajectorySetup(X_X_SWITCH_1);
+				segment_two = dt.generateTrajectorySetup(X_X_SWITCH_2);
+				autonomousCommand = new Right_RightSwitch();
+				break;
+			case 4: //Center to Left Switch backwards
 				segment_one = dt.generateTrajectorySetup(CENTER_LEFT_SWITCH_1_BACKWARDS);
 				segment_two = dt.generateTrajectorySetup(CENTER_LEFT_SWITCH_2_BACKWARDS);
 				segment_three = dt.generateTrajectorySetup(CENTER_LEFT_SWITCH_3_BACKWARDS);
+				//autonomousCommand = new Center_LeftSwitchBW();
 				break;
-				
-			case 4: //Center to Right Switch
+			case 5: //Center to Right Switch
 				segment_one = dt.generateTrajectorySetup(CENTER_RIGHT_SWITCH);
+				autonomousCommand = new Center_RightSwitch();
 				break;
-				
 			default:
 				System.out.println("Hold this L");
 				break;

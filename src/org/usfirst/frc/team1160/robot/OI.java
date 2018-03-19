@@ -9,6 +9,8 @@ package org.usfirst.frc.team1160.robot;
 
 import org.usfirst.frc.team1160.robot.commands.*;
 import org.usfirst.frc.team1160.robot.commands.auto.*;
+import org.usfirst.frc.team1160.robot.commands.auto.drive.TurnAngle;
+import org.usfirst.frc.team1160.robot.commands.auto.intake.FullExtend;
 import org.usfirst.frc.team1160.robot.commands.climb.*;
 import org.usfirst.frc.team1160.robot.commands.drive.*;
 import org.usfirst.frc.team1160.robot.commands.intake.*;

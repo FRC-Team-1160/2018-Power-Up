@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1160.robot.commands.auto;
+package org.usfirst.frc.team1160.robot.commands.auto.intake;
 
 import org.usfirst.frc.team1160.robot.commands.intake.IntakeRotate;
 import org.usfirst.frc.team1160.robot.commands.intake.ToggleTwice;

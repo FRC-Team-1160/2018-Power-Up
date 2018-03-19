@@ -26,6 +26,7 @@ public class Lift extends Subsystem implements RobotMap{
 		liftLeft.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		liftRight.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		
+		liftLeft.follow(liftRight);
 		//TODO: Look Into MotionMagic for smooth lift control (Remember that you can no longer configure ENC_CTS_PER_REV
 		
 	}
@@ -60,6 +61,9 @@ public class Lift extends Subsystem implements RobotMap{
 	
 	public void brakeRelease(){
 		brake.set(DoubleSolenoid.Value.kReverse);
+	}
+	public double getSetpoint() {
+		return liftRight.getSelectedSensorPosition(0);
 	}
 	
 	public void joyControl() {

@@ -11,6 +11,7 @@ import org.usfirst.frc.team1160.robot.commands.*;
 import org.usfirst.frc.team1160.robot.commands.auto.*;
 import org.usfirst.frc.team1160.robot.commands.auto.drive.TurnAngle;
 import org.usfirst.frc.team1160.robot.commands.auto.intake.FullExtend;
+import org.usfirst.frc.team1160.robot.commands.auto.lift.BangBang;
 import org.usfirst.frc.team1160.robot.commands.climb.*;
 import org.usfirst.frc.team1160.robot.commands.drive.*;
 import org.usfirst.frc.team1160.robot.commands.intake.*;
@@ -32,7 +33,7 @@ public class OI {
 				   extendClimber, retractClimber,
 				   climbUp,climbDown,
 				   resetEncodersYaw,
-				   setLift,
+				   setLift,setLiftSwitch,setLiftBottom,
 				   turnAngle,
 				   fullExtend,fullRetract,
 				   dsEngageBrake,dsReleaseBrake,dsExtendClimber,dsRetractClimber,dsClimbUp,dsClimbDown;
@@ -86,6 +87,9 @@ public class OI {
 		
 		turnAngle = new JoystickButton(climbStick,10);
 		
+		setLiftSwitch = new JoystickButton(climbStick,4);
+		setLiftBottom = new JoystickButton(climbStick,5);
+		
 		//setLift = new JoystickButton(climbStick,1);
 		
 		/*
@@ -127,6 +131,9 @@ public class OI {
 		releaseBrake.whenPressed(new BrakeRelease());
 
 		turnAngle.whenPressed(new TurnAngle(90));
+		
+		setLiftSwitch.whenPressed(new BangBang(16000));
+		setLiftBottom.whenPressed(new BangBang(100));
 		
 		//setLift.whileHeld(new SetLift(0.1));
 		

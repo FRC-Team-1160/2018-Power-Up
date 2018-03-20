@@ -4,6 +4,8 @@ import org.usfirst.frc.team1160.robot.Robot;
 import org.usfirst.frc.team1160.robot.commands.ResetEncoderYaw;
 import org.usfirst.frc.team1160.robot.commands.auto.drive.FollowTrajectory;
 import org.usfirst.frc.team1160.robot.commands.auto.drive.TurnAngle;
+import org.usfirst.frc.team1160.robot.commands.intake.IntakeExtend;
+import org.usfirst.frc.team1160.robot.commands.intake.Toggle;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -13,6 +15,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class Center_RightSwitch extends CommandGroup {
 
     public Center_RightSwitch() {
+    	addSequential(new IntakeExtend());
     	addSequential(new ResetEncoderYaw());
     	addSequential(new FollowTrajectory(Robot.segment_one));
     	

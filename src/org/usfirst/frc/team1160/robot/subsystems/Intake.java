@@ -56,10 +56,10 @@ public class Intake extends Subsystem implements RobotMap{
    }
    
     public void extend() { //actuate
-    	arm.set(DoubleSolenoid.Value.kForward);
+    	arm.set(DoubleSolenoid.Value.kReverse);
     }
     public void retract() { //actuate
-    	arm.set(DoubleSolenoid.Value.kReverse);
+    	arm.set(DoubleSolenoid.Value.kForward);
     }
     public DoubleSolenoid.Value get()
     {
@@ -68,11 +68,11 @@ public class Intake extends Subsystem implements RobotMap{
     
     public void toggle()
     {
-    	if (get() == DoubleSolenoid.Value.kForward) {
-    		retract();
-    	}
-    	else if (get() == DoubleSolenoid.Value.kReverse) {
+    	if (get() == DoubleSolenoid.Value.kReverse) {
     		extend();
+    	}
+    	else if (get() == DoubleSolenoid.Value.kForward) {
+    		retract();
     	}
     }
 

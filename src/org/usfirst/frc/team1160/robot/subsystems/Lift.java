@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -16,6 +17,7 @@ public class Lift extends Subsystem implements RobotMap{
 	private static Lift instance;
 	private WPI_TalonSRX liftLeft, liftRight;
 	private DoubleSolenoid brake;
+	private Timer timer;
 
 	private Lift()
 	{
@@ -25,6 +27,8 @@ public class Lift extends Subsystem implements RobotMap{
 		
 		liftLeft.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		liftRight.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
+		
+		timer = new Timer();
 		
 		//liftLeft.follow(liftRight);
 		//TODO: Look Into MotionMagic for smooth lift control (Remember that you can no longer configure ENC_CTS_PER_REV
@@ -61,11 +65,11 @@ public class Lift extends Subsystem implements RobotMap{
 	}
 	
 	public void brakeEngage(){
-		brake.set(DoubleSolenoid.Value.kForward);
+		brake.set(DoubleSolenoid.Value.kReverse);
 	}
 	
 	public void brakeRelease(){
-		brake.set(DoubleSolenoid.Value.kReverse);
+		brake.set(DoubleSolenoid.Value.kForward);
 	}
 	public double getSetpoint() {
 		return liftRight.getSelectedSensorPosition(0);
@@ -88,6 +92,29 @@ public class Lift extends Subsystem implements RobotMap{
 		//System.out.println("NORMAL LIFT SPEED: " + Robot.oi.getClimbStick().getY());		
 		SmartDashboard.putNumber("Lift Position Left", liftLeft.getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("Lift Position Right", liftRight.getSelectedSensorPosition(0));
+	}
+	
+	/*
+	 * Timer Methods
+	 */
+	public void resetTime(){
+		timer.reset();
+	}
+	
+	public void startTime(){
+		timer.start();
+	}
+	
+	public void stopTime(){
+		timer.stop();
+	}
+	
+	public double getTime(){
+		return timer.get();
+	}
+	
+	public boolean done(double finishTime) {
+		return (timer.get() >= finishTime);
 	}
 	
 	public void initDefaultCommand() {

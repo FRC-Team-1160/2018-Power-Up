@@ -11,7 +11,8 @@ import org.usfirst.frc.team1160.robot.commands.*;
 import org.usfirst.frc.team1160.robot.commands.auto.*;
 import org.usfirst.frc.team1160.robot.commands.auto.drive.TurnAngle;
 import org.usfirst.frc.team1160.robot.commands.auto.intake.FullExtend;
-import org.usfirst.frc.team1160.robot.commands.auto.lift.BangBang;
+import org.usfirst.frc.team1160.robot.commands.auto.lift.BangBangFramework;
+import org.usfirst.frc.team1160.robot.commands.auto.lift.BangBangMove;
 import org.usfirst.frc.team1160.robot.commands.climb.*;
 import org.usfirst.frc.team1160.robot.commands.drive.*;
 import org.usfirst.frc.team1160.robot.commands.intake.*;
@@ -33,7 +34,7 @@ public class OI {
 				   extendClimber, retractClimber,
 				   climbUp,climbDown,
 				   resetEncodersYaw,
-				   setLift,setLiftSwitch,setLiftBottom,
+				   setLift,setLiftSwitch,setLiftBottom,bangBangMove,
 				   turnAngle,
 				   fullExtend,fullRetract,
 				   dsEngageBrake,dsReleaseBrake,dsExtendClimber,dsRetractClimber,dsClimbUp,dsClimbDown;
@@ -77,8 +78,8 @@ public class OI {
 		climbUp = new JoystickButton(climbStick,6);
 		climbDown = new JoystickButton(climbStick,7);
 		
-		engageBrake = new JoystickButton(climbStick,3);
-		releaseBrake = new JoystickButton(climbStick,1);
+		engageBrake = new JoystickButton(climbStick,1);
+		releaseBrake = new JoystickButton(climbStick,3);
 		
 		extendClimber = new JoystickButton(climbStick,8);
 		retractClimber = new JoystickButton(climbStick,9);
@@ -89,6 +90,7 @@ public class OI {
 		
 		setLiftSwitch = new JoystickButton(climbStick,4);
 		setLiftBottom = new JoystickButton(climbStick,5);
+		bangBangMove = new JoystickButton(climbStick,2);
 		
 		//setLift = new JoystickButton(climbStick,1);
 		
@@ -111,15 +113,15 @@ public class OI {
 		intakeExtend.whenPressed(new IntakeExtend());
 		intakeRetract.whenPressed(new IntakeRetract());
 		
-		fullExtend.whenPressed(new FullExtend());
+		fullExtend.whenPressed(new Toggle());
 		
 		resetEncodersYaw.whenPressed(new ResetEncoderYaw());
 		
 		highGear.whenPressed(new HighGear());
 		lowGear.whenPressed(new LowGear());
 		
-		intakeEat.whileHeld(new IntakeRotate(0.5));
-		intakeSpit.whileHeld(new IntakeRotate(-0.5));
+		intakeEat.whileHeld(new IntakeRotate(1));
+		intakeSpit.whileHeld(new IntakeRotate(-1));
 		
 		extendClimber.whenPressed(new LatchExtend());
 		retractClimber.whenPressed(new LatchRetract());
@@ -132,8 +134,9 @@ public class OI {
 
 		turnAngle.whenPressed(new TurnAngle(90));
 		
-		setLiftSwitch.whenPressed(new BangBang(16000));
-		setLiftBottom.whenPressed(new BangBang(100));
+		setLiftSwitch.whenPressed(new BangBangFramework(15000));
+		setLiftBottom.whenPressed(new BangBangFramework(500));
+		bangBangMove.whenPressed(new BangBangMove());
 		
 		//setLift.whileHeld(new SetLift(0.1));
 		

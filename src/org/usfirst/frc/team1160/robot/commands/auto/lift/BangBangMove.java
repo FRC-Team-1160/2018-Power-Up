@@ -1,15 +1,20 @@
-package org.usfirst.frc.team1160.robot.commands.intake;
+package org.usfirst.frc.team1160.robot.commands.auto.lift;
 
-import org.usfirst.frc.team1160.robot.commands.auto.drive.WaitDrivetrain;
+import org.usfirst.frc.team1160.robot.commands.lift.BrakeEngage;
+import org.usfirst.frc.team1160.robot.commands.lift.BrakeRelease;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class IntakeExtendRetract extends CommandGroup {
+public class BangBangMove extends CommandGroup {
 
-    public IntakeExtendRetract() {
+    public BangBangMove() {
+    	addSequential(new BrakeRelease());
+    	addSequential(new BangBangFramework(15000));
+    	addSequential(new WaitLift(.10));
+    	addSequential(new BrakeEngage());
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -26,8 +31,5 @@ public class IntakeExtendRetract extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new IntakeRetract());
-    	addSequential(new WaitDrivetrain(0.25));
-    	addSequential(new IntakeExtend());
     }
 }

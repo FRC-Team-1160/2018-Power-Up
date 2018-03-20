@@ -69,7 +69,7 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 		 * Center to Left Switch Backwards: 4
 		 * Center to Right Switch: 5
 		 */
-		generateSegments(2); // <----- make sure this corresponds, look at the switch below
+		generateSegments(1); // <----- make sure this corresponds, look at the switch below
 	}
 	
 	public void saveTrajectories() {

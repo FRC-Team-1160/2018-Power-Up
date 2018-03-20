@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1160.robot.commands;
+package org.usfirst.frc.team1160.robot.commands.auto.drive;
 
 import org.usfirst.frc.team1160.robot.Robot;
 
@@ -7,10 +7,10 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class Wait extends Command {
+public class WaitDrivetrain extends Command {
 	
 	private double finishTime;
-    public Wait(double finishTime) {
+    public WaitDrivetrain(double finishTime) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.dt);

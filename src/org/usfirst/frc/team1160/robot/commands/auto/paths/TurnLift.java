@@ -1,15 +1,18 @@
-package org.usfirst.frc.team1160.robot.commands.intake;
+package org.usfirst.frc.team1160.robot.commands.auto.paths;
 
-import org.usfirst.frc.team1160.robot.commands.auto.drive.WaitDrivetrain;
+import org.usfirst.frc.team1160.robot.commands.auto.drive.TurnAngle;
+import org.usfirst.frc.team1160.robot.commands.auto.lift.BangBangMove;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class IntakeExtendRetract extends CommandGroup {
+public class TurnLift extends CommandGroup {
 
-    public IntakeExtendRetract() {
+    public TurnLift() {
+    	addParallel(new TurnAngle(90));
+    	addParallel(new BangBangMove());
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -26,8 +29,5 @@ public class IntakeExtendRetract extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new IntakeRetract());
-    	addSequential(new WaitDrivetrain(0.25));
-    	addSequential(new IntakeExtend());
     }
 }

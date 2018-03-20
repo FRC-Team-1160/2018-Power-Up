@@ -50,7 +50,7 @@ public class FollowTrajectory extends Command implements TrajectoryWaypoints{
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (Robot.dt.getTrajectory().segments.length == n);
+        return (traj.segments.length == n);
     }
 
     // Called once after isFinished returns true

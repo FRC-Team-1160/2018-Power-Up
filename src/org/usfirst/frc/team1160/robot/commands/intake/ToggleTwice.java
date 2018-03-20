@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1160.robot.commands.intake;
 
-import org.usfirst.frc.team1160.robot.commands.Wait;
+import org.usfirst.frc.team1160.robot.commands.auto.drive.WaitDrivetrain;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -11,7 +11,7 @@ public class ToggleTwice extends CommandGroup {
 
     public ToggleTwice() {
     	addSequential(new Toggle());
-    	addSequential(new Wait(0.4));
+    	addSequential(new WaitDrivetrain(0.4));
     	addSequential(new Toggle());
         // Add Commands here:
         // e.g. addSequential(new Command1());

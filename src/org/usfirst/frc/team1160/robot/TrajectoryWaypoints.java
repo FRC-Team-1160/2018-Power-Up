@@ -36,9 +36,9 @@ public interface TrajectoryWaypoints {
 	
 	//From the X side to the X switch where X is either left or right
 	public static final Waypoint[] X_X_SWITCH_1 = 
-			new Waypoint[] {new Waypoint(0,0,0),new Waypoint(168/12,0,0)};
+			new Waypoint[] {new Waypoint(0,0,0),new Waypoint(168.0/12.0,0,0)};
 	public static final Waypoint[] X_X_SWITCH_2 = 
-			new Waypoint[] {new Waypoint(0,0,0),new Waypoint(30/12,0,0)};
+			new Waypoint[] {new Waypoint(0,0,0),new Waypoint(30.0/12.0,0,0)};
 	
 	//Straight line from start to switch
 	public static final Waypoint[] START_SWITCH =

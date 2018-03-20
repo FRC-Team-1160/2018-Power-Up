@@ -95,6 +95,8 @@ public interface RobotMap {
 	public static final int	LIFT_RIGHT_MOTION_CRUISE_VELOCITY = 0; //RIGHT
 	public static final int	LIFT_RIGHT_MOTION_ACCELERATION = 0;
 	
+	public static final int LIFT_CEILING = 22000;
+	
 
 	
 	/*

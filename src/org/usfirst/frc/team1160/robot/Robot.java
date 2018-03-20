@@ -18,6 +18,7 @@ import org.usfirst.frc.team1160.robot.subsystems.Lift;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -34,13 +35,14 @@ import jaci.pathfinder.Trajectory;
  */
 public class Robot extends TimedRobot implements TrajectoryWaypoints{
 	public static OI oi;
-
 	public Command autonomousCommand;
 	public static DriveTrain dt;
 	public static Intake intake;
 	public static Climber climber;
 	public static Lift lift;
 	public static Trajectory segment_one,segment_two,segment_three;
+	public static String gameData;
+	
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -67,8 +69,12 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 		 * Center to Left Switch Backwards: 4
 		 * Center to Right Switch: 5
 		 */
-		
 		generateSegments(2); // <----- make sure this corresponds, look at the switch below
+	}
+	
+	public void saveTrajectories() {
+		generateSegments(1);
+		
 	}
 	
 	public void generateSegments(int choice) {
@@ -135,6 +141,15 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 	 */
 	@Override
 	public void autonomousInit() {
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		if (gameData.length() > 0) {
+			if (gameData.charAt(0) == 'L') {
+				//Left auto code
+			}
+			else {
+				//Right auto code
+			}
+		}
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",

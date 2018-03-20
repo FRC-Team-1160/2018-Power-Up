@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1160.robot.commands.auto.lift;
 
 import org.usfirst.frc.team1160.robot.Robot;
+import org.usfirst.frc.team1160.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -8,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
  * this shit's for the lift
  * to be used only if motion magic is a steaming heap of shit
  */
-public class BangBang extends Command {
+public class BangBang extends Command implements RobotMap{
 
 	private double setpoint;
 	private double error;
@@ -30,13 +31,14 @@ public class BangBang extends Command {
     protected void execute() {
     	error = setpoint - Robot.lift.getSetpoint();
     	errorDirection = (int)(error / Math.abs(error));
-    	//TODO: Only go up! Also, arbitrary ceiling.
-    	Robot.lift.setPercentOutput(errorDirection*0.3);
+    	if (errorDirection*0.3 > 0) { //Only go up!
+    		Robot.lift.setPercentOutput(errorDirection*0.3);
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (Math.abs(error) < 10);
+        return ((Math.abs(error) < 10) || (Robot.lift.getSetpoint() < LIFT_CEILING)); //arbitrary ceiling
     }
 
     // Called once after isFinished returns true

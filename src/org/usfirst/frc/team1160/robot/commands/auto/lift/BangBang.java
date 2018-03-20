@@ -30,6 +30,7 @@ public class BangBang extends Command {
     protected void execute() {
     	error = setpoint - Robot.lift.getSetpoint();
     	errorDirection = (int)(error / Math.abs(error));
+    	//TODO: Only go up! Also, arbitrary ceiling.
     	Robot.lift.setPercentOutput(errorDirection*0.3);
     }
 

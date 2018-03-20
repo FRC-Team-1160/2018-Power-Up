@@ -26,7 +26,7 @@ public class Lift extends Subsystem implements RobotMap{
 		liftLeft.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		liftRight.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		
-		liftLeft.follow(liftRight);
+		//liftLeft.follow(liftRight);
 		//TODO: Look Into MotionMagic for smooth lift control (Remember that you can no longer configure ENC_CTS_PER_REV
 		
 	}
@@ -43,6 +43,11 @@ public class Lift extends Subsystem implements RobotMap{
 	public void setPercentOutput(double percentOutput) { //this probably should not be used since the lift is going to be a pid-exclusive
 		liftLeft.set(ControlMode.PercentOutput,-percentOutput);
 		liftRight.set(ControlMode.PercentOutput,percentOutput);
+	}
+	public void setSetpoint(double setpoint) { //motion magic hype!
+		//TODO: Account for direction!
+		//liftLeft.set(ControlMode.Position,setpoint);
+		//liftRight.set(ControlMode.Position,setpoint);
 	}
 	
 	public void printLiftSpeed() {

@@ -1,18 +1,22 @@
-package org.usfirst.frc.team1160.robot.commands.auto.intake;
+package org.usfirst.frc.team1160.robot.commands.auto.paths;
 
-import org.usfirst.frc.team1160.robot.commands.intake.IntakeRotate;
-import org.usfirst.frc.team1160.robot.commands.intake.Toggle;
+import org.usfirst.frc.team1160.robot.Robot;
+import org.usfirst.frc.team1160.robot.commands.ResetEncoderYaw;
+import org.usfirst.frc.team1160.robot.commands.auto.drive.FollowTrajectory;
+import org.usfirst.frc.team1160.robot.commands.intake.IntakeExtend;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import jaci.pathfinder.Trajectory;
 
 /**
  *
  */
-public class SpitExtend extends CommandGroup {
+public class GenericFollow extends CommandGroup {
 
-    public SpitExtend() {
-    	addParallel(new IntakeRotate(-1));
-    	addParallel(new Toggle());
+    public GenericFollow(Trajectory traj) {
+    	addSequential(new IntakeExtend());
+    	addSequential(new ResetEncoderYaw());
+    	addSequential(new FollowTrajectory(traj));
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

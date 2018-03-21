@@ -170,9 +170,14 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
  		angle_difference = angle_difference_now;
  		
  		SmartDashboard.putNumber("turnAngle PercentOutput input", proportion+derivative+integral);
- 		
- 		leftMaster.set(ControlMode.PercentOutput, proportion+derivative+integral);
- 		rightMaster.set(ControlMode.PercentOutput, proportion+derivative+integral);
+ 		if (proportion+derivative+integral <= GYRO_CAP) {
+	 		leftMaster.set(ControlMode.PercentOutput, proportion+derivative+integral);
+	 		rightMaster.set(ControlMode.PercentOutput, proportion+derivative+integral);
+ 		}
+ 		else {
+ 			leftMaster.set(GYRO_CAP);
+ 			rightMaster.set(GYRO_CAP);
+ 		}
  		printYaw();
  		resetTime();
  		startTime();

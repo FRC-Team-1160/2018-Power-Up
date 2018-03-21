@@ -5,6 +5,7 @@ import org.usfirst.frc.team1160.robot.commands.ResetEncoderYaw;
 import org.usfirst.frc.team1160.robot.commands.auto.drive.FollowTrajectory;
 import org.usfirst.frc.team1160.robot.commands.auto.drive.TurnAngle;
 import org.usfirst.frc.team1160.robot.commands.auto.drive.WaitDrivetrain;
+import org.usfirst.frc.team1160.robot.commands.auto.intake.AutoBoxSpit;
 import org.usfirst.frc.team1160.robot.commands.intake.IntakeExtend;
 import org.usfirst.frc.team1160.robot.commands.intake.Toggle;
 
@@ -23,6 +24,7 @@ public class Right_RightSwitch extends CommandGroup {
     	addSequential(new WaitDrivetrain(0.5));
     	addSequential(new ResetEncoderYaw());
     	addSequential(new FollowTrajectory(Robot.segment_two));
+    	addSequential(new AutoBoxSpit());
     	
     	//and then now we manipulate the lift
     }

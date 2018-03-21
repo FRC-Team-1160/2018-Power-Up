@@ -12,7 +12,14 @@ public interface TrajectoryWaypoints {
 	public static final Waypoint[] POINTS_1 =
 			new Waypoint[] {new Waypoint(0, 0, 0), new Waypoint(7, 0, 0)};
 	public static final Waypoint[] POINTS_2 = 
-			new Waypoint[] {new Waypoint(0,0,0),new Waypoint(3,3,90)};
+			new Waypoint[] {
+					new Waypoint(0, 0, 0), new Waypoint(7, 7, 90)
+					
+						/*new Waypoint(2,4,0),
+							new Waypoint(12.5,4,45),
+							new Waypoint(14,7,90)
+							*/
+							};
 	
 	//From the center to the left switch
 	public static final Waypoint[] CENTER_LEFT_SWITCH_1 = 
@@ -38,7 +45,7 @@ public interface TrajectoryWaypoints {
 	public static final Waypoint[] X_X_SWITCH_1 = 
 			new Waypoint[] {new Waypoint(0,0,0),new Waypoint(168.0/12.0,0,0)};
 	public static final Waypoint[] X_X_SWITCH_2 = 
-			new Waypoint[] {new Waypoint(0,0,0),new Waypoint(30.0/12.0,0,0)};
+			new Waypoint[] {new Waypoint(0,0,0),new Waypoint(42.0/12.0,0,0)};
 	
 	//Straight line from start to switch
 	public static final Waypoint[] START_SWITCH =

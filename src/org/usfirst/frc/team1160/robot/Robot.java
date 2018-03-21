@@ -69,7 +69,7 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 		 * Center to Left Switch Backwards: 4
 		 * Center to Right Switch: 5
 		 */
-		generateSegments(1); // <----- make sure this corresponds, look at the switch below
+		generateSegments(6); // <----- make sure this corresponds, look at the switch below
 	}
 	
 	public void saveTrajectories() {
@@ -104,6 +104,10 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 			case 5: //Center to Right Switch
 				segment_one = dt.generateTrajectorySetup(CENTER_RIGHT_SWITCH);
 				autonomousCommand = new Center_RightSwitch();
+				break;
+			case 6: //Custom
+				segment_one = dt.generateTrajectorySetup(POINTS_2);
+				autonomousCommand = new GenericFollow(segment_one);
 				break;
 			default:
 				System.out.println("Hold this L");

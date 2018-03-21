@@ -10,6 +10,7 @@ package org.usfirst.frc.team1160.robot;
 import org.usfirst.frc.team1160.robot.commands.*;
 import org.usfirst.frc.team1160.robot.commands.auto.*;
 import org.usfirst.frc.team1160.robot.commands.auto.drive.TurnAngle;
+import org.usfirst.frc.team1160.robot.commands.auto.intake.AutoBoxSpit;
 import org.usfirst.frc.team1160.robot.commands.auto.intake.FullExtend;
 import org.usfirst.frc.team1160.robot.commands.auto.lift.BangBangFramework;
 import org.usfirst.frc.team1160.robot.commands.auto.lift.BangBangMove;
@@ -109,11 +110,11 @@ public class OI {
 	}
 	private void tieButtons() {
 		
-		intakeExtendRetract.whenPressed(new IntakeExtendRetract());
+		intakeExtendRetract.whenPressed(new AutoBoxSpit());
 		intakeExtend.whenPressed(new IntakeExtend());
 		intakeRetract.whenPressed(new IntakeRetract());
 		
-		fullExtend.whenPressed(new Toggle());
+		//fullExtend.whenPressed(new Toggle());
 		
 		resetEncodersYaw.whenPressed(new ResetEncoderYaw());
 		

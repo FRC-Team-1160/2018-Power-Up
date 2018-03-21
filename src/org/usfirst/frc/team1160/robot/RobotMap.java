@@ -28,28 +28,29 @@ public interface RobotMap {
 	public static final int DT_SOLENOID_1 = 6;
 	
 	public static int DT_ENC_COUNTS_PER_REV = 512;				//Encoder counts per revolution
-	public static double WHEEL_BASE_DISTANCE = 2.538;
+	public static double WHEEL_BASE_DISTANCE = 2.53;
 	
-	public static final double GYRO_KP = 0.8 * (-1.0/80.0);		//Gyro constants
+	public static final double GYRO_KP = 1.2 * (-1.0/80.0);	//Pathfinder	//Gyro constants
 	
-	public static final double GYRO_KP_2 = .55*2.5 * (-1.0/80.0);
+	public static final double GYRO_KP_2 = .55*2.5 * (-1.0/80.0); //TurnAngle
 	public static final double GYRO_KI = -3*3/(1.3*100);
 	public static final double GYRO_KD = 3*2.5*1.3/40 * (-1.0/80.0); //0.01 * (-1.0/80.0);//TURN ANGLE KP
 	public static final double GYRO_TOLERANCE = 0.75;				//Smaller value means higher accuracy but more time spent
 																//achieving said accuracy
+	public static final double GYRO_CAP = 0.4; //max speed of the turn during TurnAngle
 	
-	public static final double DRIVE_KP = 0.1;					//Drivetrain Talon PID constants
+	public static final double DRIVE_KP = 0.8;					//Drivetrain Talon PID constants
 	public static final double DRIVE_KI = 0;
 	public static final double DRIVE_KD = 0;
 	public static final double DRIVE_KF = 0;
 	
-	public static final double LEFT_KP = 1.2; 					//MotionProfiling Constants for Low Gear
+	public static final double LEFT_KP = 0.8;//0.6; 					//MotionProfiling Constants for Low Gear
 	public static final double LEFT_KI = 0;
-	public static final double LEFT_KD = 0.2;
+	public static final double LEFT_KD = 0.2
 	public static final double LEFT_KF = 0.125;
 	public static final double LEFT_KA = 0;
 	
-	public static final double RIGHT_KP = 1.2;
+	public static final double RIGHT_KP = 0.8;//0.6;
 	public static final double RIGHT_KI = 0;
 	public static final double RIGHT_KD = 0.2;
 	public static final double RIGHT_KF = 0.127;

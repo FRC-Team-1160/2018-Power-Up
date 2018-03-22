@@ -7,6 +7,8 @@
 
 package org.usfirst.frc.team1160.robot;
 
+import java.io.File;
+
 import org.usfirst.frc.team1160.robot.commands.auto.drive.FollowTrajectory;
 import org.usfirst.frc.team1160.robot.commands.auto.drive.MoveForward;
 import org.usfirst.frc.team1160.robot.commands.auto.drive.TurnAngle;
@@ -22,6 +24,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 //import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -72,8 +75,25 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 		generateSegments(6); // <----- make sure this corresponds, look at the switch below
 	}
 	
-	public void saveTrajectories() {
-		generateSegments(1);
+	public void saveTrajectories(int choice) { //let's be honest, you should only have to run this code once
+		File file_one;
+		switch (choice) {
+			case 1:
+				generateSegments(1);
+				file_one = new File("CENTER_LEFT_SWITCH_1.csv");
+				Pathfinder.writeToCSV(file_one, segment_one);
+				file_one = new File("CENTER_LEFT_SWITCH_2.csv");
+				Pathfinder.writeToCSV(file_one, segment_two);
+				file_one = new File("CENTER_LEFT_SWITCH_3.csv");
+				Pathfinder.writeToCSV(file_one, segment_three);
+			case 2:
+				generateSegments(2);
+				file_one = new File("X_X_SWITCH_1.csv");
+				Pathfinder.writeToCSV(file_one, segment_one);
+				
+				
+		}
+		
 		
 	}
 	
@@ -130,6 +150,7 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		
 	}
 
 	/**

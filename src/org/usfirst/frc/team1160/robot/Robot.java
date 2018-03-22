@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 //import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -45,6 +46,23 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 	public static Lift lift;
 	public static Trajectory segment_one,segment_two,segment_three;
 	public static String gameData;
+	public static char switchPosition, scalePosition, oppSwitchPosition;
+	
+	//Auto path choosing variables
+	// 0 = default (in case code reads incorrectly)
+	// 1 = left; 2 = middle; 3 = right
+	private int startingPosition,
+	/* autoChoices
+	 * drive Straight(default): 0 
+	 * Center to Left Switch: 1
+	 * Left to Left Switch: 2
+	 * Right to Right Switch: 3
+	 * Center to Left Switch Backwards: 4
+	 * Center to Right Switch: 5
+	 */
+	autoChoice;
+	//to be used when scale autos are added
+	private boolean goSwitch, goScale;
 	
 	
 	/**
@@ -169,7 +187,6 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 		Pathfinder.writeToCSV(file_one, segment_one);	
 	}
 	
-	
 	public void loadTrajectories(int choice) { //now this is the good stuff, this is what you wanna run 25/7
 		File file_one;
 		switch (choice)
@@ -210,6 +227,43 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 		}
 	}
 
+	public void chooseAuto() {
+		/* autoChoices
+		 * drive Straight(default): 0 
+		 * Center to Left Switch: 1
+		 * Left to Left Switch: 2
+		 * Right to Right Switch: 3
+		 * Center to Left Switch Backwards: 4
+		 * Center to Right Switch: 5
+		 */
+		
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		if (gameData.length() > 0) {
+			switchPosition = gameData.charAt(0);
+			scalePosition = gameData.charAt(1);
+			oppSwitchPosition = gameData.charAt(2);
+		}
+		startingPosition = (int) SmartDashboard.getNumber("Starting Position (1-Left, 2-Mid, 3-Right)", 0);
+		
+		
+		if (startingPosition == 2 && switchPosition == 'L') {
+			autoChoice = 1;
+		}
+		else if (startingPosition == 1 && switchPosition == 'L') {
+			autoChoice = 2;
+		}
+		else if (startingPosition == 3 && switchPosition == 'R') {
+			autoChoice = 3;
+		}
+		else if (startingPosition == 2 && switchPosition == 'R') {
+			autoChoice = 5;
+		}
+		else {
+			autoChoice = 0;
+		}
+		
+		
+	}
 	/**
 	 * This function is called once each time the robot enters Disabled mode.
 	 * You can use it to reset any subsystem information you want to clear when
@@ -239,16 +293,10 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 	 */
 	@Override
 	public void autonomousInit() {
-		gameData = DriverStation.getInstance().getGameSpecificMessage();
-		if (gameData.length() > 0) {
-			if (gameData.charAt(0) == 'L') {
-				//Left auto code
-			}
-			else {
-				//Right auto code
-			}
-		}
-
+		
+		chooseAuto();
+		
+		loadTrajectories(autoChoice);
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand

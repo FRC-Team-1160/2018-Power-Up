@@ -121,8 +121,8 @@ public class OI {
 		highGear.whenPressed(new HighGear());
 		lowGear.whenPressed(new LowGear());
 		
-		intakeEat.whileHeld(new IntakeRotate(1));
-		intakeSpit.whileHeld(new IntakeRotate(-1));
+		intakeEat.whileHeld(new IntakeRotate(0.7));
+		intakeSpit.whileHeld(new IntakeRotate(-0.7));
 		
 		extendClimber.whenPressed(new LatchExtend());
 		retractClimber.whenPressed(new LatchRetract());

@@ -72,7 +72,7 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 		 * Center to Left Switch Backwards: 4
 		 * Center to Right Switch: 5
 		 */
-		saveTrajectories(1);
+		saveTrajectoriesAll();
 		
 	}
 	
@@ -147,6 +147,26 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 		}
 		
 		
+	}
+	
+	public void saveTrajectoriesAll()
+	{	//Kobe: "Just save them all"
+		File file_one;
+		generateSegments(1);
+		file_one = new File("CENTER_LEFT_SWITCH_1.csv");
+		Pathfinder.writeToCSV(file_one, segment_one);
+		file_one = new File("CENTER_LEFT_SWITCH_2.csv");
+		Pathfinder.writeToCSV(file_one, segment_two);
+		file_one = new File("CENTER_LEFT_SWITCH_3.csv");
+		Pathfinder.writeToCSV(file_one, segment_three);
+		generateSegments(2);
+		file_one = new File("X_X_SWITCH_1.csv");
+		Pathfinder.writeToCSV(file_one, segment_one);
+		file_one = new File("X_X_SWITCH_2.csv");
+		Pathfinder.writeToCSV(file_one, segment_two);
+		generateSegments(5);
+		file_one = new File("CENTER_RIGHT_SWITCH.csv");
+		Pathfinder.writeToCSV(file_one, segment_one);	
 	}
 	
 	

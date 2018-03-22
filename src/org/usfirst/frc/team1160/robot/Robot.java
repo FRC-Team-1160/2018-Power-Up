@@ -64,7 +64,7 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 		
 		
 		/*
-		 * generateSegments() Parameters
+		 * generateSegments(),saveTrajectories(),loadTrajectories() Parameters
 		 * 
 		 * Center to Left Switch: 1
 		 * Left to Left Switch: 2
@@ -72,32 +72,11 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 		 * Center to Left Switch Backwards: 4
 		 * Center to Right Switch: 5
 		 */
-		generateSegments(6); // <----- make sure this corresponds, look at the switch below
-	}
-	
-	public void saveTrajectories(int choice) { //let's be honest, you should only have to run this code once
-		File file_one;
-		switch (choice) {
-			case 1:
-				generateSegments(1);
-				file_one = new File("CENTER_LEFT_SWITCH_1.csv");
-				Pathfinder.writeToCSV(file_one, segment_one);
-				file_one = new File("CENTER_LEFT_SWITCH_2.csv");
-				Pathfinder.writeToCSV(file_one, segment_two);
-				file_one = new File("CENTER_LEFT_SWITCH_3.csv");
-				Pathfinder.writeToCSV(file_one, segment_three);
-			case 2:
-				generateSegments(2);
-				file_one = new File("X_X_SWITCH_1.csv");
-				Pathfinder.writeToCSV(file_one, segment_one);
-				
-				
-		}
-		
+		saveTrajectories(1);
 		
 	}
 	
-	public void generateSegments(int choice) {
+	public void generateSegments(int choice) { //let's be even more honest, you should only have to run this once after the csv loading code is made
 		switch (choice) {
 			case 1: //Center to Left Switch
 				segment_one = dt.generateTrajectorySetup(CENTER_LEFT_SWITCH_1);
@@ -134,6 +113,80 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 				break;
 			
 			
+		}
+	}
+	
+	public void saveTrajectories(int choice) { //let's be honest, you should only have to run this code once
+		File file_one;
+		switch (choice) {
+			case 1:
+				generateSegments(1);
+				file_one = new File("CENTER_LEFT_SWITCH_1.csv");
+				Pathfinder.writeToCSV(file_one, segment_one);
+				file_one = new File("CENTER_LEFT_SWITCH_2.csv");
+				Pathfinder.writeToCSV(file_one, segment_two);
+				file_one = new File("CENTER_LEFT_SWITCH_3.csv");
+				Pathfinder.writeToCSV(file_one, segment_three);
+				break;
+			case 2:
+			case 3:
+				generateSegments(2);
+				file_one = new File("X_X_SWITCH_1.csv");
+				Pathfinder.writeToCSV(file_one, segment_one);
+				file_one = new File("X_X_SWITCH_2.csv");
+				Pathfinder.writeToCSV(file_one, segment_two);
+				break;
+			case 5: 
+				generateSegments(5);
+				file_one = new File("CENTER_RIGHT_SWITCH.csv");
+				Pathfinder.writeToCSV(file_one, segment_one);
+				break;
+			default:
+				System.out.println("Hold this even bigger L");
+				break;		
+		}
+		
+		
+	}
+	
+	
+	public void loadTrajectories(int choice) { //now this is the good stuff, this is what you wanna run 25/7
+		File file_one;
+		switch (choice)
+		{
+			case 1:
+				file_one = new File("CENTER_LEFT_SWITCH_1.csv");
+				segment_one = Pathfinder.readFromCSV(file_one);
+				file_one = new File("CENTER_LEFT_SWITCH_2.csv");
+				segment_two = Pathfinder.readFromCSV(file_one);
+				file_one = new File("CENTER_LEFT_SWITCH_3.csv");
+				segment_three = Pathfinder.readFromCSV(file_one);
+				autonomousCommand = new Center_LeftSwitch();
+				break;
+			case 2:
+				file_one = new File("X_X_SWITCH_1.csv");
+				segment_one = Pathfinder.readFromCSV(file_one);
+				file_one = new File("X_X_SWITCH_2.csv");
+				segment_two = Pathfinder.readFromCSV(file_one);
+				autonomousCommand = new Left_LeftSwitch();
+				break;
+			case 3:
+				file_one = new File("X_X_SWITCH_1.csv");
+				segment_one = Pathfinder.readFromCSV(file_one);
+				file_one = new File("X_X_SWITCH_2.csv");
+				segment_two = Pathfinder.readFromCSV(file_one);
+				autonomousCommand = new Right_RightSwitch();
+				break;
+			case 5:
+				file_one = new File("CENTER_RIGHT_SWITCH.csv");
+				segment_one = Pathfinder.readFromCSV(file_one);
+				autonomousCommand = new Center_RightSwitch();
+				break;
+			default:
+				System.out.println("Jesus christ man");
+				break;
+				
+				
 		}
 	}
 

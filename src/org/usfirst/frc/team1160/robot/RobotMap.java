@@ -46,7 +46,7 @@ public interface RobotMap {
 	
 	public static final double LEFT_KP = 0.8;//0.6; 					//MotionProfiling Constants for Low Gear
 	public static final double LEFT_KI = 0;
-	public static final double LEFT_KD = 0.2
+	public static final double LEFT_KD = 0.2;
 	public static final double LEFT_KF = 0.125;
 	public static final double LEFT_KA = 0;
 	

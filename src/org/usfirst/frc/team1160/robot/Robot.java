@@ -26,27 +26,22 @@
 	 * 4. Optimize command groups (what works best in parallel)?
 	 * 5. 2 cube auto (scale or switch)
 	 * 6. Far side scale
-	 * 7. 
+	 * 7. Check auto functionality
+	 * 	a. paths
+	 * 	b. AutoBoxSpit()
 	 */
 
 package org.usfirst.frc.team1160.robot;
 
 import java.io.File;
 
-import org.usfirst.frc.team1160.robot.commands.auto.drive.GenerateFollowTrajectory;
-import org.usfirst.frc.team1160.robot.commands.auto.drive.MoveForward;
-import org.usfirst.frc.team1160.robot.commands.auto.drive.TurnAngle;
-import org.usfirst.frc.team1160.robot.commands.auto.intake.AutoBoxClamp;
+import org.usfirst.frc.team1160.robot.commands.auto.drive.*;
+import org.usfirst.frc.team1160.robot.commands.auto.intake.*;
 import org.usfirst.frc.team1160.robot.commands.auto.paths.*;
-import org.usfirst.frc.team1160.robot.commands.auto.paths.scale.Left_LeftScale;
-import org.usfirst.frc.team1160.robot.commands.auto.paths.scale.Right_RightScale;
-import org.usfirst.frc.team1160.robot.commands.auto.paths.switch_.Center_LeftSwitch;
-import org.usfirst.frc.team1160.robot.commands.auto.paths.switch_.Center_LeftSwitch_Fast;
-import org.usfirst.frc.team1160.robot.commands.auto.paths.switch_.Center_RightSwitch;
-import org.usfirst.frc.team1160.robot.commands.auto.paths.switch_.Center_RightSwitch_Fast;
-import org.usfirst.frc.team1160.robot.commands.auto.paths.switch_.Left_LeftSwitch;
-import org.usfirst.frc.team1160.robot.commands.auto.paths.switch_.Right_RightSwitch;
-import org.usfirst.frc.team1160.robot.commands.intake.IntakeExtend;
+import org.usfirst.frc.team1160.robot.commands.auto.paths.scale.*;
+import org.usfirst.frc.team1160.robot.commands.auto.paths.scale.parallel.Left_LeftScale_Parallel;
+import org.usfirst.frc.team1160.robot.commands.auto.paths.scale.parallel.Right_RightScale_Parallel;
+import org.usfirst.frc.team1160.robot.commands.auto.paths.switch_.*;
 import org.usfirst.frc.team1160.robot.subsystems.Climber;
 import org.usfirst.frc.team1160.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1160.robot.subsystems.Intake;
@@ -88,7 +83,6 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 	// 1 = left; 2 = middle; 3 = right
 	private int startingPosition, autoChoice;
 	//to be used when scale autos are added
-	private boolean goSwitch, goScale;
 	
 	
 	/**
@@ -106,7 +100,7 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		//System.out.println(System.getProperty("java.library.path"));
 
-		autonomousCommand = new AutoBoxClamp();
+		autonomousCommand = new X_AutoLine();
 		
 	}
 	
@@ -116,6 +110,7 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 	 * Wednesday night: let's be even more honest, you should only have to run this once after the csv loading code is made
 	 * Thursday afternoon: you better not ever call this method
 	 */
+	
 	public void generateSegments(int choice) {
 		switch (choice) {
 			case 1: //Center to Left Switch
@@ -161,6 +156,7 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 	 * Wednesday night: let's be honest, you should only have to run this code once
 	 * Thursday afternoon: please don't ever call this method thanks
 	 */
+	
 	public void saveTrajectories(int choice) {
 		File file_one;
 		switch (choice) {
@@ -223,10 +219,12 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 		
 		System.out.println("All paths saved to csv");
 	}
+
 	
 	/*
 	 * loadTrajectories()
 	 * Thursday morning: now this is the good stuff, this is what you wanna run 25/7
+	 * Friday morning: for god's sake please make sure there are break statements after every case in the switch
 	 */
 	public void loadTrajectories(int choice) {
 		File left,right;
@@ -326,16 +324,21 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 				right = new File(baseFilepath + "X_X_SCALE_RIGHT.csv");
 				segment_one_left = Pathfinder.readFromCSV(left);
 				segment_one_right = Pathfinder.readFromCSV(right);
-				autonomousCommand = new Left_LeftScale();
+				autonomousCommand = new Left_LeftScale_Parallel();
 				break;
 			case 9: //right to right scale
 				left = new File(baseFilepath + "X_X_SCALE_LEFT.csv");
 				right = new File(baseFilepath + "X_X_SCALE_RIGHT.csv");
 				segment_one_left = Pathfinder.readFromCSV(left);
 				segment_one_right = Pathfinder.readFromCSV(right);
-				autonomousCommand = new Right_RightScale();
-			default:
-				System.out.println("Jesus christ man!");
+				autonomousCommand = new Right_RightScale_Parallel();
+				break;
+			default: //move to the auto line
+				left = new File(baseFilepath + "X_X_AUTOLINE_LEFT.csv");
+				right = new File(baseFilepath + "X_X_AUTOLINE_RIGHT.csv");
+				segment_one_left = Pathfinder.readFromCSV(left);
+				segment_one_right = Pathfinder.readFromCSV(right);
+				autonomousCommand = new X_AutoLine();
 				break;
 				
 				
@@ -356,10 +359,10 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 		//startingPosition = (int) SmartDashboard.getNumber("Starting Position (1-Left, 2-Mid, 3-Right)", 0);
 		
 		startingPosition = HARDCODED_POSITION; //this is a hardcoded fallback
-		if (startingPosition == 1 && switchPosition == 'L' && SCALE){
+		if (startingPosition == 1 && scalePosition == 'L' && SCALE){
 			autoChoice = 8;
 		}
-		else if (startingPosition == 3 && switchPosition == 'R' && SCALE){
+		else if (startingPosition == 3 && scalePosition == 'R' && SCALE){
 			autoChoice = 9;
 		}
 		
@@ -420,9 +423,6 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 		
 		chooseAuto();
 		loadTrajectories(autoChoice);
-		//loadTrajectories(6);
-		
-		// schedule the autonomous command (example)
 		autonomousCommand.start();
 	}
 

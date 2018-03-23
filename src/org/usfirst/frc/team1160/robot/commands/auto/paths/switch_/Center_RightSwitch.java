@@ -11,6 +11,7 @@ import org.usfirst.frc.team1160.robot.commands.auto.intake.AutoBoxSpit;
 import org.usfirst.frc.team1160.robot.commands.auto.lift.BangBangMove;
 import org.usfirst.frc.team1160.robot.commands.auto.paths.TurnLift;
 import org.usfirst.frc.team1160.robot.commands.intake.IntakeExtend;
+import org.usfirst.frc.team1160.robot.commands.intake.IntakeRotate;
 import org.usfirst.frc.team1160.robot.commands.intake.Toggle;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -31,6 +32,6 @@ public class Center_RightSwitch extends CommandGroup implements RobotMap{
     	addSequential(new TurnLift(SWITCH_HEIGHT,-45));
     	addSequential(new ResetEncoderYaw());
     	addSequential(new LoadFollowTrajectory(Robot.segment_three_left,Robot.segment_three_right));
-    	addSequential(new AutoBoxSpit());
+		addSequential(new IntakeRotate(SWITCH_AUTO_SPIT_SPEED),0.3);
     }
 }

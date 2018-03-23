@@ -15,6 +15,6 @@ public class AutoBoxSpit extends CommandGroup{
 		addSequential(new IntakeRotate(0.7),0.2);
 		addSequential(new IntakeExtend());
 		*/
-		addSequential(new IntakeRotate(-0.7),0.3);
+		addSequential(new IntakeRotate(0.5),0.3);
 	}
 }

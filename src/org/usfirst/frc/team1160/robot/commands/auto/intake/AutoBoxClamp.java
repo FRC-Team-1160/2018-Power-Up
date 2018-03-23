@@ -13,12 +13,15 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutoBoxClamp extends CommandGroup {
 
     public AutoBoxClamp() {
+    	
     	addSequential(new IntakeExtend());
     	addSequential(new WaitLift(0.3));
-		addSequential(new IntakeRotate(0.7),0.3);
+		addSequential(new IntakeRotate(0.9),0.3);
 		addSequential(new IntakeRetract());
 		addSequential(new IntakeRotate(0.3),0.3);
 		addSequential(new IntakeExtend());
 		addSequential(new IntakeRotate(-0.7),0.3);
+		addSequential(new IntakeRotate(0));
+		
     }
 }

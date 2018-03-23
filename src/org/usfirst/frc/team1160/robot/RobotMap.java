@@ -18,13 +18,21 @@ public interface RobotMap {
 	
 	/**
 	 * SHIT TO TAKE CARE OF BEFORE EACH MATCH
-	 * 1 - Left
-	 * 2 - Center
-	 * 3 - Right
+	 * 
+	 * HARDCODED_POSITION
+		 * 1 - Left
+		 * 2 - Center
+		 * 3 - Right
+	 * FAST_SWITCH
+	 	 * true - have a nice fast center switch auto (it's also untested so lol)
+	 	 * false - do not have a nice fast center switch auto
+ 	 * SCALE
+ 	 	 * true - go for the scale OVER THE SWITCH
+ 	 	 * false - we're not going to run untested code!
 	 */
-	public static final int HARDCODED_POSITION = 2;
+	public static final int HARDCODED_POSITION = 3;
 	public static final boolean FAST_SWITCH = false;
-	public static final boolean SCALE = false;
+	public static final boolean SCALE = true;
 	
 	/*
 	 * General
@@ -83,6 +91,9 @@ public interface RobotMap {
 	public static final int LEFT_INTAKE_SOLENOID = 0;
 	public static final int RIGHT_INTAKE_SOLENOID = 7;
 	
+	public static final double SWITCH_AUTO_SPIT_SPEED = 0.5;
+	public static final double SCALE_AUTO_SPIT_SPEED = 1.0;
+
 
 	/*
 	 * Lift

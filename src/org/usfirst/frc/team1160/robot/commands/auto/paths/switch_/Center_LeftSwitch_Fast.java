@@ -9,6 +9,7 @@ import org.usfirst.frc.team1160.robot.commands.auto.drive.TurnAngle;
 import org.usfirst.frc.team1160.robot.commands.auto.intake.AutoBoxClamp;
 import org.usfirst.frc.team1160.robot.commands.auto.intake.AutoBoxSpit;
 import org.usfirst.frc.team1160.robot.commands.auto.paths.TurnLift;
+import org.usfirst.frc.team1160.robot.commands.intake.IntakeRotate;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -25,7 +26,6 @@ public class Center_LeftSwitch_Fast extends CommandGroup implements RobotMap{
     	addSequential(new TurnAngle(-25.67));
     	addSequential(new ResetEncoderYaw());
     	addSequential(new FollowTrajectoryLift(Robot.segment_two_left,Robot.segment_two_right,SWITCH_HEIGHT));
-    	//addSequential(new LoadFollowTrajectory(Robot.segment_two_left,Robot.segment_two_right));
-    	addSequential(new AutoBoxSpit());
+		addSequential(new IntakeRotate(SWITCH_AUTO_SPIT_SPEED),0.3);
     }
 }

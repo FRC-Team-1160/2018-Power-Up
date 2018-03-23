@@ -86,11 +86,12 @@ public class OI implements RobotMap{
 		extendClimber = new JoystickButton(climbStick,8);
 		retractClimber = new JoystickButton(climbStick,9);
 		
-		intakeExtendRetract = new JoystickButton(climbStick,11);
+		//intakeExtendRetract = new JoystickButton(climbStick,11);
 		
 		//turnAngle = new JoystickButton(climbStick,10);
 
 		bangBangScale = new JoystickButton(climbStick,2);
+		bangBangSwitch = new JoystickButton(climbStick,11);
 		
 		/*
 		 * Generic
@@ -107,7 +108,7 @@ public class OI implements RobotMap{
 	}
 	private void tieButtons() {
 		
-		intakeExtendRetract.whenPressed(new AutoBoxClamp());
+		//intakeExtendRetract.whenPressed(new AutoBoxClamp());
 		intakeExtend.whenPressed(new IntakeExtend());
 		intakeRetract.whenPressed(new IntakeRetract());
 		
@@ -119,7 +120,7 @@ public class OI implements RobotMap{
 		lowGear.whenPressed(new LowGear());
 		
 		intakeEat.whileHeld(new IntakeRotate(-0.7));
-		intakeSpit.whileHeld(new IntakeRotate(0.7));
+		intakeSpit.whileHeld(new IntakeRotate(0.3));
 		
 		extendClimber.whenPressed(new LatchExtend());
 		retractClimber.whenPressed(new LatchRetract());
@@ -133,6 +134,7 @@ public class OI implements RobotMap{
 		//turnAngle.whenPressed(new TurnAngle(90));
 		
 		bangBangScale.whenPressed(new BangBangMove(SCALE_HEIGHT));
+		bangBangSwitch.whenPressed(new BangBangMove(SWITCH_HEIGHT));
 		
 		
 		//setLift.whileHeld(new SetLift(0.1));

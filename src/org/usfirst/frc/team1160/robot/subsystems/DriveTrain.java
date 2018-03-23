@@ -164,7 +164,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
  		proportion = GYRO_KP_2 * angle_difference;
  		deltaTime = getTime();
  		derivative = GYRO_KD * (angle_difference_now - angle_difference)/deltaTime;
- 		if (Math.abs(angle_difference_now) < 10) {
+ 		if (Math.abs(angle_difference_now) < 15) {
  			integral += GYRO_KI*deltaTime*(angle_difference_now);
  		}
  		angle_difference = angle_difference_now;
@@ -190,7 +190,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	public void turnAngleCheck(double targetAngle) {
 		resetTimeCheck();
 		startTimeCheck();
-		while (getTimeCheck() < 2) {
+		while (getTimeCheck() < 1) {
 			turnAngle(targetAngle);
 		}
 	}

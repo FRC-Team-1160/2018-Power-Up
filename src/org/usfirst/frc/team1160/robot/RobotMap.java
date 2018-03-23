@@ -14,15 +14,22 @@ package org.usfirst.frc.team1160.robot;
  * floating around.
  */
 public interface RobotMap {
+
 	
-	public static final int PCM = 4;							//PCM Port
-	
-	/*
+	/**
+	 * SHIT TO TAKE CARE OF BEFORE EACH MATCH
 	 * 1 - Left
 	 * 2 - Center
 	 * 3 - Right
 	 */
 	public static final int HARDCODED_POSITION = 2;
+	public static final boolean FAST_SWITCH = false;
+	public static final boolean SCALE = false;
+	
+	/*
+	 * General
+	 */
+	public static final int PCM = 4;							//PCM Port
 	
 	/*
 	 * DriveTrain

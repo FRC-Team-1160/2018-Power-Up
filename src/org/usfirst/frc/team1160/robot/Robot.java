@@ -5,16 +5,29 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-
-/**TODO:
- * 1. Regenerate paths with new accl value of 4
- * 2. Scale auto
- * 3. New switch autos (center)
- * 4. Optimize command groups (what works best in parallel)?
- * 5. 2 cube auto (scale or switch)
- * 6. Far side scale
- * 7. 
- */
+	/**
+	 * generateSegments(),saveTrajectories(),loadTrajectories() Parameters - autoChoices() logic
+	 * drive Straight(default): 0 
+	 * Center to Left Switch: 1
+	 * Left to Left Switch: 2
+	 * Right to Right Switch: 3
+	 * Center to Left Switch Backwards: 4
+	 * Center to Right Switch: 5
+	 * Center to Left Switch Fast: 6
+	 * Center to Right Switch Fast: 7
+	 * Left to Left Scale: 8
+	 * Right to Right Scale: 9
+	 */
+	
+	/**TODO:
+	 * 1. Regenerate paths with new accl value of 4 - DONE
+	 * 2. Scale auto
+	 * 3. New switch autos (center) - DONE
+	 * 4. Optimize command groups (what works best in parallel)?
+	 * 5. 2 cube auto (scale or switch)
+	 * 6. Far side scale
+	 * 7. 
+	 */
 
 package org.usfirst.frc.team1160.robot;
 
@@ -23,7 +36,10 @@ import java.io.File;
 import org.usfirst.frc.team1160.robot.commands.auto.drive.GenerateFollowTrajectory;
 import org.usfirst.frc.team1160.robot.commands.auto.drive.MoveForward;
 import org.usfirst.frc.team1160.robot.commands.auto.drive.TurnAngle;
+import org.usfirst.frc.team1160.robot.commands.auto.intake.AutoBoxClamp;
 import org.usfirst.frc.team1160.robot.commands.auto.paths.*;
+import org.usfirst.frc.team1160.robot.commands.auto.paths.scale.Left_LeftScale;
+import org.usfirst.frc.team1160.robot.commands.auto.paths.scale.Right_RightScale;
 import org.usfirst.frc.team1160.robot.commands.auto.paths.switch_.Center_LeftSwitch;
 import org.usfirst.frc.team1160.robot.commands.auto.paths.switch_.Center_LeftSwitch_Fast;
 import org.usfirst.frc.team1160.robot.commands.auto.paths.switch_.Center_RightSwitch;
@@ -70,18 +86,7 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 	//Auto path choosing variables
 	// 0 = default (in case code reads incorrectly)
 	// 1 = left; 2 = middle; 3 = right
-	private int startingPosition,
-	/* autoChoices
-	 * drive Straight(default): 0 
-	 * Center to Left Switch: 1
-	 * Left to Left Switch: 2
-	 * Right to Right Switch: 3
-	 * Center to Left Switch Backwards: 4
-	 * Center to Right Switch: 5
-	 * Center to Left Switch Fast: 6
-	 * Center to Right Switch Fast: 7
-	 */
-	autoChoice;
+	private int startingPosition, autoChoice;
 	//to be used when scale autos are added
 	private boolean goSwitch, goScale;
 	
@@ -101,17 +106,7 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		//System.out.println(System.getProperty("java.library.path"));
 
-		autonomousCommand = new IntakeExtend();
-		/*
-		 * generateSegments(),saveTrajectories(),loadTrajectories() Parameters
-		 * 
-		 * Center to Left Switch: 1
-		 * Left to Left Switch: 2
-		 * Right to Right Switch: 3
-		 * Center to Left Switch Backwards: 4
-		 * Center to Right Switch: 5
-		 * 
-		 */
+		autonomousCommand = new AutoBoxClamp();
 		
 	}
 	
@@ -326,29 +321,28 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 				
 				autonomousCommand = new Center_RightSwitch_Fast();
 				break;
-			default:
-				left = new File(baseFilepath + "X_AUTOLINE_LEFT.csv");
-				right = new File(baseFilepath + "X_AUTOLINE_RIGHT.csv");
+			case 8: //left to left scale
+				left = new File(baseFilepath + "X_X_SCALE_LEFT.csv");
+				right = new File(baseFilepath + "X_X_SCALE_RIGHT.csv");
 				segment_one_left = Pathfinder.readFromCSV(left);
 				segment_one_right = Pathfinder.readFromCSV(right);
-				autonomousCommand = new X_AutoLine();
-				System.out.println("Jesus christ man");
+				autonomousCommand = new Left_LeftScale();
 				break;
+			case 9: //right to right scale
+				left = new File(baseFilepath + "X_X_SCALE_LEFT.csv");
+				right = new File(baseFilepath + "X_X_SCALE_RIGHT.csv");
+				segment_one_left = Pathfinder.readFromCSV(left);
+				segment_one_right = Pathfinder.readFromCSV(right);
+				autonomousCommand = new Right_RightScale();
+			default:
+				System.out.println("Jesus christ man!");
+				break;
+				
 				
 				
 		}
 	}
-
-	/*
-	 * chooseAuto()
-	 * autoChoices
-	 * drive Straight(default): 0 
-	 * Center to Left Switch: 1
-	 * Left to Left Switch: 2
-	 * Right to Right Switch: 3
-	 * Center to Left Switch Backwards: 4
-	 * Center to Right Switch: 5
-	 */
+	
 	public void chooseAuto() {
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
 		if (gameData.length() > 0) {
@@ -362,18 +356,30 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 		//startingPosition = (int) SmartDashboard.getNumber("Starting Position (1-Left, 2-Mid, 3-Right)", 0);
 		
 		startingPosition = HARDCODED_POSITION; //this is a hardcoded fallback
+		if (startingPosition == 1 && switchPosition == 'L' && SCALE){
+			autoChoice = 8;
+		}
+		else if (startingPosition == 3 && switchPosition == 'R' && SCALE){
+			autoChoice = 9;
+		}
 		
-		if (startingPosition == 2 && switchPosition == 'L') {
+		else if (startingPosition == 2 && switchPosition == 'L' && !FAST_SWITCH) {
 			autoChoice = 1;
 		}
 		else if (startingPosition == 1 && switchPosition == 'L') {
 			autoChoice = 2;
 		}
-		else if (startingPosition == 3 && switchPosition == 'R') {
+		else if (startingPosition == 3 && switchPosition == 'R' ) {
 			autoChoice = 3;
 		}
-		else if (startingPosition == 2 && switchPosition == 'R') {
+		else if (startingPosition == 2 && switchPosition == 'R' && !FAST_SWITCH) {
 			autoChoice = 5;
+		}
+		else if (startingPosition == 2 && switchPosition == 'L' && FAST_SWITCH) {
+			autoChoice = 6;
+		}
+		else if (startingPosition == 2 && switchPosition == 'R' && FAST_SWITCH) {
+			autoChoice = 7;
 		}
 		else {
 			autoChoice = 0;
@@ -412,20 +418,9 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 	@Override
 	public void autonomousInit() {
 		
-		/* autoChoices
-		 * drive Straight(default): 0 
-		 * Center to Left Switch: 1
-		 * Left to Left Switch: 2
-		 * Right to Right Switch: 3
-		 * Center to Left Switch Backwards: 4
-		 * Center to Right Switch: 5
-		 * Center to Left Switch Fast: 6
-		 * Center to Right Switch Fast: 7
-		 */
-		
 		chooseAuto();
-		
-		loadTrajectories(1);
+		loadTrajectories(autoChoice);
+		//loadTrajectories(6);
 		
 		// schedule the autonomous command (example)
 		autonomousCommand.start();

@@ -10,9 +10,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class BangBangMove extends CommandGroup {
 
-    public BangBangMove() {
+    public BangBangMove(int height) {
     	addSequential(new BrakeRelease());
-    	addSequential(new BangBangFramework(15000));
+    	addSequential(new BangBangFramework(height)); //16000 for switch, 39000 for scale
     	addSequential(new WaitLift(.10));
     	addSequential(new BrakeEngage());
         // Add Commands here:

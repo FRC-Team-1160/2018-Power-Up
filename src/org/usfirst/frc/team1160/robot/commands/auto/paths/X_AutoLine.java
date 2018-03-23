@@ -1,25 +1,26 @@
 package org.usfirst.frc.team1160.robot.commands.auto.paths;
 
 import org.usfirst.frc.team1160.robot.Robot;
-import org.usfirst.frc.team1160.robot.RobotMap;
 import org.usfirst.frc.team1160.robot.commands.ResetEncoderYaw;
-import org.usfirst.frc.team1160.robot.commands.auto.drive.GenerateFollowTrajectory;
-import org.usfirst.frc.team1160.robot.commands.auto.lift.BangBangMove;
+import org.usfirst.frc.team1160.robot.commands.auto.drive.LoadFollowTrajectory;
+import org.usfirst.frc.team1160.robot.commands.auto.drive.WaitDrivetrain;
+import org.usfirst.frc.team1160.robot.commands.auto.intake.AutoBoxClamp;
 import org.usfirst.frc.team1160.robot.commands.intake.IntakeExtend;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import jaci.pathfinder.Trajectory;
 
 /**
  *
  */
-public class GenericFollow extends CommandGroup implements RobotMap{
+public class X_AutoLine extends CommandGroup {
 
-    public GenericFollow(Trajectory traj) {
+    public X_AutoLine() {
+    	System.out.println("Auto line");
     	addSequential(new IntakeExtend());
+    	addSequential(new WaitDrivetrain(0.1));
+    	addSequential(new AutoBoxClamp());
     	addSequential(new ResetEncoderYaw());
-    	addSequential(new BangBangMove(SWITCH_HEIGHT));
-    	addSequential(new GenerateFollowTrajectory(traj));
+    	addSequential(new LoadFollowTrajectory(Robot.segment_one_left,Robot.segment_one_right));
     	
         // Add Commands here:
         // e.g. addSequential(new Command1());

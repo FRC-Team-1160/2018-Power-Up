@@ -10,12 +10,12 @@ import org.usfirst.frc.team1160.robot.TrajectoryWaypoints;
 /**
  *
  */
-public class FollowTrajectory extends Command implements TrajectoryWaypoints{
+public class GenerateFollowTrajectory extends Command implements TrajectoryWaypoints{
 
 	int n;
 	Trajectory traj;
 	
-    public FollowTrajectory(Trajectory traj) {
+    public GenerateFollowTrajectory(Trajectory traj) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.dt);

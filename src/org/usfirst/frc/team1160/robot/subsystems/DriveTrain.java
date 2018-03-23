@@ -170,6 +170,9 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
  		angle_difference = angle_difference_now;
  		
  		SmartDashboard.putNumber("turnAngle PercentOutput input", proportion+derivative+integral);
+ 		leftMaster.set(ControlMode.PercentOutput, proportion+derivative+integral);
+ 		rightMaster.set(ControlMode.PercentOutput, proportion+derivative+integral);
+ 		/*
  		if (proportion+derivative+integral <= GYRO_CAP) {
 	 		leftMaster.set(ControlMode.PercentOutput, proportion+derivative+integral);
 	 		rightMaster.set(ControlMode.PercentOutput, proportion+derivative+integral);
@@ -177,7 +180,8 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
  		else {
  			leftMaster.set(GYRO_CAP);
  			rightMaster.set(GYRO_CAP);
- 		}
+ 		*/
+ 		
  		printYaw();
  		resetTime();
  		startTime();
@@ -367,6 +371,14 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		modifier = new TankModifier(traj).modify(WHEEL_BASE_DISTANCE);
 		left = new EncoderFollower(modifier.getLeftTrajectory());
 		right = new EncoderFollower(modifier.getRightTrajectory());
+	}
+	
+	public void loadLeftEncoderFollower(Trajectory traj) { //from a csv!
+		left = new EncoderFollower(traj);
+	}
+	
+	public void loadRightEncoderFollower(Trajectory traj) { //also from a csv!
+		right = new EncoderFollower(traj);
 	}
 	
 	public void resetLeftEncoderFollower() {

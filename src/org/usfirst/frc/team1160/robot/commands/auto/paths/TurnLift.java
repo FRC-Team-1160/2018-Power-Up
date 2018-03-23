@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1160.robot.commands.auto.paths;
 
+import org.usfirst.frc.team1160.robot.RobotMap;
 import org.usfirst.frc.team1160.robot.commands.auto.drive.TurnAngle;
 import org.usfirst.frc.team1160.robot.commands.auto.lift.BangBangMove;
 
@@ -8,11 +9,11 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class TurnLift extends CommandGroup {
+public class TurnLift extends CommandGroup implements RobotMap{
 
-    public TurnLift() {
-    	addParallel(new TurnAngle(90));
-    	addParallel(new BangBangMove());
+    public TurnLift(int height,double angle) {
+    	addParallel(new TurnAngle(angle));
+    	addParallel(new BangBangMove(height));
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

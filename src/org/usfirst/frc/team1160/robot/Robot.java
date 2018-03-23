@@ -9,10 +9,11 @@ package org.usfirst.frc.team1160.robot;
 
 import java.io.File;
 
-import org.usfirst.frc.team1160.robot.commands.auto.drive.FollowTrajectory;
+import org.usfirst.frc.team1160.robot.commands.auto.drive.GenerateFollowTrajectory;
 import org.usfirst.frc.team1160.robot.commands.auto.drive.MoveForward;
 import org.usfirst.frc.team1160.robot.commands.auto.drive.TurnAngle;
 import org.usfirst.frc.team1160.robot.commands.auto.paths.*;
+import org.usfirst.frc.team1160.robot.commands.intake.IntakeExtend;
 import org.usfirst.frc.team1160.robot.subsystems.Climber;
 import org.usfirst.frc.team1160.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1160.robot.subsystems.Intake;
@@ -27,8 +28,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
-//import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -37,14 +36,17 @@ import jaci.pathfinder.Trajectory;
  * creating this project, you must also update the build.properties file in the
  * project.
  */
-public class Robot extends TimedRobot implements TrajectoryWaypoints{
+public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 	public static OI oi;
 	public Command autonomousCommand;
 	public static DriveTrain dt;
 	public static Intake intake;
 	public static Climber climber;
 	public static Lift lift;
-	public static Trajectory segment_one,segment_two,segment_three;
+	public static Trajectory segment_one,segment_two,segment_three, //These three should be useless
+							 segment_one_left,segment_one_right,    //The rest of these should be more useful
+							 segment_two_left,segment_two_right,
+							 segment_three_left,segment_three_right;
 	public static String gameData;
 	public static char switchPosition, scalePosition, oppSwitchPosition;
 	
@@ -79,8 +81,8 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 		
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		//System.out.println(System.getProperty("java.library.path"));
-		
-		
+
+		autonomousCommand = new IntakeExtend();
 		/*
 		 * generateSegments(),saveTrajectories(),loadTrajectories() Parameters
 		 * 
@@ -90,12 +92,16 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 		 * Center to Left Switch Backwards: 4
 		 * Center to Right Switch: 5
 		 */
-		//saveTrajectoriesAll();
-		autonomousCommand = new TurnAngle(90);
 		
 	}
 	
-	public void generateSegments(int choice) { //let's be even more honest, you should only have to run this once after the csv loading code is made
+	
+	/*
+	 * generateSegments()
+	 * Wednesday night: let's be even more honest, you should only have to run this once after the csv loading code is made
+	 * Thursday afternoon: you better not ever call this method
+	 */
+	public void generateSegments(int choice) {
 		switch (choice) {
 			case 1: //Center to Left Switch
 				segment_one = dt.generateTrajectorySetup(CENTER_LEFT_SWITCH_1);
@@ -126,120 +132,160 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 				autonomousCommand = new Center_RightSwitch();
 				break;
 			case 6: //Custom
-				segment_one = dt.generateTrajectorySetup(POINTS_2);
+				segment_one = dt.generateTrajectorySetup(POINTS_1);
 				autonomousCommand = new GenericFollow(segment_one);
 				break;
 			default:
 				System.out.println("Hold this L");
 				break;
-			
-			
 		}
 	}
 	
-	public void saveTrajectories(int choice) { //let's be honest, you should only have to run this code once
+	/*
+	 * saveTrajectories(), saveTrajectoriesAll()
+	 * Wednesday night: let's be honest, you should only have to run this code once
+	 * Thursday afternoon: please don't ever call this method thanks
+	 */
+	public void saveTrajectories(int choice) {
 		File file_one;
 		switch (choice) {
 			case 1:
 				generateSegments(1);
-				file_one = new File("CENTER_LEFT_SWITCH_1.traj");
+				file_one = new File("CENTER_LEFT_SWITCH_1.csv");
 				Pathfinder.writeToFile(file_one, segment_one);
-				file_one = new File("CENTER_LEFT_SWITCH_2.traj");
+				file_one = new File("CENTER_LEFT_SWITCH_2.csv");
 				Pathfinder.writeToFile(file_one, segment_two);
-				file_one = new File("CENTER_LEFT_SWITCH_3.traj");
+				file_one = new File("CENTER_LEFT_SWITCH_3.csv");
 				Pathfinder.writeToFile(file_one, segment_three);
 				break;
 			case 2:
 			case 3:
 				generateSegments(2);
-				file_one = new File("X_X_SWITCH_1.traj");
+				file_one = new File("X_X_SWITCH_1.csv");
 				Pathfinder.writeToFile(file_one, segment_one);
-				file_one = new File("X_X_SWITCH_2.traj");
+				file_one = new File("X_X_SWITCH_2.csv");
 				Pathfinder.writeToFile(file_one, segment_two);
 				break;
 			case 5: 
 				generateSegments(5);
-				file_one = new File("CENTER_RIGHT_SWITCH_1.traj");
+				file_one = new File("CENTER_RIGHT_SWITCH_1.csv");
 				Pathfinder.writeToFile(file_one, segment_one);
-				file_one = new File("CENTER_RIGHT_SWITCH_2.traj");
+				file_one = new File("CENTER_RIGHT_SWITCH_2.csv");
 				Pathfinder.writeToFile(file_one, segment_two);
-				file_one = new File("CENTER_RIGHT_SWITCH_3.traj");
+				file_one = new File("CENTER_RIGHT_SWITCH_3.csv");
 				Pathfinder.writeToFile(file_one, segment_three);
 				break;
 			default:
 				System.out.println("Hold this even bigger L");
 				break;		
 		}
-		
-		
 	}
-	
 	public void saveTrajectoriesAll()
 	{	//Kobe: "Just save them all"
 		File file_one;
 		generateSegments(1);
-		//file_one = new File("CENTER_LEFT_SWITCH_1.traj");
-		file_one = new File("CLS1.traj");
+		//file_one = new File("CENTER_LEFT_SWITCH_1.csv");
+		file_one = new File("CLS1.csv");
 		System.out.println("Attempted to save center left switch 1");
 		Pathfinder.writeToFile(file_one, segment_one);
 		System.out.println("Successfully saved center left switch 1");
-		file_one = new File("CENTER_LEFT_SWITCH_2.traj");
+		file_one = new File("CENTER_LEFT_SWITCH_2.csv");
 		Pathfinder.writeToFile(file_one, segment_two);
-		file_one = new File("CENTER_LEFT_SWITCH_3.traj");
+		file_one = new File("CENTER_LEFT_SWITCH_3.csv");
 		Pathfinder.writeToFile(file_one, segment_three);
 		generateSegments(2);
-		file_one = new File("X_X_SWITCH_1.traj");
+		file_one = new File("X_X_SWITCH_1.csv");
 		Pathfinder.writeToFile(file_one, segment_one);
-		file_one = new File("X_X_SWITCH_2.traj");
+		file_one = new File("X_X_SWITCH_2.csv");
 		Pathfinder.writeToFile(file_one, segment_two);
 		generateSegments(5);
-		file_one = new File("CENTER_RIGHT_SWITCH_1.traj");
+		file_one = new File("CENTER_RIGHT_SWITCH_1.csv");
 		Pathfinder.writeToFile(file_one, segment_one);
-		file_one = new File("CENTER_RIGHT_SWITCH_2.traj");
+		file_one = new File("CENTER_RIGHT_SWITCH_2.csv");
 		Pathfinder.writeToFile(file_one, segment_two);
-		file_one = new File("CENTER_RIGHT_SWITCH_3.traj");
+		file_one = new File("CENTER_RIGHT_SWITCH_3.csv");
 		Pathfinder.writeToFile(file_one, segment_three);
 		
 		System.out.println("All paths saved to csv");
 	}
 	
-	public void loadTrajectories(int choice) { //now this is the good stuff, this is what you wanna run 25/7
-		File file_one;
+	/*
+	 * loadTrajectories()
+	 * Thursday morning: now this is the good stuff, this is what you wanna run 25/7
+	 */
+	public void loadTrajectories(int choice) {
+		File left,right;
+		String baseFilepath = "/home/lvuser/motionProfiles/";
 		switch (choice)
 		{
 			case 1:
-				file_one = new File("CENTER_LEFT_SWITCH_1.traj");
-				segment_one = Pathfinder.readFromFile(file_one);
-				file_one = new File("CENTER_LEFT_SWITCH_2.traj");
-				segment_two = Pathfinder.readFromFile(file_one);
-				file_one = new File("CENTER_LEFT_SWITCH_3.traj");
-				segment_three = Pathfinder.readFromFile(file_one);
+				left = new File(baseFilepath + "CENTER_LEFT_SWITCH_1_LEFT.csv");
+				right = new File(baseFilepath + "CENTER_LEFT_SWITCH_1_RIGHT.csv");
+				segment_one_left = Pathfinder.readFromCSV(left);
+				segment_one_right = Pathfinder.readFromCSV(right);
+				
+				left = new File(baseFilepath + "CENTER_LEFT_SWITCH_2_LEFT.csv");
+				right = new File(baseFilepath + "CENTER_LEFT_SWITCH_2_RIGHT.csv");
+				segment_two_left = Pathfinder.readFromCSV(left);
+				segment_two_right = Pathfinder.readFromCSV(right);
+				
+				left = new File(baseFilepath + "CENTER_LEFT_SWITCH_3_LEFT.csv");
+				right = new File(baseFilepath + "CENTER_LEFT_SWITCH_3_RIGHT.csv");
+				segment_three_left = Pathfinder.readFromCSV(left);
+				segment_three_right = Pathfinder.readFromCSV(right);
+				
 				autonomousCommand = new Center_LeftSwitch();
 				break;
 			case 2:
-				file_one = new File("X_X_SWITCH_1.traj");
-				segment_one = Pathfinder.readFromFile(file_one);
-				file_one = new File("X_X_SWITCH_2.traj");
-				segment_two = Pathfinder.readFromFile(file_one);
+				left = new File(baseFilepath + "X_X_SWITCH_1_LEFT.csv");
+				right = new File(baseFilepath + "X_X_SWITCH_1_RIGHT.csv");
+				segment_one_left = Pathfinder.readFromCSV(left);
+				segment_one_right = Pathfinder.readFromCSV(right);
+				
+				left = new File(baseFilepath + "X_X_SWITCH_2_LEFT.csv");
+				right = new File(baseFilepath + "X_X_SWITCH_2_RIGHT.csv");
+				segment_two_left = Pathfinder.readFromCSV(left);
+				segment_two_right = Pathfinder.readFromCSV(right);
+				
 				autonomousCommand = new Left_LeftSwitch();
 				break;
 			case 3:
-				file_one = new File("X_X_SWITCH_1.traj");
-				segment_one = Pathfinder.readFromFile(file_one);
-				file_one = new File("X_X_SWITCH_2.traj");
-				segment_two = Pathfinder.readFromFile(file_one);
+				left = new File(baseFilepath + "X_X_SWITCH_1_LEFT.csv");
+				right = new File(baseFilepath + "X_X_SWITCH_1_RIGHT.csv");
+				segment_one_left = Pathfinder.readFromCSV(left);
+				segment_one_right = Pathfinder.readFromCSV(right);
+				
+				left = new File(baseFilepath + "X_X_SWITCH_2_LEFT.csv");
+				right = new File(baseFilepath + "X_X_SWITCH_2_RIGHT.csv");
+				segment_two_left = Pathfinder.readFromCSV(left);
+				segment_two_right = Pathfinder.readFromCSV(right);
+				
 				autonomousCommand = new Right_RightSwitch();
 				break;
 			case 5:
-				file_one = new File("CENTER_RIGHT_SWITCH_1.traj");
-				segment_one = Pathfinder.readFromFile(file_one);
-				file_one = new File("CENTER_RIGHT_SWITCH_2.traj");
-				segment_two = Pathfinder.readFromFile(file_one);
-				file_one = new File("CENTER_RIGHT_SWITCH_3.traj");
-				segment_three = Pathfinder.readFromFile(file_one);
+				left = new File(baseFilepath + "CENTER_RIGHT_SWITCH_1_LEFT.csv");
+				right = new File(baseFilepath + "CENTER_RIGHT_SWITCH_1_RIGHT.csv");
+				segment_one_left = Pathfinder.readFromCSV(left);
+				segment_one_right = Pathfinder.readFromCSV(right);
+				
+				left = new File(baseFilepath + "CENTER_RIGHT_SWITCH_2_LEFT.csv");
+				right = new File(baseFilepath + "CENTER_RIGHT_SWITCH_2_RIGHT.csv");
+				segment_two_left = Pathfinder.readFromCSV(left);
+				segment_two_right = Pathfinder.readFromCSV(right);
+				
+				left = new File(baseFilepath + "CENTER_RIGHT_SWITCH_3_LEFT.csv");
+				right = new File(baseFilepath + "CENTER_RIGHT_SWITCH_3_RIGHT.csv");
+				segment_three_left = Pathfinder.readFromCSV(left);
+				segment_three_right = Pathfinder.readFromCSV(right);
+				
 				autonomousCommand = new Center_RightSwitch();
 				break;
 			default:
+				left = new File(baseFilepath + "X_AUTOLINE_LEFT.csv");
+				right = new File(baseFilepath + "X_AUTOLINE_RIGHT.csv");
+				segment_one_left = Pathfinder.readFromCSV(left);
+				segment_one_right = Pathfinder.readFromCSV(right);
+				autonomousCommand = new X_AutoLine();
 				System.out.println("Jesus christ man");
 				break;
 				
@@ -247,24 +293,29 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 		}
 	}
 
+	/*
+	 * chooseAuto()
+	 * autoChoices
+	 * drive Straight(default): 0 
+	 * Center to Left Switch: 1
+	 * Left to Left Switch: 2
+	 * Right to Right Switch: 3
+	 * Center to Left Switch Backwards: 4
+	 * Center to Right Switch: 5
+	 */
 	public void chooseAuto() {
-		/* autoChoices
-		 * drive Straight(default): 0 
-		 * Center to Left Switch: 1
-		 * Left to Left Switch: 2
-		 * Right to Right Switch: 3
-		 * Center to Left Switch Backwards: 4
-		 * Center to Right Switch: 5
-		 */
-		
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
 		if (gameData.length() > 0) {
 			switchPosition = gameData.charAt(0);
 			scalePosition = gameData.charAt(1);
 			oppSwitchPosition = gameData.charAt(2);
+			System.out.println("Game Data = " + gameData);
+			
 		}
-		startingPosition = (int) SmartDashboard.getNumber("Starting Position (1-Left, 2-Mid, 3-Right)", 0);
 		
+		//startingPosition = (int) SmartDashboard.getNumber("Starting Position (1-Left, 2-Mid, 3-Right)", 0);
+		
+		startingPosition = HARDCODED_POSITION; //this is a hardcoded fallback
 		
 		if (startingPosition == 2 && switchPosition == 'L') {
 			autoChoice = 1;
@@ -284,6 +335,7 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 		
 		
 	}
+	
 	/**
 	 * This function is called once each time the robot enters Disabled mode.
 	 * You can use it to reset any subsystem information you want to clear when
@@ -317,12 +369,6 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints{
 		chooseAuto();
 		
 		loadTrajectories(autoChoice);
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
 		
 		// schedule the autonomous command (example)
 		autonomousCommand.start();

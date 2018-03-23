@@ -10,6 +10,7 @@ package org.usfirst.frc.team1160.robot;
 import org.usfirst.frc.team1160.robot.commands.*;
 import org.usfirst.frc.team1160.robot.commands.auto.*;
 import org.usfirst.frc.team1160.robot.commands.auto.drive.TurnAngle;
+import org.usfirst.frc.team1160.robot.commands.auto.intake.AutoBoxClamp;
 import org.usfirst.frc.team1160.robot.commands.auto.intake.AutoBoxSpit;
 import org.usfirst.frc.team1160.robot.commands.auto.intake.FullExtend;
 import org.usfirst.frc.team1160.robot.commands.auto.lift.BangBangFramework;
@@ -26,7 +27,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
-public class OI {
+public class OI implements RobotMap{
 	private static OI instance;
 	Joystick mainStick, climbStick, dsStick;
 	JoystickButton intakeEat,intakeSpit,intakeSet,intakeStop,intakeExtend,intakeRetract,intakeExtendRetract,
@@ -35,7 +36,7 @@ public class OI {
 				   extendClimber, retractClimber,
 				   climbUp,climbDown,
 				   resetEncodersYaw,
-				   setLift,setLiftSwitch,setLiftBottom,bangBangMove,
+				   bangBangScale,bangBangSwitch,bangBangCarry,
 				   turnAngle,
 				   fullExtend,fullRetract,
 				   dsEngageBrake,dsReleaseBrake,dsExtendClimber,dsRetractClimber,dsClimbUp,dsClimbDown;
@@ -61,10 +62,10 @@ public class OI {
 		 */
 		resetEncodersYaw = new JoystickButton(mainStick,9);
 		
-		fullExtend = new JoystickButton(mainStick,8);
+		//fullExtend = new JoystickButton(mainStick,8);
 		
-		highGear = new JoystickButton(mainStick,4);
-		lowGear = new JoystickButton(mainStick,1);
+		highGear = new JoystickButton(mainStick,7);
+		lowGear = new JoystickButton(mainStick,8);
 		
 		intakeEat = new JoystickButton(mainStick,5);
 		intakeSpit = new JoystickButton(mainStick,6);
@@ -87,13 +88,9 @@ public class OI {
 		
 		intakeExtendRetract = new JoystickButton(climbStick,11);
 		
-		turnAngle = new JoystickButton(climbStick,10);
-		
-		setLiftSwitch = new JoystickButton(climbStick,4);
-		setLiftBottom = new JoystickButton(climbStick,5);
-		bangBangMove = new JoystickButton(climbStick,2);
-		
-		//setLift = new JoystickButton(climbStick,1);
+		//turnAngle = new JoystickButton(climbStick,10);
+
+		bangBangScale = new JoystickButton(climbStick,2);
 		
 		/*
 		 * Generic
@@ -110,7 +107,7 @@ public class OI {
 	}
 	private void tieButtons() {
 		
-		intakeExtendRetract.whenPressed(new AutoBoxSpit());
+		intakeExtendRetract.whenPressed(new AutoBoxClamp());
 		intakeExtend.whenPressed(new IntakeExtend());
 		intakeRetract.whenPressed(new IntakeRetract());
 		
@@ -121,23 +118,22 @@ public class OI {
 		highGear.whenPressed(new HighGear());
 		lowGear.whenPressed(new LowGear());
 		
-		intakeEat.whileHeld(new IntakeRotate(0.7));
-		intakeSpit.whileHeld(new IntakeRotate(-0.7));
+		intakeEat.whileHeld(new IntakeRotate(-0.7));
+		intakeSpit.whileHeld(new IntakeRotate(0.7));
 		
 		extendClimber.whenPressed(new LatchExtend());
 		retractClimber.whenPressed(new LatchRetract());
 		
-		//.climbUp.whileHeld(new Climb(0.75));
+		climbUp.whileHeld(new Climb(0.75));
 		climbDown.whileHeld(new Climb(-0.75));
 		
 		engageBrake.whenPressed(new BrakeEngage());
 		releaseBrake.whenPressed(new BrakeRelease());
 
-		turnAngle.whenPressed(new TurnAngle(90));
+		//turnAngle.whenPressed(new TurnAngle(90));
 		
-		setLiftSwitch.whenPressed(new BangBangFramework(15000));
-		setLiftBottom.whenPressed(new BangBangFramework(500));
-		bangBangMove.whenPressed(new BangBangMove());
+		bangBangScale.whenPressed(new BangBangMove(SCALE_HEIGHT));
+		
 		
 		//setLift.whileHeld(new SetLift(0.1));
 		

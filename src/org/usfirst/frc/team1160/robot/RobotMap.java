@@ -18,6 +18,13 @@ public interface RobotMap {
 	public static final int PCM = 4;							//PCM Port
 	
 	/*
+	 * 1 - Left
+	 * 2 - Center
+	 * 3 - Right
+	 */
+	public static final int HARDCODED_POSITION = 2;
+	
+	/*
 	 * DriveTrain
 	 */
 	public static int DT_LEFT_1 = 2;							//Ports
@@ -44,20 +51,20 @@ public interface RobotMap {
 	public static final double DRIVE_KD = 0;
 	public static final double DRIVE_KF = 0;
 	
-	public static final double LEFT_KP = 0.8;//0.6; 					//MotionProfiling Constants for Low Gear
+	public static final double LEFT_KP = 0.6;//0				//MotionProfiling Constants for Low Gear
 	public static final double LEFT_KI = 0;
 	public static final double LEFT_KD = 0.2;
 	public static final double LEFT_KF = 0.125;
 	public static final double LEFT_KA = 0;
 	
-	public static final double RIGHT_KP = 0.8;//0.6;
+	public static final double RIGHT_KP = 0.6;//0.8;
 	public static final double RIGHT_KI = 0;
 	public static final double RIGHT_KD = 0.2;
 	public static final double RIGHT_KF = 0.127;
 	public static final double RIGHT_KA = 0;
 	
 	public static final double MAX_VELOCITY = 7;				//Drivetrain trajectory constants
-	public static final double MAX_ACCELERATION = 3;
+	public static final double MAX_ACCELERATION = 3; //TODO: Change to 4 and remake
 	public static final double MAX_JERK = 10;
 	public static final double TIME_BETWEEN_POINTS = 0.02;			//Time (in seconds) between each Waypoint of the config
 	
@@ -98,7 +105,9 @@ public interface RobotMap {
 	public static final int	LIFT_RIGHT_MOTION_CRUISE_VELOCITY = 0; //RIGHT
 	public static final int	LIFT_RIGHT_MOTION_ACCELERATION = 0;
 	
-	public static final int LIFT_CEILING = 37000; //ceiling for the right lift encoder
+	public static final int CARRY_HEIGHT = 500; //poggers
+	public static final int SWITCH_HEIGHT = 16000; //height of the switch, in right side encoder units
+	public static final int SCALE_HEIGHT = 39000; //height of the scale, in right side encoder units
 	
 
 	

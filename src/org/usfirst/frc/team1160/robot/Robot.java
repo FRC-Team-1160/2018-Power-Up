@@ -5,6 +5,17 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+
+/**TODO:
+ * 1. Regenerate paths with new accl value of 4
+ * 2. Scale auto
+ * 3. New switch autos (center)
+ * 4. Optimize command groups (what works best in parallel)?
+ * 5. 2 cube auto (scale or switch)
+ * 6. Far side scale
+ * 7. 
+ */
+
 package org.usfirst.frc.team1160.robot;
 
 import java.io.File;
@@ -13,6 +24,10 @@ import org.usfirst.frc.team1160.robot.commands.auto.drive.GenerateFollowTrajecto
 import org.usfirst.frc.team1160.robot.commands.auto.drive.MoveForward;
 import org.usfirst.frc.team1160.robot.commands.auto.drive.TurnAngle;
 import org.usfirst.frc.team1160.robot.commands.auto.paths.*;
+import org.usfirst.frc.team1160.robot.commands.auto.paths.switch_.Center_LeftSwitch;
+import org.usfirst.frc.team1160.robot.commands.auto.paths.switch_.Center_RightSwitch;
+import org.usfirst.frc.team1160.robot.commands.auto.paths.switch_.Left_LeftSwitch;
+import org.usfirst.frc.team1160.robot.commands.auto.paths.switch_.Right_RightSwitch;
 import org.usfirst.frc.team1160.robot.commands.intake.IntakeExtend;
 import org.usfirst.frc.team1160.robot.subsystems.Climber;
 import org.usfirst.frc.team1160.robot.subsystems.DriveTrain;

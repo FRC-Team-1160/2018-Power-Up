@@ -59,5 +59,9 @@ public interface TrajectoryWaypoints {
 	//Straight line from start to switch
 	public static final Waypoint[] START_SWITCH =
 			new Waypoint[] {new Waypoint(0, 0, 0), new Waypoint(140/12, 0, 0)};
+	
+	//From the X side to the X scale
+	public static final Waypoint[] X_X_SCALE =
+			new Waypoint[] {new Waypoint(0,0,0),new Waypoint(25.37,0,0)};
 
 }

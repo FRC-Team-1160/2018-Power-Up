@@ -36,13 +36,13 @@ public interface RobotMap {
 	
 	public static int DT_ENC_COUNTS_PER_REV = 512;				//Encoder counts per revolution
 	public static double WHEEL_BASE_DISTANCE = 2.53;
-	
-	public static final double GYRO_KP = 1.2 * (-1.0/80.0);	//Pathfinder	//Gyro constants
+															//Gyro constants
+	public static final double GYRO_KP = 1.2 * (-1.0/80.0);	//Pathfinder
 	
 	public static final double GYRO_KP_2 = .55*2.5 * (-1.0/80.0); //TurnAngle
 	public static final double GYRO_KI = -3*3/(1.3*100);
 	public static final double GYRO_KD = 3*2.5*1.3/40 * (-1.0/80.0); //0.01 * (-1.0/80.0);//TURN ANGLE KP
-	public static final double GYRO_TOLERANCE = 0.75;				//Smaller value means higher accuracy but more time spent
+	public static final double GYRO_TOLERANCE = 1.5;				//Smaller value means higher accuracy but more time spent
 																//achieving said accuracy
 	public static final double GYRO_CAP = 0.4; //max speed of the turn during TurnAngle
 	
@@ -64,7 +64,7 @@ public interface RobotMap {
 	public static final double RIGHT_KA = 0;
 	
 	public static final double MAX_VELOCITY = 7;				//Drivetrain trajectory constants
-	public static final double MAX_ACCELERATION = 3; //TODO: Change to 4 and remake
+	public static final double MAX_ACCELERATION = 4; //TODO: Change to 4 and remake
 	public static final double MAX_JERK = 10;
 	public static final double TIME_BETWEEN_POINTS = 0.02;			//Time (in seconds) between each Waypoint of the config
 	

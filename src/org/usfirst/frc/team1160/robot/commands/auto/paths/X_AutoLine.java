@@ -16,8 +16,6 @@ public class X_AutoLine extends CommandGroup {
 
     public X_AutoLine() {
     	System.out.println("Auto line");
-    	addSequential(new IntakeExtend());
-    	addSequential(new WaitDrivetrain(0.1));
     	addSequential(new AutoBoxClamp());
     	addSequential(new ResetEncoderYaw());
     	addSequential(new LoadFollowTrajectory(Robot.segment_one_left,Robot.segment_one_right));

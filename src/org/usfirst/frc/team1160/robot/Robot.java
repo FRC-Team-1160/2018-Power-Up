@@ -25,7 +25,9 @@ import org.usfirst.frc.team1160.robot.commands.auto.drive.MoveForward;
 import org.usfirst.frc.team1160.robot.commands.auto.drive.TurnAngle;
 import org.usfirst.frc.team1160.robot.commands.auto.paths.*;
 import org.usfirst.frc.team1160.robot.commands.auto.paths.switch_.Center_LeftSwitch;
+import org.usfirst.frc.team1160.robot.commands.auto.paths.switch_.Center_LeftSwitch_Fast;
 import org.usfirst.frc.team1160.robot.commands.auto.paths.switch_.Center_RightSwitch;
+import org.usfirst.frc.team1160.robot.commands.auto.paths.switch_.Center_RightSwitch_Fast;
 import org.usfirst.frc.team1160.robot.commands.auto.paths.switch_.Left_LeftSwitch;
 import org.usfirst.frc.team1160.robot.commands.auto.paths.switch_.Right_RightSwitch;
 import org.usfirst.frc.team1160.robot.commands.intake.IntakeExtend;
@@ -106,6 +108,7 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 		 * Right to Right Switch: 3
 		 * Center to Left Switch Backwards: 4
 		 * Center to Right Switch: 5
+		 * 
 		 */
 		
 	}
@@ -294,6 +297,32 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 				segment_three_right = Pathfinder.readFromCSV(right);
 				
 				autonomousCommand = new Center_RightSwitch();
+				break;
+			case 6: //center to left switch fast
+				left = new File(baseFilepath + "CENTER_LEFT_SWITCH_FAST_1_LEFT.csv");
+				right = new File(baseFilepath + "CENTER_LEFT_SWITCH_FAST_1_RIGHT.csv");
+				segment_one_left = Pathfinder.readFromCSV(left);
+				segment_one_right = Pathfinder.readFromCSV(right);
+				
+				left = new File(baseFilepath + "CENTER_LEFT_SWITCH_FAST_2_LEFT.csv");
+				right = new File(baseFilepath + "CENTER_LEFT_SWITCH_FAST_2_RIGHT.csv");
+				segment_two_left = Pathfinder.readFromCSV(left);
+				segment_two_right = Pathfinder.readFromCSV(right);
+				
+				autonomousCommand = new Center_LeftSwitch_Fast();
+				break;
+			case 7: //center to right switch fast
+				left = new File(baseFilepath + "CENTER_RIGHT_SWITCH_FAST_1_LEFT.csv");
+				right = new File(baseFilepath + "CENTER_RIGHT_SWITCH_FAST_1_RIGHT.csv");
+				segment_one_left = Pathfinder.readFromCSV(left);
+				segment_one_right = Pathfinder.readFromCSV(right);
+				
+				left = new File(baseFilepath + "CENTER_RIGHT_SWITCH_FAST_2_LEFT.csv");
+				right = new File(baseFilepath + "CENTER_RIGHT_SWITCH_FAST_2_RIGHT.csv");
+				segment_two_left = Pathfinder.readFromCSV(left);
+				segment_two_right = Pathfinder.readFromCSV(right);
+				
+				autonomousCommand = new Center_RightSwitch_Fast();
 				break;
 			default:
 				left = new File(baseFilepath + "X_AUTOLINE_LEFT.csv");

@@ -78,6 +78,8 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 	 * Right to Right Switch: 3
 	 * Center to Left Switch Backwards: 4
 	 * Center to Right Switch: 5
+	 * Center to Left Switch Fast: 6
+	 * Center to Right Switch Fast: 7
 	 */
 	autoChoice;
 	//to be used when scale autos are added
@@ -410,9 +412,20 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 	@Override
 	public void autonomousInit() {
 		
+		/* autoChoices
+		 * drive Straight(default): 0 
+		 * Center to Left Switch: 1
+		 * Left to Left Switch: 2
+		 * Right to Right Switch: 3
+		 * Center to Left Switch Backwards: 4
+		 * Center to Right Switch: 5
+		 * Center to Left Switch Fast: 6
+		 * Center to Right Switch Fast: 7
+		 */
+		
 		chooseAuto();
 		
-		loadTrajectories(autoChoice);
+		loadTrajectories(1);
 		
 		// schedule the autonomous command (example)
 		autonomousCommand.start();

@@ -380,49 +380,60 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 		//startingPosition = (int) SmartDashboard.getNumber("Starting Position (1-Left, 2-Mid, 3-Right)", 0);
 		
 		startingPosition = HARDCODED_POSITION; //this is a hardcoded fallback
-		if (startingPosition == 1 && 
-			scalePosition == 'L' && 
-			(switchPosition != 'L' || SCALE_OVER_SWITCH) &&
-			SCALE) {
-				autoChoice = 8;
-		}
-		else if (startingPosition == 3 && 
-				 scalePosition == 'R' && 
-				 (switchPosition != 'R' || SCALE_OVER_SWITCH) &&
-					SCALE) {
-					autoChoice = 9;
-		}
 		
-		else if (startingPosition == 2 && 
-				 switchPosition == 'L' && 
-				 !FAST_SWITCH) {
-					autoChoice = 1;
-		}
-		else if (startingPosition == 1 && 
-				 switchPosition == 'L') {
-					autoChoice = 2;
-		}
-		else if (startingPosition == 3 && 
-				 switchPosition == 'R' ) {
-					autoChoice = 3;
-		}
-		else if (startingPosition == 2 && 
-				 switchPosition == 'R' && 
-				 !FAST_SWITCH) {
-					autoChoice = 5;
-		}
-		else if (startingPosition == 2 && 
-				 switchPosition == 'L' && 
-				 FAST_SWITCH) {
-			autoChoice = 6;
-		}
-		else if (startingPosition == 2 && 
-				 switchPosition == 'R' && 
-				 FAST_SWITCH) {
-			autoChoice = 7;
+		if(PRIORITIZE_OPPOSITE_SCALE) {
+			if (startingPosition == 1 && scalePosition == 'R') {
+				autoChoice = 10;
+			}
+			else if (startingPosition == 3 && scalePosition == 'L') {
+				autoChoice = 11;
+			}
 		}
 		else {
-			autoChoice = 0;
+			if (startingPosition == 1 && 
+				scalePosition == 'L' && 
+				(switchPosition != 'L' || SCALE_OVER_SWITCH) &&
+				SCALE) {
+					autoChoice = 8;
+			}
+			else if (startingPosition == 3 && 
+					 scalePosition == 'R' && 
+					 (switchPosition != 'R' || SCALE_OVER_SWITCH) &&
+						SCALE) {
+						autoChoice = 9;
+			}
+			
+			else if (startingPosition == 2 && 
+					 switchPosition == 'L' && 
+					 !FAST_SWITCH) {
+						autoChoice = 1;
+			}
+			else if (startingPosition == 1 && 
+					 switchPosition == 'L') {
+						autoChoice = 2;
+			}
+			else if (startingPosition == 3 && 
+					 switchPosition == 'R' ) {
+						autoChoice = 3;
+			}
+			else if (startingPosition == 2 && 
+					 switchPosition == 'R' && 
+					 !FAST_SWITCH) {
+						autoChoice = 5;
+			}
+			else if (startingPosition == 2 && 
+					 switchPosition == 'L' && 
+					 FAST_SWITCH) {
+				autoChoice = 6;
+			}
+			else if (startingPosition == 2 && 
+					 switchPosition == 'R' && 
+					 FAST_SWITCH) {
+				autoChoice = 7;
+			}
+			else {
+				autoChoice = 0;
+			}
 		}
 		
 		

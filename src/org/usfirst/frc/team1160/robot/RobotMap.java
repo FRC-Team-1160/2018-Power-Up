@@ -31,6 +31,7 @@ public interface RobotMap {
  	 	 * false - we're not going to run untested code!
 	 */
 	public static final int HARDCODED_POSITION = 3;
+	public static final boolean PRIORITIZE_OPPOSITE_SCALE = true;
 	public static final boolean FAST_SWITCH = true;
 	public static final boolean SCALE_OVER_SWITCH = true;
 	public static final boolean SCALE = true;

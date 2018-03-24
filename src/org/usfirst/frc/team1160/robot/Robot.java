@@ -231,7 +231,7 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 		String baseFilepath = "/home/lvuser/motionProfiles/";
 		switch (choice)
 		{
-			case 1:
+			case 1: //center to left switch
 				left = new File(baseFilepath + "CENTER_LEFT_SWITCH_1_LEFT.csv");
 				right = new File(baseFilepath + "CENTER_LEFT_SWITCH_1_RIGHT.csv");
 				segment_one_left = Pathfinder.readFromCSV(left);
@@ -249,7 +249,7 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 				
 				autonomousCommand = new Center_LeftSwitch();
 				break;
-			case 2:
+			case 2: //left to left switch
 				left = new File(baseFilepath + "X_X_SWITCH_1_LEFT.csv");
 				right = new File(baseFilepath + "X_X_SWITCH_1_RIGHT.csv");
 				segment_one_left = Pathfinder.readFromCSV(left);
@@ -262,7 +262,7 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 				
 				autonomousCommand = new Left_LeftSwitch();
 				break;
-			case 3:
+			case 3: //right to right switch
 				left = new File(baseFilepath + "X_X_SWITCH_1_LEFT.csv");
 				right = new File(baseFilepath + "X_X_SWITCH_1_RIGHT.csv");
 				segment_one_left = Pathfinder.readFromCSV(left);
@@ -275,7 +275,7 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 				
 				autonomousCommand = new Right_RightSwitch();
 				break;
-			case 5:
+			case 5: //center to right switch
 				left = new File(baseFilepath + "CENTER_RIGHT_SWITCH_1_LEFT.csv");
 				right = new File(baseFilepath + "CENTER_RIGHT_SWITCH_1_RIGHT.csv");
 				segment_one_left = Pathfinder.readFromCSV(left);
@@ -359,29 +359,45 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 		//startingPosition = (int) SmartDashboard.getNumber("Starting Position (1-Left, 2-Mid, 3-Right)", 0);
 		
 		startingPosition = HARDCODED_POSITION; //this is a hardcoded fallback
-		if (startingPosition == 1 && scalePosition == 'L' && SCALE){
-			autoChoice = 8;
+		if (startingPosition == 1 && 
+			scalePosition == 'L' && 
+			(switchPosition != 'L' || SCALE_OVER_SWITCH) &&
+			SCALE) {
+				autoChoice = 8;
 		}
-		else if (startingPosition == 3 && scalePosition == 'R' && SCALE){
-			autoChoice = 9;
+		else if (startingPosition == 3 && 
+				 scalePosition == 'R' && 
+				 (switchPosition != 'R' || SCALE_OVER_SWITCH) &&
+					SCALE) {
+					autoChoice = 9;
 		}
 		
-		else if (startingPosition == 2 && switchPosition == 'L' && !FAST_SWITCH) {
-			autoChoice = 1;
+		else if (startingPosition == 2 && 
+				 switchPosition == 'L' && 
+				 !FAST_SWITCH) {
+					autoChoice = 1;
 		}
-		else if (startingPosition == 1 && switchPosition == 'L') {
-			autoChoice = 2;
+		else if (startingPosition == 1 && 
+				 switchPosition == 'L') {
+					autoChoice = 2;
 		}
-		else if (startingPosition == 3 && switchPosition == 'R' ) {
-			autoChoice = 3;
+		else if (startingPosition == 3 && 
+				 switchPosition == 'R' ) {
+					autoChoice = 3;
 		}
-		else if (startingPosition == 2 && switchPosition == 'R' && !FAST_SWITCH) {
-			autoChoice = 5;
+		else if (startingPosition == 2 && 
+				 switchPosition == 'R' && 
+				 !FAST_SWITCH) {
+					autoChoice = 5;
 		}
-		else if (startingPosition == 2 && switchPosition == 'L' && FAST_SWITCH) {
+		else if (startingPosition == 2 && 
+				 switchPosition == 'L' && 
+				 FAST_SWITCH) {
 			autoChoice = 6;
 		}
-		else if (startingPosition == 2 && switchPosition == 'R' && FAST_SWITCH) {
+		else if (startingPosition == 2 && 
+				 switchPosition == 'R' && 
+				 FAST_SWITCH) {
 			autoChoice = 7;
 		}
 		else {
@@ -407,28 +423,16 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 		
 	}
 
-	/**
-	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * getString code to get the auto name from the text box below the Gyro
-	 *
-	 * <p>You can add additional auto modes by adding additional commands to the
-	 * chooser code above (like the commented example) or additional comparisons
-	 * to the switch structure below with additional strings & commands.
-	 */
 	@Override
 	public void autonomousInit() {
 		
-		chooseAuto();
+		autoChoice = 0;
+		//chooseAuto();
 		loadTrajectories(autoChoice);
+		
 		autonomousCommand.start();
 	}
 
-	/**
-	 * This function is called periodically during autonomous.
-	 */
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
@@ -443,17 +447,11 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 		autonomousCommand.cancel();
 	}
 
-	/**
-	 * This function is called periodically during operator control.
-	 */
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 	}
 
-	/**
-	 * This function is called periodically during test mode.
-	 */
 	@Override
 	public void testPeriodic() {
 	}

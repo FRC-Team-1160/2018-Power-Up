@@ -30,10 +30,10 @@ public interface RobotMap {
  	 	 * true - go for the scale OVER THE SWITCH
  	 	 * false - we're not going to run untested code!
 	 */
-	public static final int HARDCODED_POSITION = 3;
+	public static final int HARDCODED_POSITION = 2;
 	public static final boolean FAST_SWITCH = false;
+	public static final boolean SCALE_OVER_SWITCH = true;
 	public static final boolean SCALE = true;
-	
 	/*
 	 * General
 	 */
@@ -57,7 +57,8 @@ public interface RobotMap {
 	public static final double GYRO_KP_2 = .55*2.5 * (-1.0/80.0); //TurnAngle
 	public static final double GYRO_KI = -3*3/(1.3*100);
 	public static final double GYRO_KD = 3*2.5*1.3/40 * (-1.0/80.0); //0.01 * (-1.0/80.0);//TURN ANGLE KP
-	public static final double GYRO_TOLERANCE = 1.5;				//Smaller value means higher accuracy but more time spent
+	public static final double GYRO_TOLERANCE = 0.75;				//Smaller value means higher accuracy but more time spent
+	public static final double TURN_TIMEOUT = 2.5;
 																//achieving said accuracy
 	public static final double GYRO_CAP = 0.4; //max speed of the turn during TurnAngle
 	
@@ -68,13 +69,13 @@ public interface RobotMap {
 	
 	public static final double LEFT_KP = 0.6;//0				//MotionProfiling Constants for Low Gear
 	public static final double LEFT_KI = 0;
-	public static final double LEFT_KD = 0.2;
+	public static final double LEFT_KD = 0.2;//0.2
 	public static final double LEFT_KF = 0.125;
 	public static final double LEFT_KA = 0;
 	
 	public static final double RIGHT_KP = 0.6;//0.8;
 	public static final double RIGHT_KI = 0;
-	public static final double RIGHT_KD = 0.2;
+	public static final double RIGHT_KD = 0.2;//0.2
 	public static final double RIGHT_KF = 0.127;
 	public static final double RIGHT_KA = 0;
 	
@@ -123,9 +124,9 @@ public interface RobotMap {
 	public static final int	LIFT_RIGHT_MOTION_CRUISE_VELOCITY = 0; //RIGHT
 	public static final int	LIFT_RIGHT_MOTION_ACCELERATION = 0;
 	
-	public static final int CARRY_HEIGHT = 500; //poggers
+	public static final int CARRY_HEIGHT = 750; //poggers
 	public static final int SWITCH_HEIGHT = 16000; //height of the switch, in right side encoder units
-	public static final int SCALE_HEIGHT = 39000; //height of the scale, in right side encoder units
+	public static final int SCALE_HEIGHT = 38500; //height of the scale, in right side encoder units
 	
 
 	

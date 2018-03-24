@@ -54,7 +54,7 @@ public interface TrajectoryWaypoints {
 	public static final Waypoint[] X_X_SWITCH_1 = 
 			new Waypoint[] {new Waypoint(0,0,0),new Waypoint(12.4,0,0)};
 	public static final Waypoint[] X_X_SWITCH_2 = 
-			new Waypoint[] {new Waypoint(0,0,0),new Waypoint(1.5,0,0)};
+			new Waypoint[] {new Waypoint(0,0,0),new Waypoint(2.5,0,0)};
 	
 	//Straight line from start to switch
 	public static final Waypoint[] START_SWITCH =

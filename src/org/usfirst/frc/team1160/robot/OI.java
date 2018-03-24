@@ -30,7 +30,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 public class OI implements RobotMap{
 	private static OI instance;
 	Joystick mainStick, climbStick, dsStick;
-	JoystickButton intakeEat,intakeSpit,intakeSet,intakeStop,intakeExtend,intakeRetract,intakeExtendRetract,
+	JoystickButton intakeEat,intakeSpit,intakeFastSpit,intakeSet,intakeStop,intakeExtend,intakeRetract,intakeExtendRetract,
 				   engageBrake,releaseBrake,
 				   highGear, lowGear,
 				   extendClimber, retractClimber,
@@ -39,7 +39,9 @@ public class OI implements RobotMap{
 				   bangBangScale,bangBangSwitch,bangBangCarry,
 				   turnAngle,
 				   fullExtend,fullRetract,
-				   dsEngageBrake,dsReleaseBrake,dsExtendClimber,dsRetractClimber,dsClimbUp,dsClimbDown;
+				   dsEngageBrake,dsReleaseBrake,dsExtendClimber,dsRetractClimber,dsClimbUp,dsClimbDown,
+				   autoBoxClamp
+				   ;
 	
 	public static OI getInstance() {
 		if(instance == null) {
@@ -61,6 +63,7 @@ public class OI implements RobotMap{
 		 * Dual Action
 		 */
 		resetEncodersYaw = new JoystickButton(mainStick,9);
+		autoBoxClamp = new JoystickButton(mainStick,10);
 		
 		//fullExtend = new JoystickButton(mainStick,8);
 		
@@ -69,9 +72,11 @@ public class OI implements RobotMap{
 		
 		intakeEat = new JoystickButton(mainStick,5);
 		intakeSpit = new JoystickButton(mainStick,6);
+		intakeFastSpit = new JoystickButton(mainStick,4);
 		
 		intakeExtend = new JoystickButton(mainStick,3);
 		intakeRetract = new JoystickButton(mainStick,2);
+		//intakeSpitDualAction
 		
 		/*
 		 * Attack 3
@@ -89,9 +94,10 @@ public class OI implements RobotMap{
 		//intakeExtendRetract = new JoystickButton(climbStick,11);
 		
 		//turnAngle = new JoystickButton(climbStick,10);
-
-		bangBangScale = new JoystickButton(climbStick,2);
-		bangBangSwitch = new JoystickButton(climbStick,11);
+		
+		bangBangCarry = new JoystickButton(mainStick,1);
+		bangBangScale = new JoystickButton(climbStick,5);
+		bangBangSwitch = new JoystickButton(climbStick,4);
 		
 		/*
 		 * Generic
@@ -108,19 +114,21 @@ public class OI implements RobotMap{
 	}
 	private void tieButtons() {
 		
-		//intakeExtendRetract.whenPressed(new AutoBoxClamp());
 		intakeExtend.whenPressed(new IntakeExtend());
 		intakeRetract.whenPressed(new IntakeRetract());
 		
 		//fullExtend.whenPressed(new Toggle());
 		
 		resetEncodersYaw.whenPressed(new ResetEncoderYaw());
+		autoBoxClamp.whenPressed(new AutoBoxClamp());
 		
 		highGear.whenPressed(new HighGear());
 		lowGear.whenPressed(new LowGear());
 		
 		intakeEat.whileHeld(new IntakeRotate(-0.7));
-		intakeSpit.whileHeld(new IntakeRotate(0.3));
+		intakeSpit.whileHeld(new IntakeRotate(0.5));
+		intakeFastSpit.whileHeld(new IntakeRotate(0.8));
+		//intakeBigSpit.?
 		
 		extendClimber.whenPressed(new LatchExtend());
 		retractClimber.whenPressed(new LatchRetract());
@@ -133,6 +141,7 @@ public class OI implements RobotMap{
 
 		//turnAngle.whenPressed(new TurnAngle(90));
 		
+		bangBangCarry.whenPressed(new BangBangMove(CARRY_HEIGHT));
 		bangBangScale.whenPressed(new BangBangMove(SCALE_HEIGHT));
 		bangBangSwitch.whenPressed(new BangBangMove(SWITCH_HEIGHT));
 		

@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1160.robot.commands;
+package org.usfirst.frc.team1160.robot.commands.lift;
 
 import org.usfirst.frc.team1160.robot.Robot;
 
@@ -7,19 +7,17 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ResetEncoderYaw extends Command {
+public class ResetLiftEncoders extends Command {
 
-    public ResetEncoderYaw() {
+    public ResetLiftEncoders() {
+    	requires(Robot.lift);
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.dt);
-    	requires(Robot.lift);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.dt.resetEncodersYaw(); //resets talon encoders and gyro
-    	Robot.dt.resetPosition();
+    	Robot.lift.resetLiftEncoders();
     }
 
     // Called repeatedly when this Command is scheduled to run

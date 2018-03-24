@@ -71,7 +71,7 @@ public class Lift extends Subsystem implements RobotMap{
 	public void brakeRelease(){
 		brake.set(DoubleSolenoid.Value.kForward);
 	}
-	public double getSetpoint() {
+	public double getPosition() {
 		return liftRight.getSelectedSensorPosition(0);
 	}
 	
@@ -84,7 +84,7 @@ public class Lift extends Subsystem implements RobotMap{
 		}
 		else
 		{
-			setPercentOutput(-1*(Robot.oi.getClimbStick().getY()));
+			setPercentOutput(-0.25*(Robot.oi.getClimbStick().getY()));
 			//System.out.println("NORMAL LIFT SPEED: " + Robot.oi.getClimbStick().getY());
 		}
 		

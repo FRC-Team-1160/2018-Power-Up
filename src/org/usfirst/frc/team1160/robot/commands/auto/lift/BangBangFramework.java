@@ -29,7 +29,7 @@ public class BangBangFramework extends Command implements RobotMap{
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	error = setpoint - Robot.lift.getSetpoint();
+    	error = setpoint - Robot.lift.getPosition();
     	errorDirection = (int)(error / Math.abs(error));
     	if (errorDirection*0.3 > 0) { //Only go up!
     		Robot.lift.setPercentOutput(-errorDirection*speedCap);
@@ -38,7 +38,7 @@ public class BangBangFramework extends Command implements RobotMap{
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return ((Math.abs(error) < 500) || (Robot.lift.getSetpoint() >= SCALE_HEIGHT)); //arbitrary ceiling
+        return ((Math.abs(error) < 500) || (Robot.lift.getPosition() >= SCALE_HEIGHT)); //arbitrary ceiling
     }
 
     // Called once after isFinished returns true

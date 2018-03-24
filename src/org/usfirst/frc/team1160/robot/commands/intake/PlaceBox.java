@@ -1,15 +1,20 @@
 package org.usfirst.frc.team1160.robot.commands.intake;
 
 import org.usfirst.frc.team1160.robot.commands.auto.drive.WaitDrivetrain;
+import org.usfirst.frc.team1160.robot.commands.auto.lift.WaitLift;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class IntakeExtendRetract extends CommandGroup {
+public class PlaceBox extends CommandGroup {
 
-    public IntakeExtendRetract() {
+    public PlaceBox() {
+    	addSequential(new IntakeRetract());
+    	addSequential(new WaitLift(0.25));
+    	addSequential(new IntakeRotate(0.5),0.25);
+    	addSequential(new IntakeExtend());
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -26,8 +31,5 @@ public class IntakeExtendRetract extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new IntakeRetract());
-    	addSequential(new WaitDrivetrain(0.25));
-    	addSequential(new IntakeExtend());
     }
 }

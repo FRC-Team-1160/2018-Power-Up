@@ -30,8 +30,8 @@ public interface RobotMap {
  	 	 * true - go for the scale OVER THE SWITCH
  	 	 * false - we're not going to run untested code!
 	 */
-	public static final int HARDCODED_POSITION = 2;
-	public static final boolean FAST_SWITCH = false;
+	public static final int HARDCODED_POSITION = 3;
+	public static final boolean FAST_SWITCH = true;
 	public static final boolean SCALE_OVER_SWITCH = true;
 	public static final boolean SCALE = true;
 	/*
@@ -126,7 +126,7 @@ public interface RobotMap {
 	
 	public static final int CARRY_HEIGHT = 750; //poggers
 	public static final int SWITCH_HEIGHT = 16000; //height of the switch, in right side encoder units
-	public static final int SCALE_HEIGHT = 38500; //height of the scale, in right side encoder units
+	public static final int SCALE_HEIGHT = 39000; //height of the scale, in right side encoder units
 	
 
 	

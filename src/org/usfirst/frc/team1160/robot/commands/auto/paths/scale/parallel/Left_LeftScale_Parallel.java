@@ -10,6 +10,7 @@ import org.usfirst.frc.team1160.robot.commands.auto.intake.AutoBoxClamp;
 import org.usfirst.frc.team1160.robot.commands.auto.intake.AutoBoxSpit;
 import org.usfirst.frc.team1160.robot.commands.auto.paths.TurnLift;
 import org.usfirst.frc.team1160.robot.commands.intake.IntakeRotate;
+import org.usfirst.frc.team1160.robot.commands.lift.BrakeRelease;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -27,6 +28,6 @@ public class Left_LeftScale_Parallel extends CommandGroup implements RobotMap{
        addSequential(new ResetEncoderYaw());
        addSequential(new IntakeRotate(SCALE_AUTO_SPIT_SPEED),0.3);
        addSequential(new TurnAngle(-90));
-       
+       addSequential(new BrakeRelease());
     }
 }

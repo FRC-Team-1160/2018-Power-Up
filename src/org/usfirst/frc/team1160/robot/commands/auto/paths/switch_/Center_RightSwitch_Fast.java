@@ -22,7 +22,7 @@ public class Center_RightSwitch_Fast extends CommandGroup implements RobotMap{
         addSequential(new AutoBoxClamp());
     	addSequential(new ResetEncoderYaw());
     	addSequential(new LoadFollowTrajectory(Robot.segment_one_left,Robot.segment_one_right));
-    	addSequential(new TurnAngle(-26.57));
+    	addSequential(new TurnAngle(26.57));
     	addSequential(new ResetEncoderYaw());
     	addSequential(new FollowTrajectoryLift(Robot.segment_two_left,Robot.segment_two_right,SWITCH_HEIGHT));
 		addSequential(new IntakeRotate(SWITCH_AUTO_SPIT_SPEED),0.3);

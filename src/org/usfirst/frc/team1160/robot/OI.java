@@ -15,6 +15,7 @@ import org.usfirst.frc.team1160.robot.commands.auto.intake.AutoBoxSpit;
 import org.usfirst.frc.team1160.robot.commands.auto.intake.FullExtend;
 import org.usfirst.frc.team1160.robot.commands.auto.lift.BangBangFramework;
 import org.usfirst.frc.team1160.robot.commands.auto.lift.BangBangMove;
+import org.usfirst.frc.team1160.robot.commands.auto.paths.TurnLift;
 import org.usfirst.frc.team1160.robot.commands.climb.*;
 import org.usfirst.frc.team1160.robot.commands.drive.*;
 import org.usfirst.frc.team1160.robot.commands.intake.*;
@@ -40,7 +41,7 @@ public class OI implements RobotMap{
 				   turnAngle,
 				   fullExtend,fullRetract,
 				   dsEngageBrake,dsReleaseBrake,dsExtendClimber,dsRetractClimber,dsClimbUp,dsClimbDown,
-				   autoBoxClamp
+				   placeBox
 				   ;
 	
 	public static OI getInstance() {
@@ -63,7 +64,7 @@ public class OI implements RobotMap{
 		 * Dual Action
 		 */
 		resetEncodersYaw = new JoystickButton(mainStick,9);
-		autoBoxClamp = new JoystickButton(mainStick,10);
+		placeBox = new JoystickButton(mainStick,4);
 		
 		//fullExtend = new JoystickButton(mainStick,8);
 		
@@ -72,7 +73,7 @@ public class OI implements RobotMap{
 		
 		intakeEat = new JoystickButton(mainStick,5);
 		intakeSpit = new JoystickButton(mainStick,6);
-		intakeFastSpit = new JoystickButton(mainStick,4);
+		intakeFastSpit = new JoystickButton(mainStick,10);
 		
 		intakeExtend = new JoystickButton(mainStick,3);
 		intakeRetract = new JoystickButton(mainStick,2);
@@ -93,7 +94,7 @@ public class OI implements RobotMap{
 		
 		//intakeExtendRetract = new JoystickButton(climbStick,11);
 		
-		//turnAngle = new JoystickButton(climbStick,10);
+		turnAngle = new JoystickButton(climbStick,10);
 		
 		bangBangCarry = new JoystickButton(mainStick,1);
 		bangBangScale = new JoystickButton(climbStick,5);
@@ -120,7 +121,7 @@ public class OI implements RobotMap{
 		//fullExtend.whenPressed(new Toggle());
 		
 		resetEncodersYaw.whenPressed(new ResetEncoderYaw());
-		autoBoxClamp.whenPressed(new AutoBoxClamp());
+		placeBox.whenPressed(new PlaceBox());
 		
 		highGear.whenPressed(new HighGear());
 		lowGear.whenPressed(new LowGear());
@@ -139,7 +140,7 @@ public class OI implements RobotMap{
 		engageBrake.whenPressed(new BrakeEngage());
 		releaseBrake.whenPressed(new BrakeRelease());
 
-		//turnAngle.whenPressed(new TurnAngle(90));
+		turnAngle.whenPressed(new TurnLift(SWITCH_HEIGHT,45));
 		
 		bangBangCarry.whenPressed(new BangBangMove(CARRY_HEIGHT));
 		bangBangScale.whenPressed(new BangBangMove(SCALE_HEIGHT));

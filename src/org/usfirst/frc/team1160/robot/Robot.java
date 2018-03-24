@@ -426,8 +426,7 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 	@Override
 	public void autonomousInit() {
 		
-		autoChoice = 0;
-		//chooseAuto();
+		chooseAuto();
 		loadTrajectories(autoChoice);
 		
 		autonomousCommand.start();

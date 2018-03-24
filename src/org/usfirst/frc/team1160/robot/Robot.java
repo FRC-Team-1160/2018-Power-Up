@@ -17,6 +17,8 @@
 	 * Center to Right Switch Fast: 7
 	 * Left to Left Scale: 8
 	 * Right to Right Scale: 9
+	 * Left to Right Scale: 10
+	 * Right to Left Scale: 11
 	 */
 	
 	/**TODO:
@@ -39,8 +41,7 @@ import org.usfirst.frc.team1160.robot.commands.auto.drive.*;
 import org.usfirst.frc.team1160.robot.commands.auto.intake.*;
 import org.usfirst.frc.team1160.robot.commands.auto.paths.*;
 import org.usfirst.frc.team1160.robot.commands.auto.paths.scale.*;
-import org.usfirst.frc.team1160.robot.commands.auto.paths.scale.parallel.Left_LeftScale_Parallel;
-import org.usfirst.frc.team1160.robot.commands.auto.paths.scale.parallel.Right_RightScale_Parallel;
+import org.usfirst.frc.team1160.robot.commands.auto.paths.scale.parallel.*;
 import org.usfirst.frc.team1160.robot.commands.auto.paths.switch_.*;
 import org.usfirst.frc.team1160.robot.subsystems.Climber;
 import org.usfirst.frc.team1160.robot.subsystems.DriveTrain;
@@ -333,6 +334,26 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 				segment_one_right = Pathfinder.readFromCSV(right);
 				autonomousCommand = new Right_RightScale_Parallel();
 				break;
+			case 10: //left to right scale
+				left = new File(baseFilepath + "X_Y_SCALE_1_LEFT.csv");
+				right = new File(baseFilepath + "X_Y_SCALE_1_RIGHT.csv");
+				segment_one_left = Pathfinder.readFromCSV(left);
+				segment_one_right = Pathfinder.readFromCSV(right);
+				left = new File(baseFilepath + "X_Y_SCALE_2_LEFT.csv");
+				right = new File(baseFilepath + "X_Y_SCALE_2_RIGHT.csv");
+				segment_two_left = Pathfinder.readFromCSV(left);
+				segment_two_right = Pathfinder.readFromCSV(right);
+				autonomousCommand = new Left_RightScale_Parallel();
+			case 11: //right to left scale
+				left = new File(baseFilepath + "X_Y_SCALE_1_LEFT.csv");
+				right = new File(baseFilepath + "X_Y_SCALE_1_RIGHT.csv");
+				segment_one_left = Pathfinder.readFromCSV(left);
+				segment_one_right = Pathfinder.readFromCSV(right);
+				left = new File(baseFilepath + "X_Y_SCALE_2_LEFT.csv");
+				right = new File(baseFilepath + "X_Y_SCALE_2_RIGHT.csv");
+				segment_two_left = Pathfinder.readFromCSV(left);
+				segment_two_right = Pathfinder.readFromCSV(right);
+				autonomousCommand = new Right_LeftScale_Parallel();
 			default: //move to the auto line
 				left = new File(baseFilepath + "X_X_AUTOLINE_LEFT.csv");
 				right = new File(baseFilepath + "X_X_AUTOLINE_RIGHT.csv");

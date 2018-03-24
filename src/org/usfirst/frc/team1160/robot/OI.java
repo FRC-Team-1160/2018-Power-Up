@@ -77,7 +77,8 @@ public class OI implements RobotMap{
 		
 		intakeExtend = new JoystickButton(mainStick,3);
 		intakeRetract = new JoystickButton(mainStick,2);
-		//intakeSpitDualAction
+		
+		bangBangCarry = new JoystickButton(mainStick,1);
 		
 		/*
 		 * Attack 3
@@ -95,8 +96,7 @@ public class OI implements RobotMap{
 		//intakeExtendRetract = new JoystickButton(climbStick,11);
 		
 		turnAngle = new JoystickButton(climbStick,10);
-		
-		bangBangCarry = new JoystickButton(mainStick,1);
+
 		bangBangScale = new JoystickButton(climbStick,5);
 		bangBangSwitch = new JoystickButton(climbStick,4);
 		

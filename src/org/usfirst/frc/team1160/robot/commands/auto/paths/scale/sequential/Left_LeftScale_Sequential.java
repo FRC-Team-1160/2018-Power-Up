@@ -28,7 +28,7 @@ public class Left_LeftScale_Sequential extends CommandGroup implements RobotMap{
        addSequential(new TurnAngle(90));
        addSequential(new ResetEncoderYaw());
        addSequential(new IntakeRotate(SCALE_AUTO_SPIT_SPEED),0.3);
-       addSequential(new TurnAngle(-90));
+       addSequential(new TurnAngle(90));
        
     }
 }

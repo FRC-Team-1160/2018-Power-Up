@@ -339,8 +339,8 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 				right = new File(baseFilepath + "X_Y_SCALE_1_RIGHT.csv");
 				segment_one_left = Pathfinder.readFromCSV(left);
 				segment_one_right = Pathfinder.readFromCSV(right);
-				left = new File(baseFilepath + "X_Y_SCALE_2_LEFT.csv");
-				right = new File(baseFilepath + "X_Y_SCALE_2_RIGHT.csv");
+				left = new File(baseFilepath + "X_X_AUTOLINE_LEFT.csv");
+				right = new File(baseFilepath + "X_X_AUTOLINE_RIGHT.csv");
 				segment_two_left = Pathfinder.readFromCSV(left);
 				segment_two_right = Pathfinder.readFromCSV(right);
 				autonomousCommand = new Left_RightScale_Parallel();
@@ -348,9 +348,9 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 				left = new File(baseFilepath + "X_Y_SCALE_1_LEFT.csv");
 				right = new File(baseFilepath + "X_Y_SCALE_1_RIGHT.csv");
 				segment_one_left = Pathfinder.readFromCSV(left);
-				segment_one_right = Pathfinder.readFromCSV(right);
-				left = new File(baseFilepath + "X_Y_SCALE_2_LEFT.csv");
-				right = new File(baseFilepath + "X_Y_SCALE_2_RIGHT.csv");
+				segment_one_right = Pathfinder.readFromCSV(right);				
+				left = new File(baseFilepath + "X_X_AUTOLINE_LEFT.csv");
+				right = new File(baseFilepath + "X_X_AUTOLINE_RIGHT.csv");
 				segment_two_left = Pathfinder.readFromCSV(left);
 				segment_two_right = Pathfinder.readFromCSV(right);
 				autonomousCommand = new Right_LeftScale_Parallel();
@@ -364,6 +364,21 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 				
 				
 				
+		}
+	}
+	public void chooseAuto2() {
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		if (gameData.length() > 0) {
+			switchPosition = gameData.charAt(0);
+			scalePosition = gameData.charAt(1);
+			oppSwitchPosition = gameData.charAt(2);
+			System.out.println("Game Data = " + gameData);
+		}
+		if(scalePosition == 'L'){
+			autoChoice = 8;
+		}
+		else {
+			autoChoice = 10;
 		}
 	}
 	
@@ -382,11 +397,58 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 		startingPosition = HARDCODED_POSITION; //this is a hardcoded fallback
 		
 		if(PRIORITIZE_OPPOSITE_SCALE) {
+			
 			if (startingPosition == 1 && scalePosition == 'R') {
 				autoChoice = 10;
 			}
 			else if (startingPosition == 3 && scalePosition == 'L') {
 				autoChoice = 11;
+			}
+			else {
+				if (startingPosition == 1 && 
+					scalePosition == 'L' && 
+					(switchPosition != 'L' || SCALE_OVER_SWITCH) &&
+					SCALE) {
+						autoChoice = 8;
+				}
+				else if (startingPosition == 3 && 
+						 scalePosition == 'R' && 
+						 (switchPosition != 'R' || SCALE_OVER_SWITCH) &&
+							SCALE) {
+							autoChoice = 9;
+				}
+				
+				else if (startingPosition == 2 && 
+						 switchPosition == 'L' && 
+						 !FAST_SWITCH) {
+							autoChoice = 1;
+				}
+				else if (startingPosition == 1 && 
+						 switchPosition == 'L') {
+							autoChoice = 2;
+				}
+				else if (startingPosition == 3 && 
+						 switchPosition == 'R' ) {
+							autoChoice = 3;
+				}
+				else if (startingPosition == 2 && 
+						 switchPosition == 'R' && 
+						 !FAST_SWITCH) {
+							autoChoice = 5;
+				}
+				else if (startingPosition == 2 && 
+						 switchPosition == 'L' && 
+						 FAST_SWITCH) {
+					autoChoice = 6;
+				}
+				else if (startingPosition == 2 && 
+						 switchPosition == 'R' && 
+						 FAST_SWITCH) {
+					autoChoice = 7;
+				}
+				else {
+					autoChoice = 0;
+				}
 			}
 		}
 		else {
@@ -458,7 +520,7 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 	@Override
 	public void autonomousInit() {
 		
-		chooseAuto();
+		chooseAuto2();
 		loadTrajectories(autoChoice);
 		
 		autonomousCommand.start();

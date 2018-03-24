@@ -30,7 +30,7 @@ public interface RobotMap {
  	 	 * true - go for the scale OVER THE SWITCH
  	 	 * false - we're not going to run untested code!
 	 */
-	public static final int HARDCODED_POSITION = 3;
+	public static final int HARDCODED_POSITION = 1;
 	public static final boolean PRIORITIZE_OPPOSITE_SCALE = true;
 	public static final boolean FAST_SWITCH = true;
 	public static final boolean SCALE_OVER_SWITCH = true;

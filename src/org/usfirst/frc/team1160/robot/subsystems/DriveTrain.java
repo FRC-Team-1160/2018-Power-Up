@@ -33,6 +33,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 
 	public static DriveTrain instance;
 	private WPI_TalonSRX leftMaster, rightMaster;
+	// Nice name
 	private WPI_VictorSPX leftSlave,rightSlave;
 	private AHRS gyro;
 	private Compressor comp;

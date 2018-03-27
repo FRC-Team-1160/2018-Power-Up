@@ -17,7 +17,7 @@ public interface RobotMap {
 
 	
 	/**
-	 * SHIT TO TAKE CARE OF BEFORE EACH MATCH
+	 * SHIT TO TAKE CARE OF BEFORE EACH MATCH (WOO LOGIC)
 	 * 
 	 * HARDCODED_POSITION
 		 * 1 - Left
@@ -26,19 +26,51 @@ public interface RobotMap {
 	 * PRIORITIZE_OPPOSITE_SCALE
 	 	 * true - go for the opposite scale above all else!
 	 	 * false - lol forget about it
-	 * PRIORITIZE_FAST_SWITCH
-	 	 * true - have a nice fast center switch auto (it's also untested so lol)
-	 	 * false - do not have a nice fast center switch auto ("slow is smooth and smooth is fast")
  	 * PRIORITIZE_SAME_SCALE
  	 	 * true - go for the same side scale above all else!
  	 	 * false - ranking points matter!
+ 	 * PRIORITIZE_ALL_SCALE
+ 	 	 * true - go for the scale NO MATTER THE SIDE
+ 	 * PRIORITIZE_OPPOSITE_SWITCH
+ 	 * PRIORITIZE_SAME_SWITCH
+	 * PRIORITIZE_FAST_CENTER_SWITCH
+	 	 * true - have a nice fast center switch auto (it's also untested so lol)
+	 	 * false - do not have a nice fast center switch auto ("slow is smooth and smooth is fast")
+ 	 * 
 	 */
+	//Position
+	
 	public static final int HARDCODED_POSITION = 1;
+	//Weighing arguments - scale
 	public static final boolean PRIORITIZE_OPPOSITE_SCALE = true;
 	public static final boolean PRIORITIZE_SAME_SCALE = true;
+	public static final boolean PRIORITIZE_ALL_SCALE = true;
+	
+	//Weighing arguments - switch
 	public static final boolean PRIORITIZE_OPPOSITE_SWITCH = true;
 	public static final boolean PRIORITIZE_SAME_SWITCH = true;
-	public static final boolean PRIORITIZE_FAST_SWITCH = true;
+	public static final boolean PRIORITIZE_FAST_CENTER_SWITCH = true;
+	
+	//Metaweighing arguments
+	public static final boolean PRIORITIZE_SCALE_OVER_SWITCH = true;
+	public static final boolean PRIORITIZE_SWITCH_OVER_SCALE = true;
+	
+	/**
+	 * A brief dissertation on why there is a prioritize_scale_over_switch AND a prioritize_switch_over_scale,
+	 * by kyle (3/27/18)
+	 * 
+	 * If x is false, the opposite of x isn't necessarily true. In the case of booleans, it is. In literally
+	 * everywhere else in life, it isn't. If I hate hamburgers, it doesn't necessarily mean that I like
+	 * things that aren't hamburgers-- it just means that I have no particular disposition/inclination towards
+	 * them. If I am not gay, it doesn't necessarily mean that I'm not straight.
+	 * 
+	 * Think of this in terms of "gray-area" arguments - absent proactive arguments for either side, the issue
+	 * rests in a gray area.
+	 * 
+	 * What does this mean? If both prioritize_scale_over_switch and prioritize_switch_over_scale are false,
+	 * the robot will take the path of least resistance.
+	 */
+	
 	/*
 	 * General
 	 */

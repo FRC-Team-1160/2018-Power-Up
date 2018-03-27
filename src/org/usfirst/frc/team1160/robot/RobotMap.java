@@ -49,14 +49,11 @@ public interface RobotMap {
 	//Weighing arguments - switch
 	public static final boolean PRIORITIZE_OPPOSITE_SWITCH = true;
 	public static final boolean PRIORITIZE_SAME_SWITCH = true;
+	public static final boolean PRIORITIZE_ALL_SWITCH = true;
 	public static final boolean PRIORITIZE_FAST_CENTER_SWITCH = true;
 	
-	//Metaweighing arguments
-	public static final boolean PRIORITIZE_SCALE_OVER_SWITCH = true;
-	public static final boolean PRIORITIZE_SWITCH_OVER_SCALE = true;
-	
 	/**
-	 * A brief dissertation on why there is a prioritize_scale_over_switch AND a prioritize_switch_over_scale,
+	 * A brief dissertation on why there is a prioritize_all_scale AND a prioritize_all_switch,
 	 * by kyle (3/27/18)
 	 * 
 	 * If x is false, the opposite of x isn't necessarily true. In the case of booleans, it is. In literally
@@ -67,7 +64,7 @@ public interface RobotMap {
 	 * Think of this in terms of "gray-area" arguments - absent proactive arguments for either side, the issue
 	 * rests in a gray area.
 	 * 
-	 * What does this mean? If both prioritize_scale_over_switch and prioritize_switch_over_scale are false,
+	 * What does this mean? If both prioritize_all_scale and prioritize_all_switch,
 	 * the robot will take the path of least resistance.
 	 */
 	

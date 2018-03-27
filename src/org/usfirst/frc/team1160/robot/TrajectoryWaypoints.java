@@ -1,6 +1,12 @@
 package org.usfirst.frc.team1160.robot;
 
 import jaci.pathfinder.Waypoint;
+/**
+ * 3/27/18
+ * 
+ * This is useless as all hell since now we generate csv files off board. rip
+ *
+ */
 
 public interface TrajectoryWaypoints {
 	

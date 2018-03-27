@@ -65,7 +65,7 @@ import jaci.pathfinder.Trajectory;
  * creating this project, you must also update the build.properties file in the
  * project.
  */
-public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
+public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,AutoSettings{
 	public static OI oi;
 	public Command autonomousCommand;
 	public static DriveTrain dt;

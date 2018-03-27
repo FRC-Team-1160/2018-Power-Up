@@ -23,6 +23,7 @@ public class IntakeRotate extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.intake.rotate(speed);
+    	//System.out.println("we got to execute() in intakerotate");
     }
 
     // Make this return true when this Command no longer needs to run execute()

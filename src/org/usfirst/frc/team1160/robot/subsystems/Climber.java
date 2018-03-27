@@ -4,10 +4,10 @@ import org.usfirst.frc.team1160.robot.Robot;
 import org.usfirst.frc.team1160.robot.RobotMap;
 import org.usfirst.frc.team1160.robot.commands.climb.JoyControl;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -37,8 +37,8 @@ public class Climber extends Subsystem implements RobotMap{
 	
 	public void climb (double speed)
 	{
-		climberMotor1.set(speed);
-		climberMotor2.set(speed);
+		climberMotor1.set(ControlMode.PercentOutput,speed);
+		climberMotor2.set(ControlMode.PercentOutput,speed);
 	}
 	
 	public void latchExtend(){

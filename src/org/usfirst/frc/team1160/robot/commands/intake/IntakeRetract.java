@@ -1,22 +1,23 @@
-package org.usfirst.frc.team1160.robot.commands.lift;
+package org.usfirst.frc.team1160.robot.commands.intake;
 
 import org.usfirst.frc.team1160.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class SetLift extends Command{
+/**
+ *
+ */
+public class IntakeRetract extends Command {
 
-	private double percentOutput;
-	
-	public SetLift(double percentOutput) {       
-    	requires(Robot.lift);
-    	
-    	this.percentOutput = percentOutput;
+    public IntakeRetract() {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	requires(Robot.intake);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.lift.setPercentOutput(percentOutput);
+    	Robot.intake.retract();
     }
 
     // Called repeatedly when this Command is scheduled to run

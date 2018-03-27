@@ -1,40 +1,32 @@
-package org.usfirst.frc.team1160.robot.commands.auto;
+package org.usfirst.frc.team1160.robot.commands.intake;
 
 import org.usfirst.frc.team1160.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class StraightAuto extends Command{
-	
-	
-	private double currentTime;
-	public StraightAuto() {       
-    	requires(Robot.dt);
+/**
+ *
+ */
+public class Toggle extends Command {
+
+    public Toggle() {
+    	requires(Robot.intake);
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.dt.setLowGear();
-    	Robot.dt.resetTime();
-    	Robot.dt.startTime();
-    	Robot.dt.resetPosition();
-    	Robot.dt.resetGyro();
+    	Robot.intake.toggle();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.dt.setPercentOutputGyro(0.5,0);
-    	currentTime = Robot.dt.getDeltaTime();
-    	Robot.dt.printDeltaTime();
-    	Robot.dt.printEncoderVelocity();
-    	Robot.dt.printEncoderDistance();
-    	Robot.dt.printYaw();
-    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return currentTime > 1.5;
+        return true;
     }
 
     // Called once after isFinished returns true

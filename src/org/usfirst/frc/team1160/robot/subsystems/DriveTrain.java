@@ -2,7 +2,6 @@ package org.usfirst.frc.team1160.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -38,14 +37,27 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	private WPI_VictorSPX leftSlave,rightSlave;
 	private AHRS gyro;
 	private Compressor comp;
-	private Timer timer;
+	private Timer timer,timerCheck;
+		//timerCheck is supposed to run only upon the turnAngle method
+		//hitting ninety degrees and activating the checking clause
 	
 	private EncoderFollower left,right;
 	private Trajectory traj;
 	private TankModifier modifier;
 	private Config config;
+	
+	/*
+	 * turnAngle variables
+	 */
+	private double deltaTime;
+	private double angle_difference_now;
+	private double angle_difference;
+	private double derivative;
+	private double proportion;
+	private double integral; 
+	
 
-	private boolean lowGear;
+	//private boolean lowGear;
 	private DoubleSolenoid ballShifter;
 		
 	public static DriveTrain getInstance() {
@@ -61,14 +73,15 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		rightMaster = new WPI_TalonSRX(DT_RIGHT_1);
 		rightSlave = new WPI_VictorSPX(DT_RIGHT_2);
 		timer = new Timer();
+		timerCheck = new Timer();
 		gyro = new AHRS(Port.kMXP);
 		comp = new Compressor(PCM);
 		comp.start();
 		leftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		rightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		
-		
 		ballShifter = new DoubleSolenoid(PCM,DT_SOLENOID_0,DT_SOLENOID_1);
+		
 		setFollower();
 		
 	}
@@ -117,7 +130,6 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	 */
 	public void manualDrive() {
 
-
 		leftMaster.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() - Robot.oi.getMainstick().getY()));
 		//leftSlave.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() - Robot.oi.getMainstick().getY()));
 		
@@ -125,30 +137,71 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		//rightSlave.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() + Robot.oi.getMainstick().getY()));
 		
 		printYaw();
+		//printEncoderDistance();
+		printEncoderVelocity();
 	}
-	
+	public void resetEncodersYaw() {
+		resetGyro();
+		resetPosition();
+	}
+	public void fullThrottle() {
+		leftMaster.set(ControlMode.PercentOutput,1);
+		rightMaster.set(ControlMode.PercentOutput,1);
+	}
 	public void setPercentOutput(double percentOutput) {
 		leftMaster.set(ControlMode.PercentOutput, -1.02*percentOutput);
 		rightMaster.set(ControlMode.PercentOutput, percentOutput);
 		}
+	
+	public void resetAngleDifference() {
+		angle_difference = 0;
+	}
+	public void resetTurnAngleIntegral() {
+		integral = 0;
+	}
 
-	public void setPercentOutputGyro(double percentOutput, double targetAngle) {
-		double angleError = targetAngle - gyro.getYaw();
-		double kTurn = -0.05;
-		double turnCorrection = angleError*kTurn;
-		
-		SmartDashboard.putNumber("Angle Error", angleError);
-		
-		leftMaster.set(ControlMode.PercentOutput, -percentOutput + turnCorrection);
-		rightMaster.set(ControlMode.PercentOutput, percentOutput + turnCorrection);
+	public void turnAngle(double targetAngle) { //ghetto PID with the navX sensor
+ 		angle_difference_now = targetAngle - gyro.getYaw();
+ 		proportion = GYRO_KP_2 * angle_difference;
+ 		deltaTime = getTime();
+ 		derivative = GYRO_KD * (angle_difference_now - angle_difference)/deltaTime;
+ 		if (Math.abs(angle_difference_now) < 15) {
+ 			integral += GYRO_KI*deltaTime*(angle_difference_now);
+ 		}
+ 		angle_difference = angle_difference_now;
+ 		
+ 		SmartDashboard.putNumber("turnAngle PercentOutput input", proportion+derivative+integral);
+ 		leftMaster.set(ControlMode.PercentOutput, proportion+derivative+integral);
+ 		rightMaster.set(ControlMode.PercentOutput, proportion+derivative+integral);
+ 		/*
+ 		if (proportion+derivative+integral <= GYRO_CAP) {
+	 		leftMaster.set(ControlMode.PercentOutput, proportion+derivative+integral);
+	 		rightMaster.set(ControlMode.PercentOutput, proportion+derivative+integral);
+ 		}
+ 		else {
+ 			leftMaster.set(GYRO_CAP);
+ 			rightMaster.set(GYRO_CAP);
+ 		*/
+ 		
+ 		printYaw();
+ 		resetTime();
+ 		startTime();
+ 	}
+	
+	public void turnAngleCheck(double targetAngle) {
+		resetTimeCheck();
+		startTimeCheck();
+		while (getTimeCheck() < 1) {
+			turnAngle(targetAngle);
 		}
-
+	}
+ 	
 	/*
 	 * Encoder Methods
 	 */
 	public void resetPosition() {
-		leftMaster.setSelectedSensorPosition(0,0,0);
-		rightMaster.setSelectedSensorPosition(0,0,0);
+		leftMaster.setSelectedSensorPosition(0,0,100);
+		rightMaster.setSelectedSensorPosition(0,0,100);
 				
 	}
 	
@@ -156,15 +209,17 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	 * Ball Shifter Methods
 	 */
 	public void setLowGear() {
-		ballShifter.set(DoubleSolenoid.Value.kForward);
-		lowGear = true;
+		ballShifter.set(DoubleSolenoid.Value.kReverse);
+		//lowGear = true;
 		SmartDashboard.putString("Gear/Speed", "low");
+		//System.out.println("LOW GEAR");
 	}
 	
 	public void setHighGear() {
-		ballShifter.set(DoubleSolenoid.Value.kReverse);
-		lowGear = false;
+		ballShifter.set(DoubleSolenoid.Value.kForward);
+		//lowGear = false;
 		SmartDashboard.putString("Gear/Speed", "high");
+		//System.out.println("HIGH GEAR");
 	}
 	
 	/*
@@ -174,10 +229,14 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		SmartDashboard.putNumber("left revolutions", leftMaster.getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("right revolutions",rightMaster.getSelectedSensorPosition(0));
 	}
+	public void printEncoderDistanceConsoleFeet() {
+		//System.out.println("left side: " + (double)leftMaster.getSelectedSensorPosition(0)/1438 + " ft");
+		//System.out.println("right side: " + (double)rightMaster.getSelectedSensorPosition(0)/1438 + " ft");
+	}
 	
 	public void printEncoderVelocity(){
-		SmartDashboard.putNumber("left velocity", leftMaster.getSelectedSensorVelocity(0));
-		SmartDashboard.putNumber("right velocity", rightMaster.getSelectedSensorVelocity(0));
+		SmartDashboard.putNumber("left velocity", (double)leftMaster.getSelectedSensorVelocity(0)*10/1438);
+		SmartDashboard.putNumber("right velocity", (double)rightMaster.getSelectedSensorVelocity(0)*10/1438);
 	}
 	
 	public void printVoltage(String name,WPI_TalonSRX talon){
@@ -210,15 +269,29 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		timer.stop();
 	}
 	
-	public double getDeltaTime(){
+	public double getTime(){
 		return timer.get();
 	}
 	
-	public void printDeltaTime(){
-		SmartDashboard.putNumber("delta time",getDeltaTime());
+	public boolean done(double finishTime) {
+		return (timer.get() >= finishTime);
+	}
+	public void resetTimeCheck() {
+		timerCheck.reset();
+	}
+	public void startTimeCheck() {
+		timerCheck.start();
+	}
+	public void stopTimeCheck() {
+		timerCheck.stop();
+	}
+	public double getTimeCheck() {
+		return timerCheck.get();
 	}
 	
-	public void driveDistance(double input) {//this is in revolutions
+	
+	
+	public void drivePercentOutput(double input) {//this is in revolutions
 		leftMaster.set(ControlMode.Position,-input);
 		rightMaster.set(ControlMode.Position,input);
 	}
@@ -233,12 +306,14 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	
 	public void printYaw() {
 		SmartDashboard.putNumber("Current Yaw", gyro.getYaw());
+		//System.out.println("Current Yaw: " + gyro.getYaw());
 	}
 	public AHRS getGyro() {
 		return gyro;
 	}
 	
 	public void pidOn() {
+		
 		leftMaster.config_kP(0, DRIVE_KP, 0);
 		leftMaster.config_kI(0, DRIVE_KI, 0);
 		leftMaster.config_kD(0, DRIVE_KD, 0);
@@ -246,62 +321,102 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		rightMaster.config_kP(0, DRIVE_KP, 0);
 		rightMaster.config_kI(0, DRIVE_KI, 0);
 		rightMaster.config_kD(0, DRIVE_KD, 0);
+		
+		//left.configurePIDVA(DRIVE_KP,DRIVE_KI,DRIVE_KD,0,0);
+		//right.configurePIDVA(DRIVE_KP,DRIVE_KI,DRIVE_KD,0,0);
 	}
 	public void pidOff() {
 		leftMaster.config_kP(0, 0, 0);
 		leftMaster.config_kI(0, 0, 0);
 		leftMaster.config_kD(0, 0, 0);
+		//leftMaster.config_kF(0, 0, 0);
 		
 		rightMaster.config_kP(0, 0, 0);
 		rightMaster.config_kI(0, 0, 0);
 		rightMaster.config_kD(0, 0, 0);
+		//rightMaster.config_kF(0, 0, 0);
+	}
+	public void drivePosition(double distance) {
+		leftMaster.set(ControlMode.Position,distance);
+		rightMaster.set(ControlMode.Position,distance);
 	}
 	
-	public void generateTrajectory(Waypoint[] points) {
+	
+	
+	/*
+	 * Encoder follower shit (trajectory stuff)
+	 */
+	public void configureEncoderFollowers() {
+		left.configureEncoder(leftMaster.getSelectedSensorPosition(0),2259,6.0/12);
+		right.configureEncoder(rightMaster.getSelectedSensorPosition(0),2259,6.0/12);
+		left.configurePIDVA(LEFT_KP,LEFT_KI,LEFT_KD,LEFT_KF,0);
+		right.configurePIDVA(RIGHT_KP,RIGHT_KI,RIGHT_KD, RIGHT_KF,0);
+	}
+	
+	
+	public void generateTrajectory(Waypoint[] points) { //custom generateTrajectory()
 		config = new Config(FitMethod.HERMITE_CUBIC, Config.SAMPLES_HIGH, TIME_BETWEEN_POINTS, MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
-		traj = Pathfinder.generate(points, config);
+		traj = Pathfinder.generate(points,config);
 		modifier = new TankModifier(traj).modify(WHEEL_BASE_DISTANCE);
 		left = new EncoderFollower(modifier.getLeftTrajectory());
 		right = new EncoderFollower(modifier.getRightTrajectory());
 	}
 	
-	public void generateTrajectory() {
+	public Trajectory generateTrajectorySetup(Waypoint[] points) {
 		config = new Config(FitMethod.HERMITE_CUBIC, Config.SAMPLES_HIGH, TIME_BETWEEN_POINTS, MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
-		traj = Pathfinder.generate(POINTS_1, config);
+		traj = Pathfinder.generate(points,config);
+		return traj;
+	}
+	
+	public void generateModifiers(Trajectory traj) { //generate modifiers based off the given trajectory
 		modifier = new TankModifier(traj).modify(WHEEL_BASE_DISTANCE);
 		left = new EncoderFollower(modifier.getLeftTrajectory());
 		right = new EncoderFollower(modifier.getRightTrajectory());
-		
-		for (int i = 0;i < traj.length();i++) {
-			Segment seg = traj.get(i);
-			/*
-			 *System.out.printf("%f,%f,%f,%f,%f,%f,%f,%f\n", 
-		        seg.dt, seg.x, seg.y, seg.position, seg.velocity, 
-		            seg.acceleration, seg.jerk, seg.heading);
-			 */
-		}
+	}
+	
+	public void loadLeftEncoderFollower(Trajectory traj) { //from a csv!
+		left = new EncoderFollower(traj);
+	}
+	
+	public void loadRightEncoderFollower(Trajectory traj) { //also from a csv!
+		right = new EncoderFollower(traj);
+	}
+	
+	public void resetLeftEncoderFollower() {
+		left.reset();
+	}
+	public void resetRightEncoderFollower() {
+		right.reset();
+	}
+	public void resetEncoderFollowers() {
+		left.reset();
+		right.reset();
 	}
 	
 	public void followTrajectory() {
-		/*
-		double l and r are the result of the calculation that each talon needs to get to according to the next trajectory point
-		*/
-		double l = left.calculate(leftMaster.getSelectedSensorPosition(0));
+		double l = left.calculate(-leftMaster.getSelectedSensorPosition(0));
 		double r = right.calculate(rightMaster.getSelectedSensorPosition(0));
 		
-		/*
-		discover the current angle of the robot and the desired heading (again, from the next trajectory point)
-		find the error and create a constant
-		*/
-		double gyro_heading = gyro.getYaw() * -1;
+		
+		SmartDashboard.putNumber("left raw - auto",l);
+		SmartDashboard.putNumber("right raw - auto",r);
+		
+		double gyro_heading = gyro.getYaw()*-1;
 		double desired_heading = Pathfinder.r2d(left.getHeading());
 		
+		
+		
 		double angleError = Pathfinder.boundHalfDegrees(desired_heading-gyro_heading);
-		double turn = 0.8 * (-1.0 / 80.0) * angleError;
-		
-		leftMaster.set(-l-turn);
-		rightMaster.set(-r+turn);
-		
+		double turn = GYRO_KP * angleError;
+		SmartDashboard.putNumber("AngleError: ", angleError);
+		//leftMaster.setInverted(true);
+		leftMaster.set(ControlMode.PercentOutput,-(l+turn));
+		rightMaster.set(ControlMode.PercentOutput,r-turn);
+		SmartDashboard.putNumber("left master percentoutput",-(l+turn));
+		SmartDashboard.putNumber("right master percentoutput", r-turn);
+		//System.out.println("we got here");
+		//leftMaster.set(ControlMode.PercentOutput,-0.5);
+		//rightMaster.set(ControlMode.PercentOutput,0.5);
 	}
 	
 	@Override

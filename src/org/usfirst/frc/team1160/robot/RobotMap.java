@@ -23,18 +23,22 @@ public interface RobotMap {
 		 * 1 - Left
 		 * 2 - Center
 		 * 3 - Right
-	 * FAST_SWITCH
+	 * PRIORITIZE_OPPOSITE_SCALE
+	 	 * true - go for the opposite scale above all else!
+	 	 * false - lol forget about it
+	 * PRIORITIZE_FAST_SWITCH
 	 	 * true - have a nice fast center switch auto (it's also untested so lol)
-	 	 * false - do not have a nice fast center switch auto
- 	 * SCALE
- 	 	 * true - go for the scale OVER THE SWITCH
- 	 	 * false - we're not going to run untested code!
+	 	 * false - do not have a nice fast center switch auto ("slow is smooth and smooth is fast")
+ 	 * PRIORITIZE_SAME_SCALE
+ 	 	 * true - go for the same side scale above all else!
+ 	 	 * false - ranking points matter!
 	 */
 	public static final int HARDCODED_POSITION = 1;
 	public static final boolean PRIORITIZE_OPPOSITE_SCALE = true;
-	public static final boolean FAST_SWITCH = true;
-	public static final boolean SCALE_OVER_SWITCH = true;
-	public static final boolean SCALE = true;
+	public static final boolean PRIORITIZE_SAME_SCALE = true;
+	public static final boolean PRIORITIZE_OPPOSITE_SWITCH = true;
+	public static final boolean PRIORITIZE_SAME_SWITCH = true;
+	public static final boolean PRIORITIZE_FAST_SWITCH = true;
 	/*
 	 * General
 	 */

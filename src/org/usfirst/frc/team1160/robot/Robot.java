@@ -366,7 +366,8 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap{
 				
 		}
 	}
-	public void chooseAuto2() {
+	
+	public void chooseAuto2() { //las vegas quarters
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
 		if (gameData.length() > 0) {
 			switchPosition = gameData.charAt(0);

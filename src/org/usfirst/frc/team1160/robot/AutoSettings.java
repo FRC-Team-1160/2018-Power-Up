@@ -483,6 +483,6 @@ public interface AutoSettings {
 				}
 			}
 		}
-		//return 0;
+		return 0;
 	}
 }

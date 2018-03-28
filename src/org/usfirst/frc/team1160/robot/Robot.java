@@ -78,18 +78,8 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 							 segment_three_left,segment_three_right;
 	public static String gameData;
 	public static char switchPosition, scalePosition, oppSwitchPosition;
+	private static int autoChoice;
 	
-	//Auto path choosing variables
-	// 0 = default (in case code reads incorrectly)
-	// 1 = left; 2 = middle; 3 = right
-	private int startingPosition, autoChoice;
-	//to be used when scale autos are added
-	
-	
-	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
-	 */
 	@Override
 	public void robotInit() {
 		dt = DriveTrain.getInstance();
@@ -103,6 +93,9 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 
 		autonomousCommand = new X_AutoLine();
 		
+		//chooseAuto();
+		//loadTrajectories(autoChoice);
+		
 	}
 	
 	
@@ -110,9 +103,8 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 	 * generateSegments()
 	 * Wednesday night: let's be even more honest, you should only have to run this once after the csv loading code is made
 	 * Thursday afternoon: you better not ever call this method
-	 */
-	
-	public void generateSegments(int choice) {
+	 
+	 public void generateSegments(int choice) {
 		switch (choice) {
 			case 1: //Center to Left Switch
 				segment_one = dt.generateTrajectorySetup(CENTER_LEFT_SWITCH_1);
@@ -151,12 +143,12 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 				break;
 		}
 	}
+	*/
 	
 	/*
 	 * saveTrajectories(), saveTrajectoriesAll()
 	 * Wednesday night: let's be honest, you should only have to run this code once
 	 * Thursday afternoon: please don't ever call this method thanks
-	 */
 	
 	public void saveTrajectories(int choice) {
 		File file_one;
@@ -220,12 +212,49 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 		
 		System.out.println("All paths saved to csv");
 	}
+	*/
 
 	
 	/*
 	 * loadTrajectories()
 	 * Thursday morning: now this is the good stuff, this is what you wanna run 25/7
 	 * Friday morning: for god's sake please make sure there are break statements after every case in the switch
+	 * 
+	 */
+	
+	/**
+	 * autoChoice() cases:
+	 * 1: CENTER POSITION TO LEFT SWITCH, TWO CUBES, FAST
+	 * 2: CENTER POSITION TO RIGHT SWITCH, TWO CUBES, FAST
+	 * 3: CENTER POSITION TO LEFT SWITCH, TWO CUBES, SLOW
+	 * 4: 
+	 * 5: 
+	 * 6: 
+	 * 7: 
+	 * 8: 
+	 * 9: 
+	 * 10: 
+	 * 11: 
+	 * 12: 
+	 * 13: 
+	 * 14:
+	 * 15:
+	 * 16: 
+	 * 17:
+	 * 18: 
+	 * 19: 
+	 * 20: 
+	 * 21:
+	 * 22:
+	 * 23:
+	 * 24:
+	 * 25:
+	 * 26: 
+	 * 27:
+	 * 28:
+	 * 29:
+	 * 30:
+	 * 31:
 	 */
 	public void loadTrajectories(int choice) {
 		File left,right;
@@ -377,7 +406,7 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 			
 		}
 		
-		int x = AutoSettings.choosePath(switchPosition,scalePosition);
+		autoChoice = AutoSettings.choosePath(switchPosition,scalePosition);
 	}
 	
 	/**

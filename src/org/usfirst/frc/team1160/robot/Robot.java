@@ -377,9 +377,7 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 			
 		}
 		
-		//startingPosition = (int) SmartDashboard.getNumber("Starting Position (1-Left, 2-Mid, 3-Right)", 0);
-		
-		startingPosition = HARDCODED_POSITION; //this is a hardcoded fallback
+		int x = AutoSettings.choosePath(switchPosition,scalePosition);
 	}
 	
 	/**
@@ -401,7 +399,6 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 	@Override
 	public void autonomousInit() {
 		
-		chooseAuto2();
 		loadTrajectories(autoChoice);
 		
 		autonomousCommand.start();

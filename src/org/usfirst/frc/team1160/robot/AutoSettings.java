@@ -2,74 +2,487 @@ package org.usfirst.frc.team1160.robot;
 
 public interface AutoSettings {
 	
-	/**
-	 * SHIT TO TAKE CARE OF BEFORE EACH MATCH (WOO LOGIC)
-	 * 
+	/* 
 	 * HARDCODED_POSITION
-		 * 1 - Left
-		 * 2 - Center
-		 * 3 - Right
-	 * PRIORITIZE_OPPOSITE_SCALE
-	 	 * true - go for the opposite scale above all else!
-	 	 * false - lol forget about it
- 	 * PRIORITIZE_SAME_SCALE
- 	 	 * true - go for the same side scale above all else!
- 	 	 * false - ranking points matter!
- 	 * PRIORITIZE_ALL_SCALE
- 	 	 * true - go for the scale NO MATTER THE SIDE
- 	 * PRIORITIZE_ALL_SWITCH
- 	 	 * true - go for the switch NO MATTER THE SIDE
- 	 * PRIORITIZE_OPPOSITE_SWITCH
- 	 * PRIORITIZE_SAME_SWITCH
-	 * PRIORITIZE_FAST_CENTER_SWITCH
-	 	 * true - have a nice fast center switch auto (it's also untested so lol)
-	 	 * false - do not have a nice fast center switch auto ("slow is smooth and smooth is fast")
- 	 * 
+	 * 1 - Left
+	 * 2 - Center
+	 * 3 - Right
 	 */
-	//Position
-	public static final int HARDCODED_POSITION = 1;
+	public static final int HARDCODED_POSITION = 3;
 	
-	/*
-	 * if the below two are the same value, then PRIORITIZE_SWITCH will be set to true
-	 * (PRIORITIZE_SWITCH comes before PRIORITIZE_SCALE if both are the same value)
+	/* PRIORITIZE_SCALE
+	 * true - prioritize the scale
+	 * false - prioritize the switch
 	 */
 	public static final boolean PRIORITIZE_SCALE = true;
-	public static final boolean PRIORITIZE_SWITCH = true;
+	
+	/* 
+	 * TWO_CUBE
+	 * true - 2 cubes xd
+	 * false - 1 cube (sad reaccs)
+	 * BIG QUESTIONS: does two cube mean two eggs in the same basket
+	 */
+	public static final boolean TWO_CUBE = true;
 	
 	/*
-	 * if the below two are the same value, then 
+	 * FAST
+	 * true - fast
+	 * false - not fast
+	 * 
+	 * if this is true and the bot is not in the center (ie. HARDCODED_POSITION != 2), this
+	 * really won't matter - that is, until we make fast paths for everything (!)
 	 */
-	public static final boolean PRIORITIZE_SAME_SIDE = true;
-	public static final boolean PRIORITIZE_OPPOSITE_SIDE = true;
+	public static final boolean FAST = false;
 	
-	/**
-	 * A brief dissertation on why there is a prioritize_all_scale AND a prioritize_all_switch,
-	 * by kyle (3/27/18)
-	 * 
-	 * If x is false, the opposite of x isn't necessarily true. In the case of booleans, it is. In literally
-	 * everywhere else in life, it isn't. If I hate hamburgers, it doesn't necessarily mean that I like
-	 * things that aren't hamburgers-- it just means that I have no particular disposition/inclination towards
-	 * them. If I am not gay, it doesn't necessarily mean that I'm not straight.
-	 * 
-	 * Think of this in terms of "gray-area" arguments - absent proactive arguments for either side, the issue
-	 * rests in a gray area and could go either way.
-	 * 
-	 * What does this mean? If both prioritize_all_scale and prioritize_all_switch are false (and yes, that
-	 * is logically possible), then the robot will take the path of least resistance. That said, it's not
-	 * logically possible for prioritize_all_scale and prioritize_all_switch to be both true.
-	 * 
-	 * Boolean Precedence Order
+	/*
+	 * PRIORITY LIST FOR choosePath()
 	 *  TOP
-	 *   |	PRIORITIZE_ALL_SCALE 					| PRIORITIZE_ALL_SWITCH
-	 *   |	 
-	 *   |
-	 *   |
-	 *   |
-	 *   |
-	 *   |
-	 *   |
+	 *   |	HARDCODED_POSITION
+	 *   |	PRIORITIZE_SCALE
+	 *   |	TWO_CUBE
+	 *   |	FAST
 	 *   |
 	 * BOTTOM
 	 */
-	
+	public static int choosePath(char switchPosition,char scalePosition) {
+		if (HARDCODED_POSITION == 2) {
+			if (TWO_CUBE) {
+				if (FAST) {
+					if (switchPosition == 'L') {
+						/*
+						 * CENTER POSITION
+						 * LEFT SWITCH
+						 * TWO CUBES
+						 * FAST
+						 */
+						return 1;
+					}
+					else if (switchPosition == 'R') {
+						/*
+						 * CENTER POSITION
+						 * RIGHT SWITCH
+						 * TWO CUBES
+						 * FAST
+						 */
+						return 2;
+					}
+				}
+				else if (!FAST) {
+					if (switchPosition == 'L') {
+						/*
+						 * CENTER POSITION
+						 * LEFT SWITCH
+						 * TWO CUBES
+						 * SLOW
+						 */
+						return 3;
+					}
+					else if (switchPosition == 'R') {
+						/*
+						 * CENTER POSITION
+						 * RIGHT SWITCH
+						 * TWO CUBES
+						 * SLOW
+						 */
+						return 4;
+					}
+				}
+			}
+			else if (!TWO_CUBE){
+				if (FAST) {
+					if (switchPosition == 'L') {
+						/*
+						 * CENTER POSITION
+						 * LEFT SWITCH
+						 * ONE CUBE
+						 * FAST
+						 */
+						return 5;
+					}
+					else if (switchPosition == 'R') {
+						/*
+						 * CENTER POSITION
+						 * RIGHT SWITCH
+						 * ONE CUBE
+						 * FAST
+						 */
+						return 6;
+					}
+				}
+				else if (!FAST) {
+					if (switchPosition == 'L') {
+						/*
+						 * CENTER POSITION
+						 * LEFT SWITCH
+						 * ONE CUBE
+						 * SLOW
+						 */
+						return 7;
+					}
+					else if (switchPosition == 'R') {
+						/*
+						 * CENTER POSITION
+						 * RIGHT SWITCH
+						 * ONE CUBE
+						 * SLOW
+						 */
+						return 8;
+					}
+				}
+			}
+		}
+		else if (HARDCODED_POSITION == 1) {
+			if (PRIORITIZE_SCALE) {
+				if (TWO_CUBE) {
+					if (FAST) {
+						if (scalePosition == 'L') {
+							/*
+							 * LEFT POSITION
+							 * LEFT SCALE
+							 * TWO CUBE
+							 * FAST
+							 */
+							return 9;
+						}
+						else if (scalePosition == 'R') {
+							/*
+							 * LEFT POSITION
+							 * RIGHT SCALE
+							 * TWO CUBE
+							 * FAST
+							 */
+							return 10;
+						}
+					}
+					else if (!FAST) {
+						if (scalePosition == 'L') {
+							/*
+							 * LEFT POSITION
+							 * LEFT SCALE
+							 * TWO CUBE
+							 * SLOW
+							 */
+							return 11;
+							//This is probably nearly impossible
+						}
+						else if (scalePosition == 'R') {
+							/*
+							 * LEFT POSITION
+							 * RIGHT SCALE
+							 * TWO CUBE
+							 * SLOW
+							 */
+							return 12;
+							//This is definitely impossible
+						}
+					}
+				}
+				else if (!TWO_CUBE){
+					if (FAST) {
+						if (scalePosition == 'L') {
+							/*
+							 * LEFT POSITION
+							 * LEFT SCALE
+							 * ONE CUBE
+							 * FAST
+							 */
+							return 13;
+						}
+						else if (scalePosition == 'R') {
+							/*
+							 * LEFT POSITION
+							 * RIGHT SCALE
+							 * ONE CUBE
+							 * FAST
+							 */
+							return 14;
+						}
+					}
+					else if (!FAST) {
+						if (scalePosition == 'L') {
+							/*
+							 * LEFT POSITION
+							 * LEFT SCALE
+							 * ONE CUBE
+							 * SLOW
+							 */
+							return 15;
+						}
+						else if (scalePosition == 'R') {
+							/*
+							 * LEFT POSITION
+							 * RIGHT SCALE
+							 * ONE CUBE
+							 * SLOW
+							 */
+							return 16;
+						}
+					}
+				}
+			}
+			else if (!PRIORITIZE_SCALE) {
+				if (TWO_CUBE) {
+					if (FAST) {
+						if (switchPosition == 'L') {
+							/*
+							 * LEFT POSITION
+							 * LEFT SWITCH
+							 * TWO CUBE
+							 * FAST
+							 */
+							return 17;
+						}
+						else if (switchPosition == 'R') {
+							/*
+							 * LEFT POSITION
+							 * RIGHT SWITCH
+							 * TWO CUBE
+							 * FAST
+							 */
+							return 18;
+						}
+					}
+					else if (!FAST) {
+						if (switchPosition == 'L') {
+							/*
+							 * LEFT POSITION
+							 * LEFT SWITCH
+							 * TWO CUBE
+							 * SLOW
+							 */
+							return 19;
+						}
+						else if (switchPosition == 'R') {
+							/*
+							 * LEFT POSITION
+							 * RIGHT SWITCH
+							 * TWO CUBE
+							 * SLOW
+							 */
+							return 20;
+						}
+					}
+				}
+				else if (!TWO_CUBE){
+					if (FAST) {
+						if (switchPosition == 'L') {
+							/*
+							 * LEFT POSITION
+							 * LEFT SWITCH
+							 * ONE CUBE
+							 * FAST
+							 */
+							return 21;
+						}
+						else if (switchPosition == 'R') {
+							/*
+							 * LEFT POSITION
+							 * RIGHT SWITCH
+							 * ONE CUBE
+							 * FAST
+							 */
+							return 22;
+						}
+					}
+					else if (!FAST) {
+						if (switchPosition == 'L') {
+							/*
+							 * LEFT POSITION
+							 * LEFT SWITCH
+							 * ONE CUBE
+							 * SLOW
+							 */
+							return 23;
+						}
+						else if (switchPosition == 'R') {
+							/*
+							 * LEFT POSITION
+							 * RIGHT SWITCH
+							 * ONE CUBE
+							 * SLOW
+							 */
+							return 24;
+						}
+					}
+				}
+			}
+		}
+		else if (HARDCODED_POSITION == 3) {
+			{
+				if (PRIORITIZE_SCALE) {
+					if (TWO_CUBE) {
+						if (FAST) {
+							if (scalePosition == 'L') {
+								/*
+								 * RIGHT POSITION
+								 * LEFT SCALE
+								 * TWO CUBE
+								 * FAST
+								 */
+								return 25;
+							}
+							else if (scalePosition == 'R') {
+								/*
+								 * RIGHT POSITION
+								 * RIGHT SCALE
+								 * TWO CUBE
+								 * FAST
+								 */
+								return 26;
+							}
+						}
+						else if (!FAST){
+							if (scalePosition == 'L') {
+								/*
+								 * RIGHT POSITION
+								 * LEFT SCALE
+								 * TWO CUBE
+								 * SLOW
+								 */
+								return 27;
+							}
+							else if (scalePosition == 'R') {
+								/*
+								 * RIGHT POSITION
+								 * RIGHT SCALE
+								 * TWO CUBE
+								 * SLOW
+								 */
+								return 28;
+							}
+						}
+					}
+					else if (!TWO_CUBE){
+						if (FAST) {
+							if (scalePosition == 'L') {
+								/*
+								 * RIGHT POSITION
+								 * LEFT SCALE
+								 * ONE CUBE
+								 * FAST
+								 */
+								return 29;
+							}
+							else if (scalePosition == 'R') {
+								/*
+								 * RIGHT POSITION
+								 * RIGHT SCALE
+								 * ONE CUBE
+								 * FAST
+								 */
+								return 30;
+							}
+						}
+						else if (!FAST){
+							if (scalePosition == 'L') {
+								/*
+								 * RIGHT POSITION
+								 * LEFT SCALE
+								 * ONE CUBE
+								 * SLOW
+								 */
+								return 31;
+							}
+							else if (scalePosition == 'R') {
+								/*
+								 * RIGHT POSITION
+								 * RIGHT SCALE
+								 * ONE CUBE
+								 * SLOW
+								 */
+								return 32;
+							}
+						}
+					}
+				}
+				else if (!PRIORITIZE_SCALE){
+					if (TWO_CUBE) {
+						if (FAST) {
+							if (switchPosition == 'L') {
+								/*
+								 * RIGHT POSITION
+								 * LEFT SWITCH
+								 * TWO CUBE
+								 * FAST
+								 */
+								return 33;
+							}
+							else if (switchPosition == 'R') {
+								/*
+								 * RIGHT POSITION
+								 * RIGHT SWITCH
+								 * TWO CUBE
+								 * FAST
+								 */
+								return 34;
+							}
+						}
+						else if (!FAST) {
+							if (switchPosition == 'L') {
+								/*
+								 * RIGHT POSITION
+								 * LEFT SWITCH
+								 * TWO CUBE
+								 * SLOW
+								 */
+								return 35;
+							}
+							else if (switchPosition == 'R') {
+								/*
+								 * RIGHT POSITION
+								 * RIGHT SWITCH
+								 * TWO CUBE
+								 * SLOW
+								 */
+								return 36;
+							}
+						}
+					}
+					else if (!TWO_CUBE) {
+						if (FAST) {
+							if (switchPosition == 'L') {
+								/*
+								 * RIGHT POSITION
+								 * LEFT SWITCH
+								 * ONE CUBE
+								 * FAST
+								 */
+								return 37;
+							}
+							else if (switchPosition == 'R') {
+								/*
+								 * RIGHT POSITION
+								 * RIGHT SWITCH
+								 * ONE CUBE
+								 * FAST
+								 */
+								return 38;
+							}
+						}
+						else if (!FAST){
+							if (switchPosition == 'L') {
+								/*
+								 * RIGHT POSITION
+								 * LEFT SWITCH
+								 * ONE CUBE
+								 * SLOW
+								 */
+								return 39;
+							}
+							else if (switchPosition == 'R') {
+								/*
+								 * RIGHT POSITION
+								 * RIGHT SWITCH
+								 * ONE CUBE
+								 * SLOW
+								 */
+								return 40;
+							}
+						}
+					}
+				}
+			}
+		}
+		//return 0;
+	}
 }

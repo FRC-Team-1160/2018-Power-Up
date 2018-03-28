@@ -105,7 +105,7 @@ public interface RobotMap {
 	public static final int	LIFT_RIGHT_MOTION_CRUISE_VELOCITY = 0; //RIGHT
 	public static final int	LIFT_RIGHT_MOTION_ACCELERATION = 0;
 	
-	public static final int CARRY_HEIGHT = 750; //poggers
+	public static final int CARRY_HEIGHT = 1250; //poggers
 	public static final int SWITCH_HEIGHT = 16000; //height of the switch, in right side encoder units
 	public static final int SCALE_HEIGHT = 39000; //height of the scale, in right side encoder units
 	

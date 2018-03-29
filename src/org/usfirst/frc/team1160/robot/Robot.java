@@ -4,33 +4,18 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-
-	/**
-	 * generateSegments(),saveTrajectories(),loadTrajectories() Parameters - autoChoices() logic
-	 * drive Straight(default): 0 
-	 * Center to Left Switch: 1
-	 * Left to Left Switch: 2
-	 * Right to Right Switch: 3
-	 * Center to Left Switch Backwards: 4
-	 * Center to Right Switch: 5
-	 * Center to Left Switch Fast: 6
-	 * Center to Right Switch Fast: 7
-	 * Left to Left Scale: 8
-	 * Right to Right Scale: 9
-	 * Left to Right Scale: 10
-	 * Right to Left Scale: 11
-	 */
 	
 	/**TODO:
 	 * 1. Regenerate paths with new accl value of 4 - DONE
-	 * 2. Scale auto
+	 * 2. Scale auto - DONE
 	 * 3. New switch autos (center) - DONE
 	 * 4. Optimize command groups (what works best in parallel)?
 	 * 5. 2 cube auto (scale or switch)
-	 * 6. Far side scale
+	 * 6. Far side scale - DONE
 	 * 7. Check auto functionality
 	 * 	a. paths
 	 * 	b. AutoBoxSpit()
+	 * 8. rename auto paths to fit new csv naming conventions
 	 */
 
 package org.usfirst.frc.team1160.robot;
@@ -223,169 +208,159 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 	 */
 	
 	/**
+	 * CSV naming conventions:
+	 * <starting position>_<ending side>_<ending objective>_<number of cubes>_<speed>_<trajectory number>_<trajectory side>
+	 * CENTER_LEFT_SWITCH_TWO_FAST_1_LEFT to represent the first segment of the left trajectory of choice 1, for example
+	 * 
 	 * autoChoice() cases:
-	 * 1: CENTER POSITION TO LEFT SWITCH, TWO CUBES, FAST
-	 * 2: CENTER POSITION TO RIGHT SWITCH, TWO CUBES, FAST
-	 * 3: CENTER POSITION TO LEFT SWITCH, TWO CUBES, SLOW
-	 * 4: 
-	 * 5: 
-	 * 6: 
-	 * 7: 
-	 * 8: 
-	 * 9: 
-	 * 10: 
-	 * 11: 
-	 * 12: 
-	 * 13: 
-	 * 14:
-	 * 15:
-	 * 16: 
-	 * 17:
-	 * 18: 
-	 * 19: 
-	 * 20: 
-	 * 21:
-	 * 22:
-	 * 23:
-	 * 24:
-	 * 25:
-	 * 26: 
-	 * 27:
-	 * 28:
-	 * 29:
-	 * 30:
-	 * 31:
+	 * 1:  CENTER | LEFT SWITCH  | TWO CUBES | FAST | CENTER_LEFT_SWITCH_TWO_FAST
+	 * 2:  CENTER | RIGHT SWITCH | TWO CUBES | FAST | CENTER_RIGHT_SWITCH_TWO_FAST
+	 * 3:  CENTER | LEFT SWITCH  | TWO CUBES | SLOW | CENTER_LEFT_SWITCH_TWO_SLOW
+	 * 4:  CENTER | RIGHT SWITCH | TWO CUBES | SLOW | 
+	 * 5:  CENTER | LEFT SWITCH  | ONE CUBE  | FAST
+	 * 6:  CENTER | RIGHT SWITCH | ONE CUBE  | FAST
+	 * 7:  CENTER | LEFT SWITCH  | ONE CUBE  | SLOW
+	 * 8:  CENTER | RIGHT SWITCH | ONE CUBE  | SLOW
+	 * 9:  LEFT   | LEFT SCALE   | TWO CUBES | FAST
+	 * 10: LEFT   | RIGHT SCALE  | TWO CUBES | FAST
+	 * 11: LEFT   | LEFT SCALE   | TWO CUBES | SLOW
+	 * 12: LEFT   | RIGHT SCALE  | TWO CUBES | SLOW
+	 * 13: LEFT   | LEFT SCALE   | ONE CUBE  | FAST
+	 * 14: LEFT   | RIGHT SCALE  | ONE CUBE  | FAST
+	 * 15: LEFT   | LEFT SCALE   | ONE CUBE  | SLOW
+	 * 16: LEFT   | RIGHT SCALE  | ONE CUBE  | SLOW
+	 * 17: LEFT   | LEFT SWITCH  | TWO CUBES | FAST
+	 * 18: LEFT   | RIGHT SWITCH | TWO CUBES | FAST
+	 * 19: LEFT   | LEFT SWITCH  | TWO CUBES | SLOW
+	 * 20: LEFT   | RIGHT SWITCH | TWO CUBES | SLOW
+	 * 21: LEFT   | LEFT SWITCH  | ONE CUBE  | FAST
+	 * 22: LEFT   | RIGHT SWITCH | ONE CUBE  | FAST
+	 * 23: LEFT   | LEFT SWITCH  | ONE CUBE  | SLOW
+	 * 24: LEFT   | RIGHT SWITCH | ONE CUBE  | SLOW
+	 * 25: RIGHT  | LEFT SCALE   | TWO CUBES | FAST
+	 * 26: RIGHT  | RIGHT SCALE  | TWO CUBES | FAST
+	 * 27: RIGHT  | LEFT SCALE   | TWO CUBES | SLOW
+	 * 28: RIGHT  | RIGHT SCALE  | TWO CUBES | SLOW
+	 * 29: RIGHT  | LEFT SCALE   | ONE CUBE  | FAST
+	 * 30: RIGHT  | RIGHT SCALE  | ONE CUBE  | FAST
+	 * 31: RIGHT  | LEFT SCALE   | ONE CUBE  | SLOW
+	 * 32: RIGHT  | RIGHT SCALE  | ONE CUBE  | SLOW
+	 * 33: RIGHT  | LEFT SWITCH  | TWO CUBES | FAST
+	 * 34: RIGHT  | RIGHT SWITCH | TWO CUBES | FAST
+	 * 35: RIGHT  | LEFT SWITCH  | TWO CUBES | SLOW
+	 * 36. RIGHT  | RIGHT SWITCH | TWO CUBES | SLOW
+	 * 37: RIGHT  | LEFT SWITCH  | ONE CUBE  | FAST
+	 * 38: RIGHT  | RIGHT SWITCH | ONE CUBE  | FAST
+	 * 39: RIGHT  | LEFT SWITCH  | ONE CUBE  | SLOW
+	 * 40: RIGHT  | RIGHT SWITCH | ONE CUBE  | SLOW
 	 */
+	
 	public void loadTrajectories(int choice) {
 		File left,right;
 		String baseFilepath = "/home/lvuser/motionProfiles/";
 		switch (choice)
 		{
-			case 1: //center to left switch
-				left = new File(baseFilepath + "CENTER_LEFT_SWITCH_1_LEFT.csv");
-				right = new File(baseFilepath + "CENTER_LEFT_SWITCH_1_RIGHT.csv");
+			case 5: //center to left switch, one cube, fast
+				left = new File(baseFilepath + "CENTER_LEFT_SWITCH_ONE_FAST_1_LEFT.csv");
+				right = new File(baseFilepath + "CENTER_LEFT_SWITCH_ONE_FAST_1_RIGHT.csv");
 				segment_one_left = Pathfinder.readFromCSV(left);
 				segment_one_right = Pathfinder.readFromCSV(right);
 				
-				left = new File(baseFilepath + "CENTER_LEFT_SWITCH_2_LEFT.csv");
-				right = new File(baseFilepath + "CENTER_LEFT_SWITCH_2_RIGHT.csv");
-				segment_two_left = Pathfinder.readFromCSV(left);
-				segment_two_right = Pathfinder.readFromCSV(right);
-				
-				left = new File(baseFilepath + "CENTER_LEFT_SWITCH_3_LEFT.csv");
-				right = new File(baseFilepath + "CENTER_LEFT_SWITCH_3_RIGHT.csv");
-				segment_three_left = Pathfinder.readFromCSV(left);
-				segment_three_right = Pathfinder.readFromCSV(right);
-				
-				autonomousCommand = new Center_LeftSwitch();
-				break;
-			case 2: //left to left switch
-				left = new File(baseFilepath + "X_X_SWITCH_1_LEFT.csv");
-				right = new File(baseFilepath + "X_X_SWITCH_1_RIGHT.csv");
-				segment_one_left = Pathfinder.readFromCSV(left);
-				segment_one_right = Pathfinder.readFromCSV(right);
-				
-				left = new File(baseFilepath + "X_X_SWITCH_2_LEFT.csv");
-				right = new File(baseFilepath + "X_X_SWITCH_2_RIGHT.csv");
-				segment_two_left = Pathfinder.readFromCSV(left);
-				segment_two_right = Pathfinder.readFromCSV(right);
-				
-				autonomousCommand = new Left_LeftSwitch();
-				break;
-			case 3: //right to right switch
-				left = new File(baseFilepath + "X_X_SWITCH_1_LEFT.csv");
-				right = new File(baseFilepath + "X_X_SWITCH_1_RIGHT.csv");
-				segment_one_left = Pathfinder.readFromCSV(left);
-				segment_one_right = Pathfinder.readFromCSV(right);
-				
-				left = new File(baseFilepath + "X_X_SWITCH_2_LEFT.csv");
-				right = new File(baseFilepath + "X_X_SWITCH_2_RIGHT.csv");
-				segment_two_left = Pathfinder.readFromCSV(left);
-				segment_two_right = Pathfinder.readFromCSV(right);
-				
-				autonomousCommand = new Right_RightSwitch();
-				break;
-			case 5: //center to right switch
-				left = new File(baseFilepath + "CENTER_RIGHT_SWITCH_1_LEFT.csv");
-				right = new File(baseFilepath + "CENTER_RIGHT_SWITCH_1_RIGHT.csv");
-				segment_one_left = Pathfinder.readFromCSV(left);
-				segment_one_right = Pathfinder.readFromCSV(right);
-				
-				left = new File(baseFilepath + "CENTER_RIGHT_SWITCH_2_LEFT.csv");
-				right = new File(baseFilepath + "CENTER_RIGHT_SWITCH_2_RIGHT.csv");
-				segment_two_left = Pathfinder.readFromCSV(left);
-				segment_two_right = Pathfinder.readFromCSV(right);
-				
-				left = new File(baseFilepath + "CENTER_RIGHT_SWITCH_3_LEFT.csv");
-				right = new File(baseFilepath + "CENTER_RIGHT_SWITCH_3_RIGHT.csv");
-				segment_three_left = Pathfinder.readFromCSV(left);
-				segment_three_right = Pathfinder.readFromCSV(right);
-				
-				autonomousCommand = new Center_RightSwitch();
-				break;
-			case 6: //center to left switch fast
-				left = new File(baseFilepath + "CENTER_LEFT_SWITCH_FAST_1_LEFT.csv");
-				right = new File(baseFilepath + "CENTER_LEFT_SWITCH_FAST_1_RIGHT.csv");
-				segment_one_left = Pathfinder.readFromCSV(left);
-				segment_one_right = Pathfinder.readFromCSV(right);
-				
-				left = new File(baseFilepath + "CENTER_LEFT_SWITCH_FAST_2_LEFT.csv");
-				right = new File(baseFilepath + "CENTER_LEFT_SWITCH_FAST_2_RIGHT.csv");
+				left = new File(baseFilepath + "CENTER_LEFT_SWITCH_ONE_FAST_2_LEFT.csv");
+				right = new File(baseFilepath + "CENTER_LEFT_SWITCH_ONE_FAST_2_RIGHT.csv");
 				segment_two_left = Pathfinder.readFromCSV(left);
 				segment_two_right = Pathfinder.readFromCSV(right);
 				
 				autonomousCommand = new Center_LeftSwitch_Fast();
 				break;
-			case 7: //center to right switch fast
-				left = new File(baseFilepath + "CENTER_RIGHT_SWITCH_FAST_1_LEFT.csv");
-				right = new File(baseFilepath + "CENTER_RIGHT_SWITCH_FAST_1_RIGHT.csv");
+				
+			case 6: //center to right switch, one cube, fast
+				left = new File(baseFilepath + "CENTER_RIGHT_SWITCH_ONE_FAST_1_LEFT.csv");
+				right = new File(baseFilepath + "CENTER_RIGHT_SWITCH_ONE_FAST_1_RIGHT.csv");
 				segment_one_left = Pathfinder.readFromCSV(left);
 				segment_one_right = Pathfinder.readFromCSV(right);
 				
-				left = new File(baseFilepath + "CENTER_RIGHT_SWITCH_FAST_2_LEFT.csv");
-				right = new File(baseFilepath + "CENTER_RIGHT_SWITCH_FAST_2_RIGHT.csv");
+				left = new File(baseFilepath + "CENTER_RIGHT_SWITCH_ONE_FAST_2_LEFT.csv");
+				right = new File(baseFilepath + "CENTER_RIGHT_SWITCH_ONE_FAST_2_RIGHT.csv");
 				segment_two_left = Pathfinder.readFromCSV(left);
 				segment_two_right = Pathfinder.readFromCSV(right);
 				
 				autonomousCommand = new Center_RightSwitch_Fast();
 				break;
-			case 8: //left to left scale
-				left = new File(baseFilepath + "X_X_SCALE_LEFT.csv");
-				right = new File(baseFilepath + "X_X_SCALE_RIGHT.csv");
+				
+			case 7: //center to left switch, one cube, slow
+				left = new File(baseFilepath + "CENTER_LEFT_SWITCH_ONE_SLOW_1_LEFT.csv");
+				right = new File(baseFilepath + "CENTER_LEFT_SWITCH_ONE_SLOW_1_RIGHT.csv");
 				segment_one_left = Pathfinder.readFromCSV(left);
 				segment_one_right = Pathfinder.readFromCSV(right);
+				
+				left = new File(baseFilepath + "CENTER_LEFT_SWITCH_ONE_SLOW_2_LEFT.csv");
+				right = new File(baseFilepath + "CENTER_LEFT_SWITCH_ONE_SLOW_2_RIGHT.csv");
+				segment_two_left = Pathfinder.readFromCSV(left);
+				segment_two_right = Pathfinder.readFromCSV(right);
+				
+				left = new File(baseFilepath + "CENTER_LEFT_SWITCH_ONE_SLOW_3_LEFT.csv");
+				right = new File(baseFilepath + "CENTER_LEFT_SWITCH_ONE_SLOW_3_RIGHT.csv");
+				segment_three_left = Pathfinder.readFromCSV(left);
+				segment_three_right = Pathfinder.readFromCSV(right);
+				
+				autonomousCommand = new Center_LeftSwitch();
+				break;
+				
+			case 8: //center to right switch, one cube, slow
+				left = new File(baseFilepath + "CENTER_RIGHT_SWITCH_ONE_SLOW_1_LEFT.csv");
+				right = new File(baseFilepath + "CENTER_RIGHT_SWITCH_ONE_SLOW_1_RIGHT.csv");
+				segment_one_left = Pathfinder.readFromCSV(left);
+				segment_one_right = Pathfinder.readFromCSV(right);
+				
+				left = new File(baseFilepath + "CENTER_RIGHT_SWITCH_ONE_SLOW_2_LEFT.csv");
+				right = new File(baseFilepath + "CENTER_RIGHT_SWITCH_ONE_SLOW_2_RIGHT.csv");
+				segment_two_left = Pathfinder.readFromCSV(left);
+				segment_two_right = Pathfinder.readFromCSV(right);
+				
+				left = new File(baseFilepath + "CENTER_RIGHT_SWITCH_ONE_SLOW_3_LEFT.csv");
+				right = new File(baseFilepath + "CENTER_RIGHT_SWITCH_ONE_SLOW_3_RIGHT.csv");
+				segment_three_left = Pathfinder.readFromCSV(left);
+				segment_three_right = Pathfinder.readFromCSV(right);
+				
+				autonomousCommand = new Center_RightSwitch();
+				break;
+			
+			case 15: //left to left scale, one cube, slow
+				left = new File(baseFilepath + "X_X_SCALE_ONE_SLOW_LEFT.csv");
+				right = new File(baseFilepath + "X_X_SCALE_ONE_SLOW_RIGHT.csv");
+				segment_one_left = Pathfinder.readFromCSV(left);
+				segment_one_right = Pathfinder.readFromCSV(right);
+				
 				autonomousCommand = new Left_LeftScale_Parallel();
 				break;
-			case 9: //right to right scale
-				left = new File(baseFilepath + "X_X_SCALE_LEFT.csv");
-				right = new File(baseFilepath + "X_X_SCALE_RIGHT.csv");
+			
+			case 23: //left to left switch, one cube, slow
+				left = new File(baseFilepath + "X_X_SWITCH_ONE_SLOW_1_LEFT.csv");
+				right = new File(baseFilepath + "CENTER_RIGHT_SWITCH_ONE_FAST_1_RIGHT.csv");
 				segment_one_left = Pathfinder.readFromCSV(left);
 				segment_one_right = Pathfinder.readFromCSV(right);
+				
+				left = new File(baseFilepath + "CENTER_RIGHT_SWITCH_ONE_FAST_2_LEFT.csv");
+				right = new File(baseFilepath + "CENTER_RIGHT_SWITCH_ONE_FAST_2_RIGHT.csv");
+				segment_two_left = Pathfinder.readFromCSV(left);
+				segment_two_right = Pathfinder.readFromCSV(right);
+				
+				autonomousCommand = new Center_RightSwitch_Fast();
+				break;
+			
+			case 40: //right to right scale, one cube, slow
+				left = new File(baseFilepath + "X_X_SCALE_ONE_SLOW_LEFT.csv");
+				right = new File(baseFilepath + "X_X_SCALE_ONE_SLOW_RIGHT.csv");
+				segment_one_left = Pathfinder.readFromCSV(left);
+				segment_one_right = Pathfinder.readFromCSV(right);
+				
 				autonomousCommand = new Right_RightScale_Parallel();
 				break;
-			case 10: //left to right scale
-				left = new File(baseFilepath + "X_Y_SCALE_1_LEFT.csv");
-				right = new File(baseFilepath + "X_Y_SCALE_1_RIGHT.csv");
-				segment_one_left = Pathfinder.readFromCSV(left);
-				segment_one_right = Pathfinder.readFromCSV(right);
-				left = new File(baseFilepath + "X_X_AUTOLINE_LEFT.csv");
-				right = new File(baseFilepath + "X_X_AUTOLINE_RIGHT.csv");
-				segment_two_left = Pathfinder.readFromCSV(left);
-				segment_two_right = Pathfinder.readFromCSV(right);
-				autonomousCommand = new Left_RightScale_Parallel();
-			case 11: //right to left scale
-				left = new File(baseFilepath + "X_Y_SCALE_1_LEFT.csv");
-				right = new File(baseFilepath + "X_Y_SCALE_1_RIGHT.csv");
-				segment_one_left = Pathfinder.readFromCSV(left);
-				segment_one_right = Pathfinder.readFromCSV(right);				
-				left = new File(baseFilepath + "X_X_AUTOLINE_LEFT.csv");
-				right = new File(baseFilepath + "X_X_AUTOLINE_RIGHT.csv");
-				segment_two_left = Pathfinder.readFromCSV(left);
-				segment_two_right = Pathfinder.readFromCSV(right);
-				autonomousCommand = new Right_LeftScale_Parallel();
-			default: //move to the auto line
-				left = new File(baseFilepath + "X_X_AUTOLINE_LEFT.csv");
-				right = new File(baseFilepath + "X_X_AUTOLINE_RIGHT.csv");
+				
+			default: //move to the auto line, no cubes, slow
+				left = new File(baseFilepath + "X_X_AUTOLINE_NONE_SLOW_LEFT.csv");
+				right = new File(baseFilepath + "X_X_AUTOLINE_NONE_SLOW_RIGHT.csv");
 				segment_one_left = Pathfinder.readFromCSV(left);
 				segment_one_right = Pathfinder.readFromCSV(right);
 				autonomousCommand = new X_AutoLine();

@@ -129,10 +129,10 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	 */
 	public void manualDrive() {
 
-		leftMaster.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() - Robot.oi.getMainstick().getY()));
+		leftMaster.set(ControlMode.PercentOutput, Math.pow(-(Robot.oi.getMainstick().getZ() - Robot.oi.getMainstick().getY()), 1));
 		//leftSlave.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() - Robot.oi.getMainstick().getY()));
 		
-		rightMaster.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() + Robot.oi.getMainstick().getY()));
+		rightMaster.set(ControlMode.PercentOutput, Math.pow(-(Robot.oi.getMainstick().getZ() + Robot.oi.getMainstick().getY()),1));
 		//rightSlave.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() + Robot.oi.getMainstick().getY()));
 		
 		printYaw();

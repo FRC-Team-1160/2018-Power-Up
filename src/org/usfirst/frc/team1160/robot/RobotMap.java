@@ -48,20 +48,21 @@ public interface RobotMap {
 	public static final double DRIVE_KD = 0;
 	public static final double DRIVE_KF = 0;
 	
-	public static final double LEFT_KP = 0.6;//0				//MotionProfiling Constants for Low Gear
+	public static final double LEFT_KP = 0;				//MotionProfiling Constants for Low Gear
 	public static final double LEFT_KI = 0;
-	public static final double LEFT_KD = 0.2;//0.2
-	public static final double LEFT_KF = 0.125;
-	public static final double LEFT_KA = 0;
+	public static final double LEFT_KD = 0;//0.2
+	public static final double LEFT_KF = 0.133;
+	public static final double LEFT_KA = 0.04;
 	
-	public static final double RIGHT_KP = 0.6;//0.8;
+	public static final double RIGHT_KP = 0;
 	public static final double RIGHT_KI = 0;
-	public static final double RIGHT_KD = 0.2;//0.2
-	public static final double RIGHT_KF = 0.127;
-	public static final double RIGHT_KA = 0;
+	public static final double RIGHT_KD = 0;//0.2
+	public static final double RIGHT_KF = 0.133;
+	public static final double RIGHT_KA = 0.04;
 	
-	public static final double MAX_VELOCITY = 7;				//Drivetrain trajectory constants
-	public static final double MAX_ACCELERATION = 4; //TODO: Change to 4 and remake
+	public static final double MAX_VELOCITY = 7;	 //7.5 is actual max vel for low gear, 13 is actual max velocity for high gear
+	public static final double MAX_ACCELERATION = 4; //4.5 is actual max accl for low gear, 5.9 is actual max accl for high gear
+													 // 
 	public static final double MAX_JERK = 10;
 	public static final double TIME_BETWEEN_POINTS = 0.02;			//Time (in seconds) between each Waypoint of the config
 	

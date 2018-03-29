@@ -22,7 +22,7 @@ public interface AutoSettings {
 	 * false - 1 cube (sad reaccs)
 	 * BIG QUESTIONS: does two cube mean two eggs in the same basket
 	 */
-	public static final boolean TWO_CUBE = true;
+	public static final boolean TWO_CUBE = false;
 	
 	/*
 	 * FAST

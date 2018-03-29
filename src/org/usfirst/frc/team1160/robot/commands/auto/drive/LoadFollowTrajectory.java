@@ -3,6 +3,7 @@ package org.usfirst.frc.team1160.robot.commands.auto.drive;
 import org.usfirst.frc.team1160.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Trajectory;
 
 /**
@@ -39,6 +40,12 @@ public class LoadFollowTrajectory extends Command {
     protected void execute() {
     	Robot.dt.followTrajectory();
     	System.out.println("Time: " + Robot.dt.getTime());
+    	if (n < leftTraj.segments.length-1) {
+	    	double leftProjectedVelocity = Robot.dt.getLeftEncoderFollower().getSegment().velocity;
+			double rightProjectedVelocity = Robot.dt.getRightEncoderFollower().getSegment().velocity;
+			SmartDashboard.putNumber("leftProjectedVelocity",-leftProjectedVelocity);
+			SmartDashboard.putNumber("rightProjectedVelocity", rightProjectedVelocity);
+    	}
     	n++;
     	Robot.dt.printYaw();
     	System.out.println("n = " + n);

@@ -78,8 +78,7 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 
 		autonomousCommand = new X_AutoLine();
 		
-		//chooseAuto();
-		//loadTrajectories(autoChoice);
+		loadTrajectories(0);
 		
 	}
 	
@@ -213,46 +212,46 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 	 * CENTER_LEFT_SWITCH_TWO_FAST_1_LEFT to represent the first segment of the left trajectory of choice 1, for example
 	 * 
 	 * autoChoice() cases:
-	 * 1:  CENTER | LEFT SWITCH  | TWO CUBES | FAST | CENTER_LEFT_SWITCH_TWO_FAST
-	 * 2:  CENTER | RIGHT SWITCH | TWO CUBES | FAST | CENTER_RIGHT_SWITCH_TWO_FAST
-	 * 3:  CENTER | LEFT SWITCH  | TWO CUBES | SLOW | CENTER_LEFT_SWITCH_TWO_SLOW
+	 * 1:  CENTER | LEFT SWITCH  | TWO CUBES | FAST |
+	 * 2:  CENTER | RIGHT SWITCH | TWO CUBES | FAST |
+	 * 3:  CENTER | LEFT SWITCH  | TWO CUBES | SLOW |
 	 * 4:  CENTER | RIGHT SWITCH | TWO CUBES | SLOW | 
-	 * 5:  CENTER | LEFT SWITCH  | ONE CUBE  | FAST
-	 * 6:  CENTER | RIGHT SWITCH | ONE CUBE  | FAST
-	 * 7:  CENTER | LEFT SWITCH  | ONE CUBE  | SLOW
-	 * 8:  CENTER | RIGHT SWITCH | ONE CUBE  | SLOW
-	 * 9:  LEFT   | LEFT SCALE   | TWO CUBES | FAST
-	 * 10: LEFT   | RIGHT SCALE  | TWO CUBES | FAST
-	 * 11: LEFT   | LEFT SCALE   | TWO CUBES | SLOW
-	 * 12: LEFT   | RIGHT SCALE  | TWO CUBES | SLOW
-	 * 13: LEFT   | LEFT SCALE   | ONE CUBE  | FAST
-	 * 14: LEFT   | RIGHT SCALE  | ONE CUBE  | FAST
-	 * 15: LEFT   | LEFT SCALE   | ONE CUBE  | SLOW
-	 * 16: LEFT   | RIGHT SCALE  | ONE CUBE  | SLOW
-	 * 17: LEFT   | LEFT SWITCH  | TWO CUBES | FAST
-	 * 18: LEFT   | RIGHT SWITCH | TWO CUBES | FAST
-	 * 19: LEFT   | LEFT SWITCH  | TWO CUBES | SLOW
-	 * 20: LEFT   | RIGHT SWITCH | TWO CUBES | SLOW
-	 * 21: LEFT   | LEFT SWITCH  | ONE CUBE  | FAST
-	 * 22: LEFT   | RIGHT SWITCH | ONE CUBE  | FAST
-	 * 23: LEFT   | LEFT SWITCH  | ONE CUBE  | SLOW
-	 * 24: LEFT   | RIGHT SWITCH | ONE CUBE  | SLOW
-	 * 25: RIGHT  | LEFT SCALE   | TWO CUBES | FAST
-	 * 26: RIGHT  | RIGHT SCALE  | TWO CUBES | FAST
-	 * 27: RIGHT  | LEFT SCALE   | TWO CUBES | SLOW
-	 * 28: RIGHT  | RIGHT SCALE  | TWO CUBES | SLOW
-	 * 29: RIGHT  | LEFT SCALE   | ONE CUBE  | FAST
-	 * 30: RIGHT  | RIGHT SCALE  | ONE CUBE  | FAST
-	 * 31: RIGHT  | LEFT SCALE   | ONE CUBE  | SLOW
-	 * 32: RIGHT  | RIGHT SCALE  | ONE CUBE  | SLOW
-	 * 33: RIGHT  | LEFT SWITCH  | TWO CUBES | FAST
-	 * 34: RIGHT  | RIGHT SWITCH | TWO CUBES | FAST
-	 * 35: RIGHT  | LEFT SWITCH  | TWO CUBES | SLOW
-	 * 36. RIGHT  | RIGHT SWITCH | TWO CUBES | SLOW
-	 * 37: RIGHT  | LEFT SWITCH  | ONE CUBE  | FAST
-	 * 38: RIGHT  | RIGHT SWITCH | ONE CUBE  | FAST
-	 * 39: RIGHT  | LEFT SWITCH  | ONE CUBE  | SLOW
-	 * 40: RIGHT  | RIGHT SWITCH | ONE CUBE  | SLOW
+	 * 5:  CENTER | LEFT SWITCH  | ONE CUBE  | FAST |
+	 * 6:  CENTER | RIGHT SWITCH | ONE CUBE  | FAST |
+	 * 7:  CENTER | LEFT SWITCH  | ONE CUBE  | SLOW |
+	 * 8:  CENTER | RIGHT SWITCH | ONE CUBE  | SLOW |
+	 * 9:  LEFT   | LEFT SCALE   | TWO CUBES | FAST |
+	 * 10: LEFT   | RIGHT SCALE  | TWO CUBES | FAST |
+	 * 11: LEFT   | LEFT SCALE   | TWO CUBES | SLOW |
+	 * 12: LEFT   | RIGHT SCALE  | TWO CUBES | SLOW |
+	 * 13: LEFT   | LEFT SCALE   | ONE CUBE  | FAST |
+	 * 14: LEFT   | RIGHT SCALE  | ONE CUBE  | FAST |
+	 * 15: LEFT   | LEFT SCALE   | ONE CUBE  | SLOW |
+	 * 16: LEFT   | RIGHT SCALE  | ONE CUBE  | SLOW |
+	 * 17: LEFT   | LEFT SWITCH  | TWO CUBES | FAST |
+	 * 18: LEFT   | RIGHT SWITCH | TWO CUBES | FAST |
+	 * 19: LEFT   | LEFT SWITCH  | TWO CUBES | SLOW |
+	 * 20: LEFT   | RIGHT SWITCH | TWO CUBES | SLOW |
+	 * 21: LEFT   | LEFT SWITCH  | ONE CUBE  | FAST |
+	 * 22: LEFT   | RIGHT SWITCH | ONE CUBE  | FAST |
+	 * 23: LEFT   | LEFT SWITCH  | ONE CUBE  | SLOW |
+	 * 24: LEFT   | RIGHT SWITCH | ONE CUBE  | SLOW |
+	 * 25: RIGHT  | LEFT SCALE   | TWO CUBES | FAST |
+	 * 26: RIGHT  | RIGHT SCALE  | TWO CUBES | FAST |
+	 * 27: RIGHT  | LEFT SCALE   | TWO CUBES | SLOW |
+	 * 28: RIGHT  | RIGHT SCALE  | TWO CUBES | SLOW |
+	 * 29: RIGHT  | LEFT SCALE   | ONE CUBE  | FAST |
+	 * 30: RIGHT  | RIGHT SCALE  | ONE CUBE  | FAST |
+	 * 31: RIGHT  | LEFT SCALE   | ONE CUBE  | SLOW |
+	 * 32: RIGHT  | RIGHT SCALE  | ONE CUBE  | SLOW |
+	 * 33: RIGHT  | LEFT SWITCH  | TWO CUBES | FAST |
+	 * 34: RIGHT  | RIGHT SWITCH | TWO CUBES | FAST |
+	 * 35: RIGHT  | LEFT SWITCH  | TWO CUBES | SLOW | 
+	 * 36. RIGHT  | RIGHT SWITCH | TWO CUBES | SLOW |
+	 * 37: RIGHT  | LEFT SWITCH  | ONE CUBE  | FAST |
+	 * 38: RIGHT  | RIGHT SWITCH | ONE CUBE  | FAST |
+	 * 39: RIGHT  | LEFT SWITCH  | ONE CUBE  | SLOW |
+	 * 40: RIGHT  | RIGHT SWITCH | ONE CUBE  | SLOW |
 	 */
 	
 	public void loadTrajectories(int choice) {
@@ -334,28 +333,70 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 				
 				autonomousCommand = new Left_LeftScale_Parallel();
 				break;
-			
-			case 23: //left to left switch, one cube, slow
-				left = new File(baseFilepath + "X_X_SWITCH_ONE_SLOW_1_LEFT.csv");
-				right = new File(baseFilepath + "CENTER_RIGHT_SWITCH_ONE_FAST_1_RIGHT.csv");
+				
+			case 16: //left to right scale, one cube, slow
+				left = new File(baseFilepath + "X_Y_SCALE_ONE_SLOW_1_LEFT.csv");
+				right = new File(baseFilepath + "X_Y_SCALE_ONE_SLOW_1_RIGHT.csv");
 				segment_one_left = Pathfinder.readFromCSV(left);
 				segment_one_right = Pathfinder.readFromCSV(right);
 				
-				left = new File(baseFilepath + "CENTER_RIGHT_SWITCH_ONE_FAST_2_LEFT.csv");
-				right = new File(baseFilepath + "CENTER_RIGHT_SWITCH_ONE_FAST_2_RIGHT.csv");
+				left = new File(baseFilepath + "X_Y_SCALE_ONE_SLOW_2_LEFT.csv");
+				right = new File(baseFilepath + "X_Y_SCALE_ONE_SLOW_2_RIGHT.csv");
 				segment_two_left = Pathfinder.readFromCSV(left);
 				segment_two_right = Pathfinder.readFromCSV(right);
 				
-				autonomousCommand = new Center_RightSwitch_Fast();
+				autonomousCommand = new Left_RightScale_Parallel();
 				break;
 			
-			case 40: //right to right scale, one cube, slow
+			case 23: //left to left switch, one cube, slow
+				left = new File(baseFilepath + "X_X_SWITCH_ONE_SLOW_1_LEFT.csv");
+				right = new File(baseFilepath + "X_X_SWITCH_ONE_SLOW_1_RIGHT.csv");
+				segment_one_left = Pathfinder.readFromCSV(left);
+				segment_one_right = Pathfinder.readFromCSV(right);
+				
+				left = new File(baseFilepath + "X_X_SWITCH_ONE_SLOW_2_LEFT.csv");
+				right = new File(baseFilepath + "X_X_SWITCH_ONE_SLOW_2_RIGHT.csv");
+				segment_two_left = Pathfinder.readFromCSV(left);
+				segment_two_right = Pathfinder.readFromCSV(right);
+				
+				autonomousCommand = new Left_LeftSwitch();
+				break;
+				
+			case 31: //right to left scale, one cube, slow
+				left = new File(baseFilepath + "X_Y_SCALE_ONE_SLOW_1_LEFT.csv");
+				right = new File(baseFilepath + "X_Y_SCALE_ONE_SLOW_1_RIGHT.csv");
+				segment_one_left = Pathfinder.readFromCSV(left);
+				segment_one_right = Pathfinder.readFromCSV(right);
+				
+				left = new File(baseFilepath + "X_Y_SCALE_ONE_SLOW_2_LEFT.csv");
+				right = new File(baseFilepath + "X_Y_SCALE_ONE_SLOW_2_RIGHT.csv");
+				segment_two_left = Pathfinder.readFromCSV(left);
+				segment_two_right = Pathfinder.readFromCSV(right);
+				
+				autonomousCommand = new Right_LeftScale_Parallel();
+				break;
+
+			case 32: //right to right scale, one cube, slow
 				left = new File(baseFilepath + "X_X_SCALE_ONE_SLOW_LEFT.csv");
 				right = new File(baseFilepath + "X_X_SCALE_ONE_SLOW_RIGHT.csv");
 				segment_one_left = Pathfinder.readFromCSV(left);
 				segment_one_right = Pathfinder.readFromCSV(right);
 				
 				autonomousCommand = new Right_RightScale_Parallel();
+				break;
+			
+			case 40: //right to right switch, one cube, slow
+				left = new File(baseFilepath + "X_X_SWITCH_ONE_SLOW_1_LEFT.csv");
+				right = new File(baseFilepath + "X_X_SWITCH_ONE_SLOW_1_RIGHT.csv");
+				segment_one_left = Pathfinder.readFromCSV(left);
+				segment_one_right = Pathfinder.readFromCSV(right);
+				
+				left = new File(baseFilepath + "X_X_SWITCH_ONE_SLOW_2_LEFT.csv");
+				right = new File(baseFilepath + "X_X_SWITCH_ONE_SLOW_2_RIGHT.csv");
+				segment_two_left = Pathfinder.readFromCSV(left);
+				segment_two_right = Pathfinder.readFromCSV(right);
+				
+				autonomousCommand = new Right_RightSwitch();
 				break;
 				
 			default: //move to the auto line, no cubes, slow

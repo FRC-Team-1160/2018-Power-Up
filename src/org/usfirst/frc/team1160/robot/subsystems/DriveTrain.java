@@ -136,7 +136,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		//rightSlave.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() + Robot.oi.getMainstick().getY()));
 		
 		printYaw();
-		//printEncoderDistance();
+		printEncoderDistance();
 		printEncoderVelocity();
 	}
 	public void resetEncodersYaw() {
@@ -225,8 +225,8 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	 * Data Logging Methods
 	 */
 	public void printEncoderDistance(){
-		SmartDashboard.putNumber("left revolutions", leftMaster.getSelectedSensorPosition(0));
-		SmartDashboard.putNumber("right revolutions",rightMaster.getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("left revolutions", Math.PI*0.5*leftMaster.getSelectedSensorPosition(0)/2259.0);
+		SmartDashboard.putNumber("right revolutions",Math.PI*0.5*rightMaster.getSelectedSensorPosition(0)/2259.0);
 	}
 	public void printEncoderDistanceConsoleFeet() {
 		//System.out.println("left side: " + (double)leftMaster.getSelectedSensorPosition(0)/1438 + " ft");
@@ -348,8 +348,8 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	public void configureEncoderFollowers() {
 		left.configureEncoder(leftMaster.getSelectedSensorPosition(0),2259,6.0/12);
 		right.configureEncoder(rightMaster.getSelectedSensorPosition(0),2259,6.0/12);
-		left.configurePIDVA(LEFT_KP,LEFT_KI,LEFT_KD,LEFT_KF,0);
-		right.configurePIDVA(RIGHT_KP,RIGHT_KI,RIGHT_KD, RIGHT_KF,0);
+		left.configurePIDVA(LEFT_KP,LEFT_KI,LEFT_KD,LEFT_KF,LEFT_KA);
+		right.configurePIDVA(RIGHT_KP,RIGHT_KI,RIGHT_KD, RIGHT_KF,RIGHT_KA);
 	}
 	
 	
@@ -392,10 +392,17 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		right.reset();
 	}
 	
+	public EncoderFollower getLeftEncoderFollower() {
+		return left;
+	}
+	public EncoderFollower getRightEncoderFollower() {
+		return right;
+	}
+	
+	
 	public void followTrajectory() {
 		double l = left.calculate(-leftMaster.getSelectedSensorPosition(0));
 		double r = right.calculate(rightMaster.getSelectedSensorPosition(0));
-		
 		
 		SmartDashboard.putNumber("left raw - auto",l);
 		SmartDashboard.putNumber("right raw - auto",r);

@@ -39,7 +39,7 @@ public class LoadFollowTrajectory extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.dt.followTrajectory();
-    	System.out.println("Time: " + Robot.dt.getTime());
+    	//System.out.println("Time: " + Robot.dt.getTime());
     	if (n < leftTraj.segments.length-1) {
 	    	double leftProjectedVelocity = Robot.dt.getLeftEncoderFollower().getSegment().velocity;
 			double rightProjectedVelocity = Robot.dt.getRightEncoderFollower().getSegment().velocity;
@@ -61,6 +61,7 @@ public class LoadFollowTrajectory extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	System.out.println("AVERAGE TIMESTEP: " + Robot.dt.totalTimestep/Robot.dt.numberOfIterations);
     }
 
     // Called when another command which requires one or more of the same

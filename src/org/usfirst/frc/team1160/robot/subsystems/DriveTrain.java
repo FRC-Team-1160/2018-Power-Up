@@ -399,9 +399,13 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		return right;
 	}
 	
+	public double totalTimestep = 0;
+	public int numberOfIterations = -1;
 	
 	public void followTrajectory() {
-		
+		System.out.println("TIME STEP: " + timer.get());
+		totalTimestep += timer.get();
+		numberOfIterations += 1;
 		timer.reset();
 		timer.start();
 		
@@ -427,7 +431,6 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		//System.out.println("we got here");
 		//leftMaster.set(ControlMode.PercentOutput,-0.5);
 		//rightMaster.set(ControlMode.PercentOutput,0.5);
-		System.out.println("TIME STEP: " + timer.get());
 	}
 	
 	@Override

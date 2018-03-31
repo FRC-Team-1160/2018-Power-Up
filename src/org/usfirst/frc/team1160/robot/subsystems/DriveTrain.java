@@ -225,8 +225,8 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	 * Data Logging Methods
 	 */
 	public void printEncoderDistance(){
-		SmartDashboard.putNumber("left revolutions", Math.PI*0.5*leftMaster.getSelectedSensorPosition(0)/2259.0);
-		SmartDashboard.putNumber("right revolutions",Math.PI*0.5*rightMaster.getSelectedSensorPosition(0)/2259.0);
+		SmartDashboard.putNumber("left distance (feet)", Math.PI*WHEEL_DIAMETER*leftMaster.getSelectedSensorPosition(0)/2259.0);
+		SmartDashboard.putNumber("right distance (feet)",Math.PI*WHEEL_DIAMETER*rightMaster.getSelectedSensorPosition(0)/2259.0);
 	}
 	public void printEncoderDistanceConsoleFeet() {
 		//System.out.println("left side: " + (double)leftMaster.getSelectedSensorPosition(0)/1438 + " ft");
@@ -234,8 +234,8 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	}
 	
 	public void printEncoderVelocity(){
-		SmartDashboard.putNumber("left velocity", (double)leftMaster.getSelectedSensorVelocity(0)*10/1438);
-		SmartDashboard.putNumber("right velocity", (double)rightMaster.getSelectedSensorVelocity(0)*10/1438);
+		SmartDashboard.putNumber("left velocity", (double)Math.PI*WHEEL_DIAMETER*leftMaster.getSelectedSensorVelocity(0)*10/2259);
+		SmartDashboard.putNumber("right velocity", (double)Math.PI*WHEEL_DIAMETER*rightMaster.getSelectedSensorVelocity(0)*10/2259);
 	}
 	
 	public void printVoltage(String name,WPI_TalonSRX talon){
@@ -346,8 +346,8 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	 * Encoder follower shit (trajectory stuff)
 	 */
 	public void configureEncoderFollowers() {
-		left.configureEncoder(leftMaster.getSelectedSensorPosition(0),2259,6.0/12);
-		right.configureEncoder(rightMaster.getSelectedSensorPosition(0),2259,6.0/12);
+		left.configureEncoder(leftMaster.getSelectedSensorPosition(0),2259,WHEEL_DIAMETER);
+		right.configureEncoder(rightMaster.getSelectedSensorPosition(0),2259,WHEEL_DIAMETER);
 		left.configurePIDVA(LEFT_KP,LEFT_KI,LEFT_KD,LEFT_KF,LEFT_KA);
 		right.configurePIDVA(RIGHT_KP,RIGHT_KI,RIGHT_KD, RIGHT_KF,RIGHT_KA);
 	}
@@ -401,6 +401,10 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	
 	
 	public void followTrajectory() {
+		
+		timer.reset();
+		timer.start();
+		
 		double l = left.calculate(-leftMaster.getSelectedSensorPosition(0));
 		double r = right.calculate(rightMaster.getSelectedSensorPosition(0));
 		
@@ -423,6 +427,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		//System.out.println("we got here");
 		//leftMaster.set(ControlMode.PercentOutput,-0.5);
 		//rightMaster.set(ControlMode.PercentOutput,0.5);
+		System.out.println("TIME STEP: " + timer.get());
 	}
 	
 	@Override

@@ -9,13 +9,13 @@ import jaci.pathfinder.Trajectory;
 /**
  *
  */
-public class LoadFollowTrajectory extends Command {
+public class LoadFollowTrajectoryHighGear extends Command {
 	
 	int n;
 	Trajectory leftTraj,rightTraj;
 	
 
-    public LoadFollowTrajectory(Trajectory leftTraj,Trajectory rightTraj) {
+    public LoadFollowTrajectoryHighGear(Trajectory leftTraj,Trajectory rightTraj) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.dt);
@@ -26,7 +26,7 @@ public class LoadFollowTrajectory extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	n = 0;
-    	Robot.dt.setLowGear();
+    	Robot.dt.setHighGear();
     	Robot.dt.resetPosition();
     	Robot.dt.loadLeftEncoderFollower(leftTraj);
     	Robot.dt.loadRightEncoderFollower(rightTraj);

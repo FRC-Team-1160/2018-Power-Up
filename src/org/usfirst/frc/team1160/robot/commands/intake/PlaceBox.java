@@ -13,9 +13,9 @@ public class PlaceBox extends CommandGroup {
     public PlaceBox() {
     	addSequential(new IntakeRetract());
     	addSequential(new WaitLift(0.1));
-    	addSequential(new IntakeRotate(0.5),0.25);
+    	addSequential(new IntakeRotate(-0.5),0.25);
     	addSequential(new IntakeExtend());
-    	addSequential(new IntakeRotate(0.5),0.25);
+    	addSequential(new IntakeRotate(-0.5),0.25);
 
         // Add Commands here:
         // e.g. addSequential(new Command1());

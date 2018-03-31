@@ -41,8 +41,8 @@ public class OI implements RobotMap{
 				   turnAngle,
 				   fullExtend,fullRetract,
 				   dsEngageBrake,dsReleaseBrake,dsExtendClimber,dsRetractClimber,dsClimbUp,dsClimbDown,
-				   placeBox
-				   ;
+				   placeBox,
+				   liftEncodersReset;
 	
 	public static OI getInstance() {
 		if(instance == null) {
@@ -73,7 +73,9 @@ public class OI implements RobotMap{
 		
 		intakeEat = new JoystickButton(mainStick,5);
 		intakeSpit = new JoystickButton(mainStick,6);
-		intakeFastSpit = new JoystickButton(mainStick,10);
+		//intakeFastSpit = new JoystickButton(mainStick,10);
+		//liftEncodersReset = new JoystickButton(mainStick,10);
+		intakeSet = new JoystickButton(mainStick,10);
 		
 		intakeExtend = new JoystickButton(mainStick,3);
 		intakeRetract = new JoystickButton(mainStick,2);
@@ -128,7 +130,9 @@ public class OI implements RobotMap{
 		
 		intakeEat.whileHeld(new IntakeRotate(-0.7));
 		intakeSpit.whileHeld(new IntakeRotate(0.5));
-		intakeFastSpit.whileHeld(new IntakeRotate(0.8));
+		//liftEncodersReset.whenPressed(new ResetLiftEncoders());
+		intakeSet.whileHeld(new IntakeSet(0.5));
+		//intakeFastSpit.whileHeld(new IntakeRotate(0.8));
 		//intakeBigSpit.?
 		
 		extendClimber.whenPressed(new LatchExtend());
@@ -146,6 +150,7 @@ public class OI implements RobotMap{
 		bangBangScale.whenPressed(new BangBangMove(SCALE_HEIGHT));
 		bangBangSwitch.whenPressed(new BangBangMove(SWITCH_HEIGHT));
 		
+		//pyramid second layer height: 5150
 		
 		//setLift.whileHeld(new SetLift(0.1));
 		

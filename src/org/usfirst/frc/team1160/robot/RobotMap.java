@@ -31,7 +31,8 @@ public interface RobotMap {
 	public static final int DT_SOLENOID_1 = 6;
 	
 	public static int DT_ENC_COUNTS_PER_REV = 512;				//Encoder counts per revolution
-	public static double WHEEL_BASE_DISTANCE = 2.53;
+	public static double WHEEL_BASE_DISTANCE = 2.25; //used to be 2.53 until 3/29/18
+	public static double WHEEL_DIAMETER = (5.875)/12;
 															//Gyro constants
 	public static final double GYRO_KP = 1.2 * (-1.0/80.0);	//Pathfinder
 	
@@ -48,17 +49,17 @@ public interface RobotMap {
 	public static final double DRIVE_KD = 0;
 	public static final double DRIVE_KF = 0;
 	
-	public static final double LEFT_KP = 0;				//MotionProfiling Constants for Low Gear
-	public static final double LEFT_KI = 0;
+	public static final double LEFT_KP = 0.9;				//MotionProfiling Constants for Low Gear
+	public static final double LEFT_KI = 0.1;
 	public static final double LEFT_KD = 0;//0.2
-	public static final double LEFT_KF = 0.133;
-	public static final double LEFT_KA = 0.04;
+	public static final double LEFT_KF = 1.18*1/7.5;
+	public static final double LEFT_KA = .5*(1/6); //start with 1/(2 * max accl) and adjust wherever
 	
-	public static final double RIGHT_KP = 0;
-	public static final double RIGHT_KI = 0;
+	public static final double RIGHT_KP = 0.9;
+	public static final double RIGHT_KI = 0.1; //formerly 0.15 until kyle said fuck it
 	public static final double RIGHT_KD = 0;//0.2
-	public static final double RIGHT_KF = 0.133;
-	public static final double RIGHT_KA = 0.04;
+	public static final double RIGHT_KF = 1.18*1/7.5;
+	public static final double RIGHT_KA = .5*(1/6);
 	
 	public static final double MAX_VELOCITY = 7;	 //7.5 is actual max vel for low gear, 13 is actual max velocity for high gear
 	public static final double MAX_ACCELERATION = 4; //4.5 is actual max accl for low gear, 5.9 is actual max accl for high gear

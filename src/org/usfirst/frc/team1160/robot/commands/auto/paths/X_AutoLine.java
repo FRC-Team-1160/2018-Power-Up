@@ -3,6 +3,7 @@ package org.usfirst.frc.team1160.robot.commands.auto.paths;
 import org.usfirst.frc.team1160.robot.Robot;
 import org.usfirst.frc.team1160.robot.commands.ResetEncoderYaw;
 import org.usfirst.frc.team1160.robot.commands.auto.drive.LoadFollowTrajectory;
+import org.usfirst.frc.team1160.robot.commands.auto.drive.LoadFollowTrajectoryHighGear;
 import org.usfirst.frc.team1160.robot.commands.auto.drive.WaitDrivetrain;
 import org.usfirst.frc.team1160.robot.commands.auto.intake.AutoBoxClamp;
 import org.usfirst.frc.team1160.robot.commands.intake.IntakeExtend;
@@ -19,7 +20,7 @@ public class X_AutoLine extends CommandGroup {
     	addSequential(new AutoBoxClamp());
     	addSequential(new ResetEncoderYaw());
     	addSequential(new LoadFollowTrajectory(Robot.segment_one_left,Robot.segment_one_right));
-    	
+    	//addSequential(new LoadFollowTrajectoryHighGear(Robot.segment_one_left,Robot.segment_one_right));
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

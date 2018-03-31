@@ -400,8 +400,14 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 				break;
 				
 			default: //move to the auto line, no cubes, slow
+				/*
 				left = new File(baseFilepath + "X_X_AUTOLINE_NONE_SLOW_LEFT.csv");
 				right = new File(baseFilepath + "X_X_AUTOLINE_NONE_SLOW_RIGHT.csv");
+				*/
+				
+				//curve!
+				left = new File(baseFilepath + "STRAIGHT_LINE_LEFT.csv");
+				right = new File(baseFilepath + "STRAIGHT_LINE_RIGHT.csv");
 				segment_one_left = Pathfinder.readFromCSV(left);
 				segment_one_right = Pathfinder.readFromCSV(right);
 				autonomousCommand = new X_AutoLine();

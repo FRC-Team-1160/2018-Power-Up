@@ -76,8 +76,8 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		//System.out.println(System.getProperty("java.library.path"));
 
+		//autonomousCommand = new TurnAngle(-25.67);
 		autonomousCommand = new X_AutoLine();
-		
 		loadTrajectories(0);
 		
 	}
@@ -431,11 +431,6 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 		autoChoice = AutoSettings.choosePath(switchPosition,scalePosition);
 	}
 	
-	/**
-	 * This function is called once each time the robot enters Disabled mode.
-	 * You can use it to reset any subsystem information you want to clear when
-	 * the robot is disabled.
-	 */
 	@Override
 	public void disabledInit() {
 
@@ -450,7 +445,7 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 	@Override
 	public void autonomousInit() {
 		
-		loadTrajectories(autoChoice);
+		//loadTrajectories(autoChoice);
 		
 		autonomousCommand.start();
 	}
@@ -462,10 +457,6 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 
 	@Override
 	public void teleopInit() {
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
 		autonomousCommand.cancel();
 	}
 

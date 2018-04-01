@@ -34,6 +34,7 @@ public class TurnAngle extends Command implements RobotMap{
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
 		Robot.dt.turnAngle(targetAngle);
+		Robot.dt.printEncoderVelocity();
 		//time for the ghetto isFinished()
     }
 

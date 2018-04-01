@@ -36,31 +36,32 @@ public interface RobotMap {
 															//Gyro constants
 	public static final double GYRO_KP = 1.2 * (-1.0/80.0);	//Pathfinder
 	
-	public static final double GYRO_KP_2 = .55*2.5 * (-1.0/80.0); //TurnAngle
-	public static final double GYRO_KI = -3*3/(1.3*100);
-	public static final double GYRO_KD = 3*2.5*1.3/40 * (-1.0/80.0); //0.01 * (-1.0/80.0);//TURN ANGLE KP
+	public static final double GYRO_KP_2 = .66*2.5 * (-1.0/80.0); //TurnAngle
+	public static final double GYRO_KI = 0; //-3*3/(1.3*100);
+	public static final double GYRO_KD = 0.25 * (-1.0/80.0); //0.01 * (-1.0/80.0);//TURN ANGLE KP
+	public static final double GYRO_KF = 0;
 	public static final double GYRO_TOLERANCE = 0.75;				//Smaller value means higher accuracy but more time spent
 	public static final double TURN_TIMEOUT = 2.5;
 																//achieving said accuracy
 	public static final double GYRO_CAP = 0.4; //max speed of the turn during TurnAngle
 	
-	public static final double DRIVE_KP = 0.8;					//Drivetrain Talon PID constants
+	public static final double DRIVE_KP = 0.9;					//Drivetrain Talon PID constants
 	public static final double DRIVE_KI = 0;
 	public static final double DRIVE_KD = 0;
 	public static final double DRIVE_KF = 0;
 	
-	public static final double LEFT_KP = 0.3;				//MotionProfiling Constants for Low Gear
-	public static final double LEFT_KI = 0;
-	public static final double LEFT_KD = 0;//0.2
-	public static final double LEFT_KF = 1.14*1.0/7.5;
-	public static final double LEFT_KA = 0.35 *(1.0/6.0); //start with 1/(2 * max accl) and adjust wherever
+	public static final double LEFT_KP = 0.85;				//MotionProfiling Constants for Low Gear
+	public static final double LEFT_KI = 0.2;
+	public static final double LEFT_KD = 0.2;//0.2
+	public static final double LEFT_KF = 1.24 * (1.0/7.5);
+	public static final double LEFT_KA = 0.36 * (1.0/6.0); //start with 1/(2 * max accl) and adjust wherever
 	//hey people when it comes to fractions in java, make sure to slap .0 on everything even if the number's cast as a double
 	
-	public static final double RIGHT_KP = 0.3;
-	public static final double RIGHT_KI = 0; //formerly 0.15 until kyle said fuck it
-	public static final double RIGHT_KD = 0;//0.2
-	public static final double RIGHT_KF = 1.14*1.0/7.5;
-	public static final double RIGHT_KA = 0.35 *(1.0/6.0);
+	public static final double RIGHT_KP = 0.85;
+	public static final double RIGHT_KI = 0.2; //formerly 0.15 until kyle said fuck it
+	public static final double RIGHT_KD = 0.2;//0.2
+	public static final double RIGHT_KF = 1.24 * (1.0/7.5);
+	public static final double RIGHT_KA = 0.36 * (1.0/6.0);
 	
 	public static final double MAX_VELOCITY = 7.25;	 //7.5 is actual max vel for low gear, 13 is actual max velocity for high gear
 	public static final double MAX_ACCELERATION = 6; //4.5 is actual max accl for low gear, 5.9 is actual max accl for high gear

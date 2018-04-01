@@ -39,6 +39,8 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	private Timer timer,timerCheck;
 		//timerCheck is supposed to run only upon the turnAngle method
 		//hitting ninety degrees and activating the checking clause
+	private DoubleSolenoid ballShifter;
+	
 	
 	private EncoderFollower left,right;
 	private Trajectory traj;
@@ -54,10 +56,6 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	private double derivative;
 	private double proportion;
 	private double integral; 
-	
-
-	//private boolean lowGear;
-	private DoubleSolenoid ballShifter;
 		
 	public static DriveTrain getInstance() {
 		if(instance == null) {
@@ -170,8 +168,8 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
  		angle_difference = angle_difference_now;
  		
  		SmartDashboard.putNumber("turnAngle PercentOutput input", proportion+derivative+integral);
- 		leftMaster.set(ControlMode.PercentOutput, proportion+derivative+integral);
- 		rightMaster.set(ControlMode.PercentOutput, proportion+derivative+integral);
+ 		leftMaster.set(ControlMode.PercentOutput, GYRO_KF+proportion+derivative+integral);
+ 		rightMaster.set(ControlMode.PercentOutput, GYRO_KF+proportion+derivative+integral);
  		/*
  		if (proportion+derivative+integral <= GYRO_CAP) {
 	 		leftMaster.set(ControlMode.PercentOutput, proportion+derivative+integral);
@@ -209,16 +207,12 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	 */
 	public void setLowGear() {
 		ballShifter.set(DoubleSolenoid.Value.kReverse);
-		//lowGear = true;
 		SmartDashboard.putString("Gear/Speed", "low");
-		//System.out.println("LOW GEAR");
 	}
 	
 	public void setHighGear() {
 		ballShifter.set(DoubleSolenoid.Value.kForward);
-		//lowGear = false;
 		SmartDashboard.putString("Gear/Speed", "high");
-		//System.out.println("HIGH GEAR");
 	}
 	
 	/*
@@ -411,14 +405,13 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		
 		double l = left.calculate(-leftMaster.getSelectedSensorPosition(0));
 		double r = right.calculate(rightMaster.getSelectedSensorPosition(0));
-		
+		/*
 		SmartDashboard.putNumber("left raw - auto",l);
 		SmartDashboard.putNumber("right raw - auto",r);
+		*/
 		
 		double gyro_heading = gyro.getYaw()*-1;
 		double desired_heading = Pathfinder.r2d(left.getHeading());
-		
-		
 		
 		double angleError = Pathfinder.boundHalfDegrees(desired_heading-gyro_heading);
 		double turn = GYRO_KP * angleError;
@@ -426,8 +419,10 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		//leftMaster.setInverted(true);
 		leftMaster.set(ControlMode.PercentOutput,-(l+turn));
 		rightMaster.set(ControlMode.PercentOutput,r-turn);
+		/*
 		SmartDashboard.putNumber("left master percentoutput",-(l+turn));
 		SmartDashboard.putNumber("right master percentoutput", r-turn);
+		*/
 		//System.out.println("we got here");
 		//leftMaster.set(ControlMode.PercentOutput,-0.5);
 		//rightMaster.set(ControlMode.PercentOutput,0.5);

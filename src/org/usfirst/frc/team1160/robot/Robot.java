@@ -286,44 +286,6 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 				
 				autonomousCommand = new Center_RightSwitch_Fast();
 				break;
-				
-			case 7: //center to left switch, one cube, slow
-				left = new File(baseFilepath + "CENTER_LEFT_SWITCH_ONE_SLOW_1_LEFT.csv");
-				right = new File(baseFilepath + "CENTER_LEFT_SWITCH_ONE_SLOW_1_RIGHT.csv");
-				segment_one_left = Pathfinder.readFromCSV(left);
-				segment_one_right = Pathfinder.readFromCSV(right);
-				
-				left = new File(baseFilepath + "CENTER_LEFT_SWITCH_ONE_SLOW_2_LEFT.csv");
-				right = new File(baseFilepath + "CENTER_LEFT_SWITCH_ONE_SLOW_2_RIGHT.csv");
-				segment_two_left = Pathfinder.readFromCSV(left);
-				segment_two_right = Pathfinder.readFromCSV(right);
-				
-				left = new File(baseFilepath + "CENTER_LEFT_SWITCH_ONE_SLOW_3_LEFT.csv");
-				right = new File(baseFilepath + "CENTER_LEFT_SWITCH_ONE_SLOW_3_RIGHT.csv");
-				segment_three_left = Pathfinder.readFromCSV(left);
-				segment_three_right = Pathfinder.readFromCSV(right);
-				
-				autonomousCommand = new Center_LeftSwitch();
-				break;
-				
-			case 8: //center to right switch, one cube, slow
-				left = new File(baseFilepath + "CENTER_RIGHT_SWITCH_ONE_SLOW_1_LEFT.csv");
-				right = new File(baseFilepath + "CENTER_RIGHT_SWITCH_ONE_SLOW_1_RIGHT.csv");
-				segment_one_left = Pathfinder.readFromCSV(left);
-				segment_one_right = Pathfinder.readFromCSV(right);
-				
-				left = new File(baseFilepath + "CENTER_RIGHT_SWITCH_ONE_SLOW_2_LEFT.csv");
-				right = new File(baseFilepath + "CENTER_RIGHT_SWITCH_ONE_SLOW_2_RIGHT.csv");
-				segment_two_left = Pathfinder.readFromCSV(left);
-				segment_two_right = Pathfinder.readFromCSV(right);
-				
-				left = new File(baseFilepath + "CENTER_RIGHT_SWITCH_ONE_SLOW_3_LEFT.csv");
-				right = new File(baseFilepath + "CENTER_RIGHT_SWITCH_ONE_SLOW_3_RIGHT.csv");
-				segment_three_left = Pathfinder.readFromCSV(left);
-				segment_three_right = Pathfinder.readFromCSV(right);
-				
-				autonomousCommand = new Center_RightSwitch();
-				break;
 			
 			case 15: //left to left scale, one cube, slow
 				left = new File(baseFilepath + "X_X_SCALE_ONE_SLOW_LEFT.csv");
@@ -404,10 +366,8 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 				left = new File(baseFilepath + "X_X_AUTOLINE_NONE_SLOW_LEFT.csv");
 				right = new File(baseFilepath + "X_X_AUTOLINE_NONE_SLOW_RIGHT.csv");
 				*/
-				
-				//curve!
-				left = new File(baseFilepath + "STRAIGHT_LINE_LEFT.csv");
-				right = new File(baseFilepath + "STRAIGHT_LINE_RIGHT.csv");
+				left = new File(baseFilepath + "CURVE_LEFT.csv");
+				right = new File(baseFilepath + "CURVE_RIGHT.csv");
 				segment_one_left = Pathfinder.readFromCSV(left);
 				segment_one_right = Pathfinder.readFromCSV(right);
 				autonomousCommand = new X_AutoLine();

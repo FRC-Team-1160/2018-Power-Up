@@ -36,9 +36,9 @@ public interface RobotMap {
 															//Gyro constants
 	public static final double GYRO_KP = 1.2 * (-1.0/80.0);	//Pathfinder
 	
-	public static final double GYRO_KP_2 = .66*2.5 * (-1.0/80.0); //TurnAngle
-	public static final double GYRO_KI = 0; //-3*3/(1.3*100);
-	public static final double GYRO_KD = 0.25 * (-1.0/80.0); //0.01 * (-1.0/80.0);//TURN ANGLE KP
+	public static final double GYRO_KP_2 = .55*2.5 * (-1.0/80.0); //TurnAngle
+	public static final double GYRO_KI = -3*3/(1.3*100);
+	public static final double GYRO_KD = 3*2.5*1.3/40 * (-1.0/80.0); //0.01 * (-1.0/80.0);//TURN ANGLE KP
 	public static final double GYRO_KF = 0;
 	public static final double GYRO_TOLERANCE = 0.75;				//Smaller value means higher accuracy but more time spent
 	public static final double TURN_TIMEOUT = 2.5;
@@ -86,8 +86,8 @@ public interface RobotMap {
 	 * 
 	 * REMEMBER TO ADD GEAR RATIO TO ENC_COUNTS_PER_REV
 	 */
-	public static final int LEFT_BRAKE_SOLENOID = 3;			//Ports
-	public static final int RIGHT_BRAKE_SOLENOID = 4;
+	public static final int LEFT_BRAKE_SOLENOID = 2;//3;			//Ports
+	public static final int RIGHT_BRAKE_SOLENOID = 5;//4;
 	public static final int  LIFT_MOTOR_LEFT = 0;
 	public static final int  LIFT_MOTOR_RIGHT = 1;
 	
@@ -110,16 +110,16 @@ public interface RobotMap {
 	public static final int	LIFT_RIGHT_MOTION_ACCELERATION = 0;
 	
 	public static final int CARRY_HEIGHT = 1500; //poggers
-	public static final int SWITCH_HEIGHT = 16000; //height of the switch, in right side encoder units
-	public static final int SCALE_HEIGHT = 39000; //height of the scale, in right side encoder units
+	public static final int SWITCH_HEIGHT = CARRY_HEIGHT;//16000; //height of the switch, in right side encoder units
+	public static final int SCALE_HEIGHT = CARRY_HEIGHT;//39000; //height of the scale, in right side encoder units
 	
 
 	
 	/*
 	 * Climber
 	 */
-	public static final int LATCH_LEFT_SOLENOID = 2;			//Ports
-	public static final int LATCH_RIGHT_SOLENOID = 5;
+	public static final int LATCH_LEFT_SOLENOID = 3;//2;			//Ports
+	public static final int LATCH_RIGHT_SOLENOID = 4;//5;
 	public static final int CLIMBER_MOTOR_1 = 12;
 	public static final int CLIMBER_MOTOR_2 = 13;
 

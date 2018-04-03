@@ -32,7 +32,8 @@ public interface AutoSettings {
 	 * if this is true and the bot is not in the center (ie. HARDCODED_POSITION != 2), this
 	 * really won't matter - that is, until we make fast paths for everything (!)
 	 */
-	public static final boolean FAST = false;
+	public static final boolean FAST = true;
+	//April 2-- let's be honest this should always be true, slow paths are lame
 	
 	/*
 	 * PRIORITY LIST FOR choosePath()

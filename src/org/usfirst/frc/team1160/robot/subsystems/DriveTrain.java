@@ -412,6 +412,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		
 		double gyro_heading = gyro.getYaw()*-1;
 		double desired_heading = Pathfinder.r2d(left.getHeading());
+		SmartDashboard.putNumber("desired yaw",-Pathfinder.boundHalfDegrees(desired_heading));
 		
 		double angleError = Pathfinder.boundHalfDegrees(desired_heading-gyro_heading);
 		double turn = GYRO_KP * angleError;
@@ -426,6 +427,31 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		//System.out.println("we got here");
 		//leftMaster.set(ControlMode.PercentOutput,-0.5);
 		//rightMaster.set(ControlMode.PercentOutput,0.5);
+	}
+	public void followTrajectoryBackwards() {
+		System.out.println("TIME STEP: " + timer.get());
+		totalTimestep += timer.get();
+		numberOfIterations += 1;
+		timer.reset();
+		timer.start();
+		
+		double l = left.calculate(leftMaster.getSelectedSensorPosition(0));
+		double r = right.calculate(-rightMaster.getSelectedSensorPosition(0));
+		/*
+		SmartDashboard.putNumber("left raw - auto",l);
+		SmartDashboard.putNumber("right raw - auto",r);
+		*/
+		
+		double gyro_heading = gyro.getYaw()*-1;
+		double desired_heading = Pathfinder.r2d(left.getHeading());
+		SmartDashboard.putNumber("desired yaw",-Pathfinder.boundHalfDegrees(desired_heading));
+		
+		double angleError = Pathfinder.boundHalfDegrees(desired_heading-gyro_heading);
+		double turn = GYRO_KP * angleError;
+		SmartDashboard.putNumber("AngleError: ", angleError);
+		//leftMaster.setInverted(true);
+		leftMaster.set(ControlMode.PercentOutput,(l+turn));
+		rightMaster.set(ControlMode.PercentOutput,-(r-turn));
 	}
 	
 	@Override

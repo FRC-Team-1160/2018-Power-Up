@@ -3,7 +3,6 @@ package org.usfirst.frc.team1160.robot.commands.auto.paths.switch_;
 import org.usfirst.frc.team1160.robot.Robot;
 import org.usfirst.frc.team1160.robot.RobotMap;
 import org.usfirst.frc.team1160.robot.commands.ResetEncoderYaw;
-import org.usfirst.frc.team1160.robot.commands.auto.drive.GenerateFollowTrajectory;
 import org.usfirst.frc.team1160.robot.commands.auto.drive.LoadFollowTrajectory;
 import org.usfirst.frc.team1160.robot.commands.auto.drive.TurnAngle;
 import org.usfirst.frc.team1160.robot.commands.auto.drive.WaitDrivetrain;
@@ -13,7 +12,6 @@ import org.usfirst.frc.team1160.robot.commands.auto.lift.WaitLift;
 import org.usfirst.frc.team1160.robot.commands.auto.paths.TurnLift;
 import org.usfirst.frc.team1160.robot.commands.intake.IntakeExtend;
 import org.usfirst.frc.team1160.robot.commands.intake.IntakeRotate;
-import org.usfirst.frc.team1160.robot.commands.intake.Toggle;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 

@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1160.robot.commands.auto.paths.scale.parallel;
+package org.usfirst.frc.team1160.robot.commands.auto.paths.scale;
 
 import org.usfirst.frc.team1160.robot.Robot;
 import org.usfirst.frc.team1160.robot.RobotMap;

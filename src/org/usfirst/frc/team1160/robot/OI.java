@@ -12,7 +12,6 @@ import org.usfirst.frc.team1160.robot.commands.auto.*;
 import org.usfirst.frc.team1160.robot.commands.auto.drive.TurnAngle;
 import org.usfirst.frc.team1160.robot.commands.auto.intake.AutoBoxClamp;
 import org.usfirst.frc.team1160.robot.commands.auto.intake.AutoBoxSpit;
-import org.usfirst.frc.team1160.robot.commands.auto.intake.FullExtend;
 import org.usfirst.frc.team1160.robot.commands.auto.lift.BangBangFramework;
 import org.usfirst.frc.team1160.robot.commands.auto.lift.BangBangMove;
 import org.usfirst.frc.team1160.robot.commands.auto.paths.TurnLift;
@@ -144,7 +143,7 @@ public class OI implements RobotMap{
 		engageBrake.whenPressed(new BrakeEngage());
 		releaseBrake.whenPressed(new BrakeRelease());
 
-		turnAngle.whenPressed(new TurnLift(SWITCH_HEIGHT,45));
+		turnAngle.whenPressed(new TurnAngle(180));
 		
 		bangBangCarry.whenPressed(new BangBangMove(CARRY_HEIGHT));
 		bangBangScale.whenPressed(new BangBangMove(SCALE_HEIGHT));

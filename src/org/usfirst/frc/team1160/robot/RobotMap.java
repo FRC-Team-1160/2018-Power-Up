@@ -34,11 +34,11 @@ public interface RobotMap {
 	public static double WHEEL_BASE_DISTANCE = 2.25; //used to be 2.53 until 3/29/18
 	public static double WHEEL_DIAMETER = (5.875)/12;
 															//Gyro constants
-	public static final double GYRO_KP = 1.2 * (-1.0/80.0);	//Pathfinder
+	public static final double GYRO_KP = 0 * (-1.0/80.0);	//Pathfinder
 	
 	public static final double GYRO_KP_2 = .55*2.5 * (-1.0/80.0); //TurnAngle
 	public static final double GYRO_KI = -3*3/(1.3*100);
-	public static final double GYRO_KD = 3*2.5*1.3/40 * (-1.0/80.0); //0.01 * (-1.0/80.0);//TURN ANGLE KP
+	public static final double GYRO_KD = 4*2.5*1.3/40 * (-1.0/80.0); //0.01 * (-1.0/80.0);//TURN ANGLE KP
 	public static final double GYRO_KF = 0;
 	public static final double GYRO_TOLERANCE = 0.75;				//Smaller value means higher accuracy but more time spent
 	public static final double TURN_TIMEOUT = 2.5;
@@ -51,15 +51,15 @@ public interface RobotMap {
 	public static final double DRIVE_KF = 0;
 	
 	public static final double LEFT_KP = 0.85;				//MotionProfiling Constants for Low Gear
-	public static final double LEFT_KI = 0.2;
-	public static final double LEFT_KD = 0.2;//0.2
+	public static final double LEFT_KI = 0;//0.2;
+	public static final double LEFT_KD = 0;//0.2
 	public static final double LEFT_KF = 1.24 * (1.0/7.5);
 	public static final double LEFT_KA = 0.36 * (1.0/6.0); //start with 1/(2 * max accl) and adjust wherever
 	//hey people when it comes to fractions in java, make sure to slap .0 on everything even if the number's cast as a double
 	
 	public static final double RIGHT_KP = 0.85;
-	public static final double RIGHT_KI = 0.2; //formerly 0.15 until kyle said fuck it
-	public static final double RIGHT_KD = 0.2;//0.2
+	public static final double RIGHT_KI = 0;//0.2; //formerly 0.15 until kyle said fuck it
+	public static final double RIGHT_KD = 0;//0.2
 	public static final double RIGHT_KF = 1.24 * (1.0/7.5);
 	public static final double RIGHT_KA = 0.36 * (1.0/6.0);
 	

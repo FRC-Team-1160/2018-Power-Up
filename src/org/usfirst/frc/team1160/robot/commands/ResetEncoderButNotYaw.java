@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1160.robot.commands.intake;
+package org.usfirst.frc.team1160.robot.commands;
 
 import org.usfirst.frc.team1160.robot.Robot;
 
@@ -7,17 +7,17 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class Toggle extends Command {
+public class ResetEncoderButNotYaw extends Command {
 
-    public Toggle() {
-    	requires(Robot.intake);
+    public ResetEncoderButNotYaw() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	requires(Robot.dt);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.intake.toggle();
+    	Robot.dt.resetPosition();
     }
 
     // Called repeatedly when this Command is scheduled to run

@@ -26,7 +26,6 @@ import org.usfirst.frc.team1160.robot.commands.auto.drive.*;
 import org.usfirst.frc.team1160.robot.commands.auto.intake.*;
 import org.usfirst.frc.team1160.robot.commands.auto.paths.*;
 import org.usfirst.frc.team1160.robot.commands.auto.paths.scale.*;
-import org.usfirst.frc.team1160.robot.commands.auto.paths.scale.parallel.*;
 import org.usfirst.frc.team1160.robot.commands.auto.paths.switch_.*;
 import org.usfirst.frc.team1160.robot.subsystems.Climber;
 import org.usfirst.frc.team1160.robot.subsystems.DriveTrain;
@@ -57,10 +56,11 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 	public static Intake intake;
 	public static Climber climber;
 	public static Lift lift;
-	public static Trajectory segment_one,segment_two,segment_three, //These three should be useless
+	public static Trajectory /*segment_one,segment_two,segment_three, *///These three should be useless
 							 segment_one_left,segment_one_right,    //The rest of these should be more useful
 							 segment_two_left,segment_two_right,
-							 segment_three_left,segment_three_right;
+							 segment_three_left,segment_three_right,
+							 segment_four_left,segment_four_right;
 	public static String gameData;
 	public static char switchPosition, scalePosition, oppSwitchPosition;
 	private static int autoChoice;
@@ -77,126 +77,10 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 		//System.out.println(System.getProperty("java.library.path"));
 
 		//autonomousCommand = new TurnAngle(-25.67);
-		autonomousCommand = new X_AutoLine();
+		//autonomousCommand = new LoadFollowTrajectory(Robot.segment_one_left,Robot.segment_one_right);
 		loadTrajectories(0);
 		
 	}
-	
-	
-	/*
-	 * generateSegments()
-	 * Wednesday night: let's be even more honest, you should only have to run this once after the csv loading code is made
-	 * Thursday afternoon: you better not ever call this method
-	 
-	 public void generateSegments(int choice) {
-		switch (choice) {
-			case 1: //Center to Left Switch
-				segment_one = dt.generateTrajectorySetup(CENTER_LEFT_SWITCH_1);
-				segment_two = dt.generateTrajectorySetup(CENTER_LEFT_SWITCH_2);
-				segment_three = dt.generateTrajectorySetup(CENTER_LEFT_SWITCH_3);
-				autonomousCommand = new Center_LeftSwitch();
-				break;
-			case 2: //Left to Left Switch
-				segment_one = dt.generateTrajectorySetup(X_X_SWITCH_1);
-				segment_two = dt.generateTrajectorySetup(X_X_SWITCH_2);
-				autonomousCommand = new Left_LeftSwitch();
-				break;
-			case 3: //Right to Right Switch
-				segment_one = dt.generateTrajectorySetup(X_X_SWITCH_1);
-				segment_two = dt.generateTrajectorySetup(X_X_SWITCH_2);
-				autonomousCommand = new Right_RightSwitch();
-				break;
-			case 4: //Center to Left Switch backwards
-				segment_one = dt.generateTrajectorySetup(CENTER_LEFT_SWITCH_1_BACKWARDS);
-				segment_two = dt.generateTrajectorySetup(CENTER_LEFT_SWITCH_2_BACKWARDS);
-				segment_three = dt.generateTrajectorySetup(CENTER_LEFT_SWITCH_3_BACKWARDS);
-				//autonomousCommand = new Center_LeftSwitchBW();
-				break;
-			case 5: //Center to Right Switch
-				segment_one = dt.generateTrajectorySetup(CENTER_RIGHT_SWITCH_1);
-				segment_two = dt.generateTrajectorySetup(CENTER_RIGHT_SWITCH_2);
-				segment_three = dt.generateTrajectorySetup(CENTER_RIGHT_SWITCH_3);
-				autonomousCommand = new Center_RightSwitch();
-				break;
-			case 6: //Custom
-				segment_one = dt.generateTrajectorySetup(POINTS_1);
-				autonomousCommand = new GenericFollow(segment_one);
-				break;
-			default:
-				System.out.println("Hold this L");
-				break;
-		}
-	}
-	*/
-	
-	/*
-	 * saveTrajectories(), saveTrajectoriesAll()
-	 * Wednesday night: let's be honest, you should only have to run this code once
-	 * Thursday afternoon: please don't ever call this method thanks
-	
-	public void saveTrajectories(int choice) {
-		File file_one;
-		switch (choice) {
-			case 1:
-				generateSegments(1);
-				file_one = new File("CENTER_LEFT_SWITCH_1.csv");
-				Pathfinder.writeToFile(file_one, segment_one);
-				file_one = new File("CENTER_LEFT_SWITCH_2.csv");
-				Pathfinder.writeToFile(file_one, segment_two);
-				file_one = new File("CENTER_LEFT_SWITCH_3.csv");
-				Pathfinder.writeToFile(file_one, segment_three);
-				break;
-			case 2:
-			case 3:
-				generateSegments(2);
-				file_one = new File("X_X_SWITCH_1.csv");
-				Pathfinder.writeToFile(file_one, segment_one);
-				file_one = new File("X_X_SWITCH_2.csv");
-				Pathfinder.writeToFile(file_one, segment_two);
-				break;
-			case 5: 
-				generateSegments(5);
-				file_one = new File("CENTER_RIGHT_SWITCH_1.csv");
-				Pathfinder.writeToFile(file_one, segment_one);
-				file_one = new File("CENTER_RIGHT_SWITCH_2.csv");
-				Pathfinder.writeToFile(file_one, segment_two);
-				file_one = new File("CENTER_RIGHT_SWITCH_3.csv");
-				Pathfinder.writeToFile(file_one, segment_three);
-				break;
-			default:
-				System.out.println("Hold this even bigger L");
-				break;		
-		}
-	}
-	public void saveTrajectoriesAll()
-	{	//Kobe: "Just save them all"
-		File file_one;
-		generateSegments(1);
-		//file_one = new File("CENTER_LEFT_SWITCH_1.csv");
-		file_one = new File("CLS1.csv");
-		System.out.println("Attempted to save center left switch 1");
-		Pathfinder.writeToFile(file_one, segment_one);
-		System.out.println("Successfully saved center left switch 1");
-		file_one = new File("CENTER_LEFT_SWITCH_2.csv");
-		Pathfinder.writeToFile(file_one, segment_two);
-		file_one = new File("CENTER_LEFT_SWITCH_3.csv");
-		Pathfinder.writeToFile(file_one, segment_three);
-		generateSegments(2);
-		file_one = new File("X_X_SWITCH_1.csv");
-		Pathfinder.writeToFile(file_one, segment_one);
-		file_one = new File("X_X_SWITCH_2.csv");
-		Pathfinder.writeToFile(file_one, segment_two);
-		generateSegments(5);
-		file_one = new File("CENTER_RIGHT_SWITCH_1.csv");
-		Pathfinder.writeToFile(file_one, segment_one);
-		file_one = new File("CENTER_RIGHT_SWITCH_2.csv");
-		Pathfinder.writeToFile(file_one, segment_two);
-		file_one = new File("CENTER_RIGHT_SWITCH_3.csv");
-		Pathfinder.writeToFile(file_one, segment_three);
-		
-		System.out.println("All paths saved to csv");
-	}
-	*/
 
 	
 	/*
@@ -212,46 +96,26 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 	 * CENTER_LEFT_SWITCH_TWO_FAST_1_LEFT to represent the first segment of the left trajectory of choice 1, for example
 	 * 
 	 * autoChoice() cases:
-	 * 1:  CENTER | LEFT SWITCH  | TWO CUBES | FAST |
-	 * 2:  CENTER | RIGHT SWITCH | TWO CUBES | FAST |
-	 * 3:  CENTER | LEFT SWITCH  | TWO CUBES | SLOW |
-	 * 4:  CENTER | RIGHT SWITCH | TWO CUBES | SLOW | 
-	 * 5:  CENTER | LEFT SWITCH  | ONE CUBE  | FAST |
-	 * 6:  CENTER | RIGHT SWITCH | ONE CUBE  | FAST |
-	 * 7:  CENTER | LEFT SWITCH  | ONE CUBE  | SLOW |
-	 * 8:  CENTER | RIGHT SWITCH | ONE CUBE  | SLOW |
-	 * 9:  LEFT   | LEFT SCALE   | TWO CUBES | FAST |
-	 * 10: LEFT   | RIGHT SCALE  | TWO CUBES | FAST |
-	 * 11: LEFT   | LEFT SCALE   | TWO CUBES | SLOW |
-	 * 12: LEFT   | RIGHT SCALE  | TWO CUBES | SLOW |
-	 * 13: LEFT   | LEFT SCALE   | ONE CUBE  | FAST |
-	 * 14: LEFT   | RIGHT SCALE  | ONE CUBE  | FAST |
-	 * 15: LEFT   | LEFT SCALE   | ONE CUBE  | SLOW |
-	 * 16: LEFT   | RIGHT SCALE  | ONE CUBE  | SLOW |
-	 * 17: LEFT   | LEFT SWITCH  | TWO CUBES | FAST |
-	 * 18: LEFT   | RIGHT SWITCH | TWO CUBES | FAST |
-	 * 19: LEFT   | LEFT SWITCH  | TWO CUBES | SLOW |
-	 * 20: LEFT   | RIGHT SWITCH | TWO CUBES | SLOW |
-	 * 21: LEFT   | LEFT SWITCH  | ONE CUBE  | FAST |
-	 * 22: LEFT   | RIGHT SWITCH | ONE CUBE  | FAST |
-	 * 23: LEFT   | LEFT SWITCH  | ONE CUBE  | SLOW |
-	 * 24: LEFT   | RIGHT SWITCH | ONE CUBE  | SLOW |
-	 * 25: RIGHT  | LEFT SCALE   | TWO CUBES | FAST |
-	 * 26: RIGHT  | RIGHT SCALE  | TWO CUBES | FAST |
-	 * 27: RIGHT  | LEFT SCALE   | TWO CUBES | SLOW |
-	 * 28: RIGHT  | RIGHT SCALE  | TWO CUBES | SLOW |
-	 * 29: RIGHT  | LEFT SCALE   | ONE CUBE  | FAST |
-	 * 30: RIGHT  | RIGHT SCALE  | ONE CUBE  | FAST |
-	 * 31: RIGHT  | LEFT SCALE   | ONE CUBE  | SLOW |
-	 * 32: RIGHT  | RIGHT SCALE  | ONE CUBE  | SLOW |
-	 * 33: RIGHT  | LEFT SWITCH  | TWO CUBES | FAST |
-	 * 34: RIGHT  | RIGHT SWITCH | TWO CUBES | FAST |
-	 * 35: RIGHT  | LEFT SWITCH  | TWO CUBES | SLOW | 
-	 * 36. RIGHT  | RIGHT SWITCH | TWO CUBES | SLOW |
-	 * 37: RIGHT  | LEFT SWITCH  | ONE CUBE  | FAST |
-	 * 38: RIGHT  | RIGHT SWITCH | ONE CUBE  | FAST |
-	 * 39: RIGHT  | LEFT SWITCH  | ONE CUBE  | SLOW |
-	 * 40: RIGHT  | RIGHT SWITCH | ONE CUBE  | SLOW |
+	 * 1:  CENTER | LEFT SWITCH  | TWO CUBES |
+	 * 2:  CENTER | RIGHT SWITCH | TWO CUBES |
+	 * 3:  CENTER | LEFT SWITCH  | ONE CUBE  |
+	 * 4:  CENTER | RIGHT SWITCH | ONE CUBE  |
+	 * 5:  LEFT   | LEFT SCALE   | TWO CUBES |
+	 * 6:  LEFT   | RIGHT SCALE  | TWO CUBES |
+	 * 7:  LEFT   | LEFT SCALE   | ONE CUBE  |
+	 * 8:  LEFT   | RIGHT SCALE  | ONE CUBE  |
+	 * 9:  LEFT   | LEFT SWITCH  | TWO CUBES |
+	 * 10: LEFT   | RIGHT SWITCH | TWO CUBES |
+	 * 11: LEFT   | LEFT SWITCH  | ONE CUBE  |
+	 * 12: LEFT   | RIGHT SWITCH | ONE CUBE  |
+	 * 13: RIGHT  | LEFT SCALE   | TWO CUBES |
+	 * 14: RIGHT  | RIGHT SCALE  | TWO CUBES |
+	 * 15: RIGHT  | LEFT SCALE   | ONE CUBE  |
+	 * 16: RIGHT  | RIGHT SCALE  | ONE CUBE  |
+	 * 17: RIGHT  | LEFT SWITCH  | TWO CUBES |
+	 * 18: RIGHT  | RIGHT SWITCH | TWO CUBES |
+	 * 19: RIGHT  | LEFT SWITCH  | ONE CUBE  |
+	 * 20: RIGHT  | RIGHT SWITCH | ONE CUBE  |
 	 */
 	
 	public void loadTrajectories(int choice) {
@@ -259,118 +123,33 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 		String baseFilepath = "/home/lvuser/motionProfiles/";
 		switch (choice)
 		{
-			case 5: //center to left switch, one cube, fast
-				left = new File(baseFilepath + "CENTER_LEFT_SWITCH_ONE_FAST_1_LEFT.csv");
-				right = new File(baseFilepath + "CENTER_LEFT_SWITCH_ONE_FAST_1_RIGHT.csv");
-				segment_one_left = Pathfinder.readFromCSV(left);
-				segment_one_right = Pathfinder.readFromCSV(right);
-				
-				left = new File(baseFilepath + "CENTER_LEFT_SWITCH_ONE_FAST_2_LEFT.csv");
-				right = new File(baseFilepath + "CENTER_LEFT_SWITCH_ONE_FAST_2_RIGHT.csv");
-				segment_two_left = Pathfinder.readFromCSV(left);
-				segment_two_right = Pathfinder.readFromCSV(right);
-				
-				autonomousCommand = new Center_LeftSwitch_Fast();
-				break;
-				
-			case 6: //center to right switch, one cube, fast
-				left = new File(baseFilepath + "CENTER_RIGHT_SWITCH_ONE_FAST_1_LEFT.csv");
-				right = new File(baseFilepath + "CENTER_RIGHT_SWITCH_ONE_FAST_1_RIGHT.csv");
-				segment_one_left = Pathfinder.readFromCSV(left);
-				segment_one_right = Pathfinder.readFromCSV(right);
-				
-				left = new File(baseFilepath + "CENTER_RIGHT_SWITCH_ONE_FAST_2_LEFT.csv");
-				right = new File(baseFilepath + "CENTER_RIGHT_SWITCH_ONE_FAST_2_RIGHT.csv");
-				segment_two_left = Pathfinder.readFromCSV(left);
-				segment_two_right = Pathfinder.readFromCSV(right);
-				
-				autonomousCommand = new Center_RightSwitch_Fast();
-				break;
-			
-			case 15: //left to left scale, one cube, slow
-				left = new File(baseFilepath + "X_X_SCALE_ONE_SLOW_LEFT.csv");
-				right = new File(baseFilepath + "X_X_SCALE_ONE_SLOW_RIGHT.csv");
-				segment_one_left = Pathfinder.readFromCSV(left);
-				segment_one_right = Pathfinder.readFromCSV(right);
-				
-				autonomousCommand = new Left_LeftScale_Parallel();
-				break;
-				
-			case 16: //left to right scale, one cube, slow
-				left = new File(baseFilepath + "X_Y_SCALE_ONE_SLOW_1_LEFT.csv");
-				right = new File(baseFilepath + "X_Y_SCALE_ONE_SLOW_1_RIGHT.csv");
-				segment_one_left = Pathfinder.readFromCSV(left);
-				segment_one_right = Pathfinder.readFromCSV(right);
-				
-				left = new File(baseFilepath + "X_Y_SCALE_ONE_SLOW_2_LEFT.csv");
-				right = new File(baseFilepath + "X_Y_SCALE_ONE_SLOW_2_RIGHT.csv");
-				segment_two_left = Pathfinder.readFromCSV(left);
-				segment_two_right = Pathfinder.readFromCSV(right);
-				
-				autonomousCommand = new Left_RightScale_Parallel();
-				break;
-			
-			case 23: //left to left switch, one cube, slow
-				left = new File(baseFilepath + "X_X_SWITCH_ONE_SLOW_1_LEFT.csv");
-				right = new File(baseFilepath + "X_X_SWITCH_ONE_SLOW_1_RIGHT.csv");
-				segment_one_left = Pathfinder.readFromCSV(left);
-				segment_one_right = Pathfinder.readFromCSV(right);
-				
-				left = new File(baseFilepath + "X_X_SWITCH_ONE_SLOW_2_LEFT.csv");
-				right = new File(baseFilepath + "X_X_SWITCH_ONE_SLOW_2_RIGHT.csv");
-				segment_two_left = Pathfinder.readFromCSV(left);
-				segment_two_right = Pathfinder.readFromCSV(right);
-				
-				autonomousCommand = new Left_LeftSwitch();
-				break;
-				
-			case 31: //right to left scale, one cube, slow
-				left = new File(baseFilepath + "X_Y_SCALE_ONE_SLOW_1_LEFT.csv");
-				right = new File(baseFilepath + "X_Y_SCALE_ONE_SLOW_1_RIGHT.csv");
-				segment_one_left = Pathfinder.readFromCSV(left);
-				segment_one_right = Pathfinder.readFromCSV(right);
-				
-				left = new File(baseFilepath + "X_Y_SCALE_ONE_SLOW_2_LEFT.csv");
-				right = new File(baseFilepath + "X_Y_SCALE_ONE_SLOW_2_RIGHT.csv");
-				segment_two_left = Pathfinder.readFromCSV(left);
-				segment_two_right = Pathfinder.readFromCSV(right);
-				
-				autonomousCommand = new Right_LeftScale_Parallel();
-				break;
-
-			case 32: //right to right scale, one cube, slow
-				left = new File(baseFilepath + "X_X_SCALE_ONE_SLOW_LEFT.csv");
-				right = new File(baseFilepath + "X_X_SCALE_ONE_SLOW_RIGHT.csv");
-				segment_one_left = Pathfinder.readFromCSV(left);
-				segment_one_right = Pathfinder.readFromCSV(right);
-				
-				autonomousCommand = new Right_RightScale_Parallel();
-				break;
-			
-			case 40: //right to right switch, one cube, slow
-				left = new File(baseFilepath + "X_X_SWITCH_ONE_SLOW_1_LEFT.csv");
-				right = new File(baseFilepath + "X_X_SWITCH_ONE_SLOW_1_RIGHT.csv");
-				segment_one_left = Pathfinder.readFromCSV(left);
-				segment_one_right = Pathfinder.readFromCSV(right);
-				
-				left = new File(baseFilepath + "X_X_SWITCH_ONE_SLOW_2_LEFT.csv");
-				right = new File(baseFilepath + "X_X_SWITCH_ONE_SLOW_2_RIGHT.csv");
-				segment_two_left = Pathfinder.readFromCSV(left);
-				segment_two_right = Pathfinder.readFromCSV(right);
-				
-				autonomousCommand = new Right_RightSwitch();
-				break;
-				
 			default: //move to the auto line, no cubes, slow
 				/*
 				left = new File(baseFilepath + "X_X_AUTOLINE_NONE_SLOW_LEFT.csv");
 				right = new File(baseFilepath + "X_X_AUTOLINE_NONE_SLOW_RIGHT.csv");
 				*/
-				left = new File(baseFilepath + "CURVE_LEFT.csv");
-				right = new File(baseFilepath + "CURVE_RIGHT.csv");
+				left = new File(baseFilepath + "SCALE_OPTIMAL_LEFT.csv");
+				right = new File(baseFilepath + "SCALE_OPTIMAL_RIGHT.csv");
 				segment_one_left = Pathfinder.readFromCSV(left);
 				segment_one_right = Pathfinder.readFromCSV(right);
-				autonomousCommand = new X_AutoLine();
+				
+				left = new File(baseFilepath + "REVERSE_1_LEFT.csv");
+				right = new File(baseFilepath + "REVERSE_1_RIGHT.csv");
+				segment_two_left = Pathfinder.readFromCSV(left);
+				segment_two_right = Pathfinder.readFromCSV(right);	
+				
+				left = new File(baseFilepath + "FORWARD_1_LEFT.csv");
+				right = new File(baseFilepath + "FORWARD_1_RIGHT.csv");
+				segment_three_left = Pathfinder.readFromCSV(left);
+				segment_three_right = Pathfinder.readFromCSV(right);
+				
+				left = new File(baseFilepath + "REVERSE_2_LEFT.csv");
+				right = new File(baseFilepath + "REVERSE_2_RIGHT.csv");
+				segment_four_left = Pathfinder.readFromCSV(left);
+				segment_four_right = Pathfinder.readFromCSV(right);
+				//autonomousCommand = new X_AutoLine();
+				autonomousCommand = new GenericFollow();
+				
 				break;
 				
 				
@@ -388,7 +167,7 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 			
 		}
 		
-		autoChoice = AutoSettings.choosePath(switchPosition,scalePosition);
+		//autoChoice = AutoSettings.choosePath(switchPosition,scalePosition);
 	}
 	
 	@Override

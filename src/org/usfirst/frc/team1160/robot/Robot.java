@@ -116,6 +116,8 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 	 * 18: RIGHT  | RIGHT SWITCH | TWO CUBES |
 	 * 19: RIGHT  | LEFT SWITCH  | ONE CUBE  |
 	 * 20: RIGHT  | RIGHT SWITCH | ONE CUBE  |
+	 * 
+	 * 
 	 */
 	
 	public void loadTrajectories(int choice) {

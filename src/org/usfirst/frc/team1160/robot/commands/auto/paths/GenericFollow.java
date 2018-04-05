@@ -8,6 +8,7 @@ import org.usfirst.frc.team1160.robot.commands.auto.drive.FollowTrajectoryIntake
 import org.usfirst.frc.team1160.robot.commands.auto.drive.FollowTrajectoryIntakeBackwards;
 import org.usfirst.frc.team1160.robot.commands.auto.drive.LoadFollowTrajectory;
 import org.usfirst.frc.team1160.robot.commands.auto.drive.LoadFollowTrajectoryBackwards;
+import org.usfirst.frc.team1160.robot.commands.auto.drive.WaitDrivetrain;
 import org.usfirst.frc.team1160.robot.commands.auto.intake.AutoBoxClamp;
 import org.usfirst.frc.team1160.robot.commands.auto.lift.BangBangMove;
 import org.usfirst.frc.team1160.robot.commands.auto.lift.WaitLift;
@@ -24,17 +25,21 @@ public class GenericFollow extends CommandGroup implements RobotMap{
 
     public GenericFollow(/*Trajectory traj*/) {
     	//addSequential(new AutoBoxClamp());
-    	addSequential(new ResetEncoderYaw());
+    	addSequential(new ResetEncoderButNotYaw());
     	addSequential(new LoadFollowTrajectory(Robot.segment_one_left,Robot.segment_one_right));
-    	addSequential(new ResetEncoderYaw());
+    	addSequential(new ResetEncoderButNotYaw());
+		addSequential(new WaitDrivetrain(0.05));
+		
     	addSequential(new LoadFollowTrajectoryBackwards(Robot.segment_two_left,Robot.segment_two_right));
-    	addSequential(new ResetEncoderYaw());
+    	addSequential(new ResetEncoderButNotYaw());
+		addSequential(new WaitDrivetrain(0.05));
     	
     	addSequential(new LoadFollowTrajectory(Robot.segment_three_left,Robot.segment_three_right));
-    	addSequential(new ResetEncoderYaw());
+    	addSequential(new ResetEncoderButNotYaw());
+		addSequential(new WaitDrivetrain(0.05));
     	
     	addSequential(new LoadFollowTrajectoryBackwards(Robot.segment_four_left,Robot.segment_four_right));
-    	addSequential(new ResetEncoderYaw());
+    	addSequential(new ResetEncoderButNotYaw());
     	
     	
         // Add Commands here:

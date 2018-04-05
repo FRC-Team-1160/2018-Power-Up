@@ -32,7 +32,7 @@ public interface RobotMap {
 	
 	public static int DT_ENC_COUNTS_PER_REV = 512;				//Encoder counts per revolution
 	public static double WHEEL_BASE_DISTANCE = 2.25; //used to be 2.53 until 3/29/18
-	public static double WHEEL_DIAMETER = (5.875)/12;
+	public static double WHEEL_DIAMETER = (6.0)/12.0;
 															//Gyro constants
 	public static final double GYRO_KP = 0 * (-1.0/80.0);	//Pathfinder
 	

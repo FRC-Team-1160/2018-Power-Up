@@ -34,27 +34,28 @@ public interface AutoSettings {
 	 * BOTTOM
 	 *
 	 * autoChoice() cases:
-	 * 1:  CENTER | LEFT SWITCH  | TWO CUBES |
-	 * 2:  CENTER | RIGHT SWITCH | TWO CUBES |
-	 * 3:  CENTER | LEFT SWITCH  | ONE CUBE  |
-	 * 4:  CENTER | RIGHT SWITCH | ONE CUBE  |
-	 * 5:  LEFT   | LEFT SCALE   | TWO CUBES |
-	 * 6:  LEFT   | RIGHT SCALE  | TWO CUBES |
-	 * 7:  LEFT   | LEFT SCALE   | ONE CUBE  |
-	 * 8:  LEFT   | RIGHT SCALE  | ONE CUBE  |
-	 * 9:  LEFT   | LEFT SWITCH  | TWO CUBES |
-	 * 10: LEFT   | RIGHT SWITCH | TWO CUBES |
-	 * 11: LEFT   | LEFT SWITCH  | ONE CUBE  |
-	 * 12: LEFT   | RIGHT SWITCH | ONE CUBE  |
-	 * 13: RIGHT  | LEFT SCALE   | TWO CUBES |
-	 * 14: RIGHT  | RIGHT SCALE  | TWO CUBES |
-	 * 15: RIGHT  | LEFT SCALE   | ONE CUBE  |
-	 * 16: RIGHT  | RIGHT SCALE  | ONE CUBE  |
-	 * 17: RIGHT  | LEFT SWITCH  | TWO CUBES |
-	 * 18: RIGHT  | RIGHT SWITCH | TWO CUBES |
-	 * 19: RIGHT  | LEFT SWITCH  | ONE CUBE  |
-	 * 20: RIGHT  | RIGHT SWITCH | ONE CUBE  |
+	 * 1: LEFT | LEFT SCALE   | TWO CUBES
+	 * 2: LEFT | LEFT SCALE   | ONE CUBE
+	 * 3: LEFT | RIGHT SCALE  | TWO CUBES
+	 * 4: LEFT | RIGHT SCALE  | ONE CUBE
+	 * 5: LEFT | LEFT SWITCH  | TWO CUBES
+	 * 6: LEFT | LEFT SWITCH  | ONE CUBE
+	 * 7: LEFT | RIGHT SWITCH | TWO CUBES
+	 * 8: LEFT | RIGHT SWITCH | ONE CUBE
+	 * 9:  MIDDLE | LEFT SWITCH | TWO CUBES
+	 * 10: MIDDLE | LEFT SWITCH | ONE CUBE
+	 * 11: MIDDLE | RIGHT SWITCH| TWO CUBES
+	 * 12: MIDDLE | RIGHT SWITCH| ONE CUBE
+	 * 13: RIGHT | LEFT SCALE  | TWO CUBES
+	 * 14: RIGHT | LEFT SCALE  | ONE CUBE
+	 * 15: RIGHT | RIGHT SCALE | TWO CUBES
+	 * 16: RIGHT | RIGHT SCALE | ONE CUBE
+	 * 17: RIGHT | LEFT SWITCH | TWO CUBES
+	 * 18: RIGHT | LEFT SWITCH | ONE CUBE
+	 * 19: RIGHT | RIGHT SWITCH| TWO CUBES
+	 * 20: RIGHT | RIGHT SWITCH| ONE CUBE
 	 */
+	
 	
 	public static int chooseAuto(char switchPosition, char scalePosition) {
 		switch(HARDCODED_POSITION) {
@@ -92,7 +93,8 @@ public interface AutoSettings {
 					 * Left position to right scale
 					 * Two cubes
 					 */
-					return 3;
+					//make this return 3 if we can do two cubes
+					return 4;
 				}
 				else if (!TWO_CUBE) {
 					/*
@@ -111,7 +113,7 @@ public interface AutoSettings {
 					 * Left position to left switch
 					 * Two cube
 					 */
-					return 5;
+					return 6;
 				}
 				else if (!TWO_CUBE) {
 					/*
@@ -127,14 +129,14 @@ public interface AutoSettings {
 					 * Left position to right switch
 					 * Two cube
 					 */
-					return 7;
+					return 0;
 				}
 				else if (!TWO_CUBE) {
 					/*
 					 * Left position to right switch
 					 * One cube
 					 */
-					return 8;
+					return 0;
 				}
 			}
 			
@@ -185,7 +187,8 @@ public interface AutoSettings {
 					 * Right position to left scale
 					 * Two cubes
 					 */
-					return 13;
+					return 14;
+					//make this return 13 if we can do two cubes
 				}
 				else if (!TWO_CUBE) {
 					/*
@@ -220,14 +223,14 @@ public interface AutoSettings {
 					 * Right position to left switch
 					 * Two cube
 					 */
-					return 17;
+					return 0;
 				}
 				else if (!TWO_CUBE) {
 					/*
 					 * Right position to left switch
 					 * One cube
 					 */
-					return 18;
+					return 0;
 				}
 			}
 			else if (switchPosition == 'R') {
@@ -236,7 +239,7 @@ public interface AutoSettings {
 					 * Right position to right switch
 					 * Two cube
 					 */
-					return 19;
+					return 20;
 				}
 				else if (!TWO_CUBE) {
 					/*

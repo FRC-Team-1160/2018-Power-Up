@@ -70,11 +70,11 @@ public class OI implements RobotMap{
 		highGear = new JoystickButton(mainStick,7);
 		lowGear = new JoystickButton(mainStick,8);
 		
-		intakeEat = new JoystickButton(mainStick,5);
-		intakeSpit = new JoystickButton(mainStick,6);
+		intakeEat = new JoystickButton(mainStick,6);
+		intakeSpit = new JoystickButton(mainStick,5);
 		//intakeFastSpit = new JoystickButton(mainStick,10);
-		//liftEncodersReset = new JoystickButton(mainStick,10);
-		intakeSet = new JoystickButton(mainStick,10);
+		liftEncodersReset = new JoystickButton(mainStick,10);
+		//intakeSet = new JoystickButton(mainStick,10);
 		
 		intakeExtend = new JoystickButton(mainStick,3);
 		intakeRetract = new JoystickButton(mainStick,2);
@@ -137,8 +137,8 @@ public class OI implements RobotMap{
 		extendClimber.whenPressed(new LatchExtend());
 		retractClimber.whenPressed(new LatchRetract());
 		
-		climbUp.whileHeld(new Climb(0.75));
-		climbDown.whileHeld(new Climb(-0.75));
+		climbUp.whileHeld(new Climb(1));
+		climbDown.whileHeld(new Climb(-1));
 		
 		engageBrake.whenPressed(new BrakeEngage());
 		releaseBrake.whenPressed(new BrakeRelease());

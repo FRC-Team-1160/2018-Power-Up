@@ -28,6 +28,12 @@ public class Lift extends Subsystem implements RobotMap{
 		liftLeft.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		liftRight.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		
+		liftLeft.enableVoltageCompensation(true);
+		liftRight.enableVoltageCompensation(true);
+		
+		liftLeft.configVoltageCompSaturation(3.5, 0);
+		liftRight.configVoltageCompSaturation(3.5, 0);
+		
 		timer = new Timer();
 		
 		//liftLeft.follow(liftRight);

@@ -39,7 +39,7 @@ public class BangBangFrameworkDown extends Command implements RobotMap{
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	System.out.println("Error: " + error);
-        return ((error < 50) || (Robot.lift.getPosition() <= CARRY_HEIGHT)); //arbitrary ceiling
+        return ((error < 50) || (Robot.lift.getPosition() <= DOWN_HEIGHT)); //arbitrary ceiling
     }
 
     // Called once after isFinished returns true

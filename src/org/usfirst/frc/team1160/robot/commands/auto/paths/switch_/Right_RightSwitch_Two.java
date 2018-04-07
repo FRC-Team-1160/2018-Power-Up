@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class Right_RightSwitch_Two extends CommandGroup implements RobotMap{
 
     public Right_RightSwitch_Two() {
+    	
     }
 
 }

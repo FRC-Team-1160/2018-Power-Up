@@ -28,12 +28,14 @@ public class LoadFollowTrajectoryBackwards extends Command {
     	n = 0;
     	Robot.dt.setLowGear();
     	Robot.dt.resetPosition();
-    	Robot.dt.loadLeftEncoderFollower(leftTraj);
-    	Robot.dt.loadRightEncoderFollower(rightTraj);
+    	Robot.dt.loadLeftEncoderFollower(rightTraj);
+    	Robot.dt.loadRightEncoderFollower(leftTraj);
     	Robot.dt.configureEncoderFollowers();
+    	Robot.dt.resetEncoderFollowers();
     	Robot.dt.resetAngleDifference();
     	Robot.dt.resetTime();
     	Robot.dt.startTime();
+    	Robot.dt.setPercentOutput(0);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -63,6 +65,7 @@ public class LoadFollowTrajectoryBackwards extends Command {
     protected void end() {
     	System.out.println("AVERAGE TIMESTEP: " + Robot.dt.totalTimestep/Robot.dt.numberOfIterations);
     	Robot.dt.setPercentOutput(0);
+    	Robot.dt.resetEncoderFollowers();
     }
 
     // Called when another command which requires one or more of the same

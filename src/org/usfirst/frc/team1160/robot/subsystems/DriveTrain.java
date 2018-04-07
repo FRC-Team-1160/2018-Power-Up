@@ -415,6 +415,11 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		SmartDashboard.putNumber("desired yaw",-Pathfinder.boundHalfDegrees(desired_heading));
 		
 		double angleError = Pathfinder.boundHalfDegrees(desired_heading-gyro_heading);
+		//this prevents extremely large angle error the instant the robot crosses from 180 -> -180
+				if (Math.abs(angleError) > 90){
+					angleError = 0;
+				}
+				
 		double turn = GYRO_KP * angleError;
 		SmartDashboard.putNumber("AngleError: ", angleError);
 		//leftMaster.setInverted(true);
@@ -442,11 +447,16 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		SmartDashboard.putNumber("right raw - auto",r);
 		*/
 		
-		double gyro_heading = gyro.getYaw()*-1;
-		double desired_heading = Pathfinder.r2d(left.getHeading());
+		double gyro_heading = gyro.getYaw()*-1 ;
+		double desired_heading = Pathfinder.r2d(left.getHeading())+ 180.0; //Since we're going backwards with the same gyro, our angle is off by 180
 		SmartDashboard.putNumber("desired yaw",-Pathfinder.boundHalfDegrees(desired_heading));
 		
 		double angleError = Pathfinder.boundHalfDegrees(desired_heading-gyro_heading);
+		//this prevents extremely large angle error the instant the robot crosses from 180 -> -180
+		if (Math.abs(angleError) > 90){
+			angleError = 0;
+		}
+		
 		double turn = GYRO_KP * angleError;
 		SmartDashboard.putNumber("AngleError: ", angleError);
 		//leftMaster.setInverted(true);

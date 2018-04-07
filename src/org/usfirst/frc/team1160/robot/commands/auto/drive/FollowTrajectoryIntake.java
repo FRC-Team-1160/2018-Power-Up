@@ -15,17 +15,13 @@ import jaci.pathfinder.Trajectory;
  */
 public class FollowTrajectoryIntake extends CommandGroup {
 
-    public FollowTrajectoryIntake(Trajectory leftTraj,Trajectory rightTraj) {
-    	addSequential(new ResetEncoderYaw());
+    public FollowTrajectoryIntake(Trajectory leftTraj,Trajectory rightTraj, double delay, double intakeTimeout) {
     	addParallel(new LoadFollowTrajectory(leftTraj,rightTraj));
-    	addSequential(new AutoBoxClamp());
-    	/*
-    	addSequential(new WaitLift(2));
-    	addSequential(new IntakeRotate(0.5),0.7);
-    	addSequential(new WaitLift(0.1));
-    	addSequential(new IntakeExtend());
-    	addSequential(new IntakeRotate(0.5),0.3);
-    	*/
+    	addSequential(new WaitLift(delay));
+    	addSequential(new IntakeRotate(-0.7),intakeTimeout);
+    	addSequential(new IntakeRotate(0),0.05);
+
+    	
     	
     }
 }

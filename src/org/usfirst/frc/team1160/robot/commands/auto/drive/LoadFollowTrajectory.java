@@ -31,6 +31,7 @@ public class LoadFollowTrajectory extends Command {
     	Robot.dt.loadLeftEncoderFollower(leftTraj);
     	Robot.dt.loadRightEncoderFollower(rightTraj);
     	Robot.dt.configureEncoderFollowers();
+    	Robot.dt.resetEncoderFollowers();
     	Robot.dt.resetAngleDifference();
     	Robot.dt.resetTime();
     	Robot.dt.startTime();
@@ -63,6 +64,7 @@ public class LoadFollowTrajectory extends Command {
     protected void end() {
     	System.out.println("AVERAGE TIMESTEP: " + Robot.dt.totalTimestep/Robot.dt.numberOfIterations);
     	Robot.dt.setPercentOutput(0);
+    	Robot.dt.resetEncoderFollowers();
     }
 
     // Called when another command which requires one or more of the same

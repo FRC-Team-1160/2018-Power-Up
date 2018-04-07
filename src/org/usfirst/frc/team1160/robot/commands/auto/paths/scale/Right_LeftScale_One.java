@@ -21,6 +21,7 @@ public class Right_LeftScale_One extends CommandGroup implements RobotMap{
  		addSequential(new WaitDrivetrain(0.05));
  		addSequential(new ResetEncoderButNotYaw());
  		addSequential(new WaitDrivetrain(0.05));
+ 		
  		addSequential(new FollowTrajectoryLift(Robot.segment_two_left,Robot.segment_two_right,SCALE_HEIGHT));
  		addSequential(new IntakeRotate(SCALE_AUTO_SPIT_SPEED),0.3);
     }

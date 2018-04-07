@@ -8,7 +8,7 @@ public interface AutoSettings {
 	 * 2 - Center
 	 * 3 - Right
 	 */
-	public static final int HARDCODED_POSITION = 3;
+	public static final int HARDCODED_POSITION = 2;
 	
 	/* PRIORITIZE_SCALE
 	 * true - prioritize the scale
@@ -188,6 +188,7 @@ public interface AutoSettings {
 					 * Two cubes
 					 */
 					return 14;
+					//CHANGE BACK TO !$
 					//make this return 13 if we can do two cubes
 				}
 				else if (!TWO_CUBE) {

@@ -333,32 +333,13 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 				autonomousCommand = new Right_RightSwitch_One();
 				break;
 			default: //move to the auto line, no cubes, slow
-				/*
-				left = new File(baseFilepath + "X_X_AUTOLINE_NONE_SLOW_LEFT.csv");
-				right = new File(baseFilepath + "X_X_AUTOLINE_NONE_SLOW_RIGHT.csv");
-				*/
-				left = new File(baseFilepath + "SCALE_OPTIMAL_LEFT.csv");
-				right = new File(baseFilepath + "SCALE_OPTIMAL_RIGHT.csv");
+				
+				left = new File(baseFilepath + "AUTOLINE_FAST_LEFT.csv");
+				right = new File(baseFilepath + "AUTOLINE_FAST_RIGHT.csv");
 				segment_one_left = Pathfinder.readFromCSV(left);
 				segment_one_right = Pathfinder.readFromCSV(right);
-				
-				left = new File(baseFilepath + "REVERSE_1_LEFT.csv");
-				right = new File(baseFilepath + "REVERSE_1_RIGHT.csv");
-				segment_two_left = Pathfinder.readFromCSV(left);
-				segment_two_right = Pathfinder.readFromCSV(right);	
-				
-				left = new File(baseFilepath + "FORWARD_1_LEFT.csv");
-				right = new File(baseFilepath + "FORWARD_1_RIGHT.csv");
-				segment_three_left = Pathfinder.readFromCSV(left);
-				segment_three_right = Pathfinder.readFromCSV(right);
-				
-				left = new File(baseFilepath + "REVERSE_2_LEFT.csv");
-				right = new File(baseFilepath + "REVERSE_2_RIGHT.csv");
-				segment_four_left = Pathfinder.readFromCSV(left);
-				segment_four_right = Pathfinder.readFromCSV(right);
 				//autonomousCommand = new X_AutoLine();
-				autonomousCommand = new GenericFollow();
-				
+				autonomousCommand = new AutoLine();
 				break;
 		}
 	}
@@ -391,7 +372,7 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 	public void autonomousInit() {
 		
 		chooseAuto();
-		loadTrajectories(autoChoice);
+		loadTrajectories(0);
 		autonomousCommand.start();
 	}
 
@@ -402,7 +383,9 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 
 	@Override
 	public void teleopInit() {
+		if(autonomousCommand != null &&autonomousCommand.isRunning()){
 		autonomousCommand.cancel();
+		}
 	}
 
 	@Override

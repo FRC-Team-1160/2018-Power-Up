@@ -28,8 +28,8 @@ public class Lift extends Subsystem implements RobotMap{
 		liftLeft.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		liftRight.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		
-		liftLeft.enableVoltageCompensation(true);
-		liftRight.enableVoltageCompensation(true);
+		//liftLeft.enableVoltageCompensation(true);
+		//liftRight.enableVoltageCompensation(true);
 		
 		liftLeft.configVoltageCompSaturation(3.5, 0);
 		liftRight.configVoltageCompSaturation(3.5, 0);
@@ -63,6 +63,11 @@ public class Lift extends Subsystem implements RobotMap{
 	public void printLiftSpeed() {
 		SmartDashboard.putNumber("left lift speed", liftLeft.getSelectedSensorVelocity(0));
 		SmartDashboard.putNumber("right lift speed", liftRight.getSelectedSensorVelocity(0));
+	}
+	
+	public void printLiftVoltage() {
+		SmartDashboard.putNumber("left lift voltage", liftLeft.getBusVoltage());
+		SmartDashboard.putNumber("right lift voltage", liftRight.getBusVoltage());
 	}
 	
 	public void resetLiftEncoders() {

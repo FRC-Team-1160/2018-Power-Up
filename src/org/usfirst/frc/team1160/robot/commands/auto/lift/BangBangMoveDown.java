@@ -12,7 +12,7 @@ public class BangBangMoveDown extends CommandGroup {
 
     public BangBangMoveDown(int height) {
     	addSequential(new BrakeRelease());
-    	addSequential(new BangBangFrameworkDown(height,-0.30)); //16000 for switch, 39000 for scale
+    	addSequential(new BangBangFrameworkDown(height,-0.125)); //16000 for switch, 39000 for scale
     	addSequential(new WaitLift(.05));
     	addSequential(new BrakeEngage());
     }

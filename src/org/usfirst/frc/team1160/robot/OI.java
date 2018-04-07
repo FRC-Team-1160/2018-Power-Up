@@ -130,15 +130,15 @@ public class OI implements RobotMap{
 		intakeEat.whileHeld(new IntakeRotate(-0.7));
 		intakeSpit.whileHeld(new IntakeRotate(0.5));
 		//liftEncodersReset.whenPressed(new ResetLiftEncoders());
-		intakeSet.whileHeld(new IntakeSet(0.5));
+		//intakeSet.whileHeld(new IntakeSet(0.5));
 		//intakeFastSpit.whileHeld(new IntakeRotate(0.8));
 		//intakeBigSpit.?
 		
 		extendClimber.whenPressed(new LatchExtend());
 		retractClimber.whenPressed(new LatchRetract());
 		
-		climbUp.whileHeld(new Climb(1));
-		climbDown.whileHeld(new Climb(-1));
+		climbUp.whileHeld(new Climb(0.75));
+		climbDown.whileHeld(new Climb(-0.75));
 		
 		engageBrake.whenPressed(new BrakeEngage());
 		releaseBrake.whenPressed(new BrakeRelease());

@@ -34,7 +34,7 @@ public interface RobotMap {
 	public static double WHEEL_BASE_DISTANCE = 2.25; //used to be 2.53 until 3/29/18
 	public static double WHEEL_DIAMETER = (6.0)/12.0;
 															//Gyro constants
-	public static final double GYRO_KP = 0 * (-1.0/80.0);	//Pathfinder
+	public static final double GYRO_KP = 0.8 * (-1.0/80.0);	//Pathfinder
 	
 	public static final double GYRO_KP_2 = .55*2.5 * (-1.0/80.0); //TurnAngle
 	public static final double GYRO_KI = -3*3/(1.3*100);
@@ -50,18 +50,18 @@ public interface RobotMap {
 	public static final double DRIVE_KD = 0;
 	public static final double DRIVE_KF = 0;
 	
-	public static final double LEFT_KP = 0.85;				//MotionProfiling Constants for Low Gear
-	public static final double LEFT_KI = 0;//0.2;
+	public static final double LEFT_KP = 0.40;		//MotionProfiling Constants for Low Gear
+	public static final double LEFT_KI = 0;
 	public static final double LEFT_KD = 0;//0.2
-	public static final double LEFT_KF = 1.24 * (1.0/7.5);
-	public static final double LEFT_KA = 0.36 * (1.0/6.0); //start with 1/(2 * max accl) and adjust wherever
+	public static final double LEFT_KF = 0.90* 1.24 * (1.0/7.5);
+	public static final double LEFT_KA = 0.8* 0.36 * (1.0/6.0); //start with 1/(2 * max accl) and adjust wherever
 	//hey people when it comes to fractions in java, make sure to slap .0 on everything even if the number's cast as a double
 	
-	public static final double RIGHT_KP = 0.85;
+	public static final double RIGHT_KP = 0.40;
 	public static final double RIGHT_KI = 0;//0.2; //formerly 0.15 until kyle said fuck it
 	public static final double RIGHT_KD = 0;//0.2
-	public static final double RIGHT_KF = 1.24 * (1.0/7.5);
-	public static final double RIGHT_KA = 0.36 * (1.0/6.0);
+	public static final double RIGHT_KF = 0.85*1.24 * (1.0/7.5);
+	public static final double RIGHT_KA = 0.8*0.36 * (1.0/6.0);
 	
 	public static final double MAX_VELOCITY = 7.25;	 //7.5 is actual max vel for low gear, 13 is actual max velocity for high gear
 	public static final double MAX_ACCELERATION = 6; //4.5 is actual max accl for low gear, 5.9 is actual max accl for high gear
@@ -86,8 +86,8 @@ public interface RobotMap {
 	 * 
 	 * REMEMBER TO ADD GEAR RATIO TO ENC_COUNTS_PER_REV
 	 */
-	public static final int LEFT_BRAKE_SOLENOID = 2;//3;			//Ports
-	public static final int RIGHT_BRAKE_SOLENOID = 5;//4;
+	public static final int LEFT_BRAKE_SOLENOID = 3;			//Ports
+	public static final int RIGHT_BRAKE_SOLENOID = 4;
 	public static final int  LIFT_MOTOR_LEFT = 0;
 	public static final int  LIFT_MOTOR_RIGHT = 1;
 	
@@ -110,17 +110,17 @@ public interface RobotMap {
 	public static final int	LIFT_RIGHT_MOTION_ACCELERATION = 0;
 	
 	public static final int DOWN_HEIGHT = 100;
-	public static final int CARRY_HEIGHT = 750; //poggers
+	public static final int CARRY_HEIGHT = DOWN_HEIGHT;//750; //poggers
 	public static final int SWITCH_HEIGHT = 16000; //height of the switch, in right side encoder units
-	public static final int SCALE_HEIGHT = 39000; //height of the scale, in right side encoder units
+	public static final int SCALE_HEIGHT = 39000;
 	
 
 	
 	/*
 	 * Climber
 	 */
-	public static final int LATCH_LEFT_SOLENOID = 3;//2;			//Ports
-	public static final int LATCH_RIGHT_SOLENOID = 4;//5;
+	public static final int LATCH_LEFT_SOLENOID = 2;			//Ports
+	public static final int LATCH_RIGHT_SOLENOID = 5;
 	public static final int CLIMBER_MOTOR_1 = 12;
 	public static final int CLIMBER_MOTOR_2 = 13;
 

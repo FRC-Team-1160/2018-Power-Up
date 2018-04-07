@@ -23,6 +23,9 @@ public interface AutoSettings {
 	 * BIG QUESTIONS: does two cube mean two eggs in the same basket
 	 */
 	public static final boolean TWO_CUBE = false;
+	public static final boolean TWO_CUBE_SCALE = false; //somewhat provisional
+	public static final boolean TWO_CUBE_SWITCH = false; //somewhat provisional as well
+	public static final boolean ONE_CUBE_SCALE_ONE_CUBE_SWITCH = false; //provisional as fuck
 	
 	/**
 	 * PRIORITY LIST FOR choosePath()
@@ -40,8 +43,8 @@ public interface AutoSettings {
 	 * 4: LEFT | RIGHT SCALE  | ONE CUBE
 	 * 5: LEFT | LEFT SWITCH  | TWO CUBES
 	 * 6: LEFT | LEFT SWITCH  | ONE CUBE
-	 * 7: LEFT | RIGHT SWITCH | TWO CUBES
-	 * 8: LEFT | RIGHT SWITCH | ONE CUBE
+	 *X 7: LEFT | RIGHT SWITCH | TWO CUBES 
+	 *X 8: LEFT | RIGHT SWITCH | ONE CUBE
 	 * 9:  MIDDLE | LEFT SWITCH | TWO CUBES
 	 * 10: MIDDLE | LEFT SWITCH | ONE CUBE
 	 * 11: MIDDLE | RIGHT SWITCH| TWO CUBES
@@ -50,8 +53,8 @@ public interface AutoSettings {
 	 * 14: RIGHT | LEFT SCALE  | ONE CUBE
 	 * 15: RIGHT | RIGHT SCALE | TWO CUBES
 	 * 16: RIGHT | RIGHT SCALE | ONE CUBE
-	 * 17: RIGHT | LEFT SWITCH | TWO CUBES
-	 * 18: RIGHT | LEFT SWITCH | ONE CUBE
+	 *X 17: RIGHT | LEFT SWITCH | TWO CUBES
+	 *X 18: RIGHT | LEFT SWITCH | ONE CUBE
 	 * 19: RIGHT | RIGHT SWITCH| TWO CUBES
 	 * 20: RIGHT | RIGHT SWITCH| ONE CUBE
 	 */
@@ -93,8 +96,7 @@ public interface AutoSettings {
 					 * Left position to right scale
 					 * Two cubes
 					 */
-					//make this return 3 if we can do two cubes
-					return 4;
+					return 3;
 				}
 				else if (!TWO_CUBE) {
 					/*
@@ -113,7 +115,7 @@ public interface AutoSettings {
 					 * Left position to left switch
 					 * Two cube
 					 */
-					return 6;
+					return 5;
 				}
 				else if (!TWO_CUBE) {
 					/*
@@ -123,23 +125,6 @@ public interface AutoSettings {
 					return 6;
 				}
 			}
-			else if (switchPosition == 'R') {
-				if (TWO_CUBE) {
-					/*
-					 * Left position to right switch
-					 * Two cube
-					 */
-					return 0;
-				}
-				else if (!TWO_CUBE) {
-					/*
-					 * Left position to right switch
-					 * One cube
-					 */
-					return 0;
-				}
-			}
-			
 		}
 		return 0;
 	}
@@ -187,9 +172,7 @@ public interface AutoSettings {
 					 * Right position to left scale
 					 * Two cubes
 					 */
-					return 14;
-					//CHANGE BACK TO !$
-					//make this return 13 if we can do two cubes
+					return 13;
 				}
 				else if (!TWO_CUBE) {
 					/*
@@ -218,29 +201,13 @@ public interface AutoSettings {
 			}
 		}
 		else if (!PRIORITIZE_SCALE) {
-			if (switchPosition == 'L') {
-				if (TWO_CUBE) {
-					/*
-					 * Right position to left switch
-					 * Two cube
-					 */
-					return 0;
-				}
-				else if (!TWO_CUBE) {
-					/*
-					 * Right position to left switch
-					 * One cube
-					 */
-					return 0;
-				}
-			}
-			else if (switchPosition == 'R') {
+			if (switchPosition == 'R') {
 				if (TWO_CUBE) {
 					/*
 					 * Right position to right switch
 					 * Two cube
 					 */
-					return 20;
+					return 19;
 				}
 				else if (!TWO_CUBE) {
 					/*
@@ -250,10 +217,8 @@ public interface AutoSettings {
 					return 20;
 				}
 			}
-			
 		}
 		return 0;
 	}
-	
-
 }
+		

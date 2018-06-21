@@ -333,12 +333,23 @@ public class Robot extends TimedRobot implements TrajectoryWaypoints,RobotMap,Au
 				autonomousCommand = new Right_RightSwitch_One();
 				break;
 			default: //move to the auto line, no cubes, slow
-				
+				/*
 				left = new File(baseFilepath + "AUTOLINE_FAST_LEFT.csv");
 				right = new File(baseFilepath + "AUTOLINE_FAST_RIGHT.csv");
 				segment_one_left = Pathfinder.readFromCSV(left);
 				segment_one_right = Pathfinder.readFromCSV(right);
 				//autonomousCommand = new X_AutoLine();
+				autonomousCommand = new AutoLine();
+				*/
+				left = new File(baseFilepath+"curve1_left_Jaci.csv");
+				right = new File(baseFilepath+"curve1_right_Jaci.csv");
+				segment_one_left = Pathfinder.readFromCSV(left);
+				segment_one_right = Pathfinder.readFromCSV(right);
+				
+				left = new File(baseFilepath+"B_left_Jaci.csv");
+				right = new File(baseFilepath+"B_right_Jaci.csv");
+				segment_two_left = Pathfinder.readFromCSV(left);
+				segment_two_right = Pathfinder.readFromCSV(right);
 				autonomousCommand = new AutoLine();
 				break;
 		}

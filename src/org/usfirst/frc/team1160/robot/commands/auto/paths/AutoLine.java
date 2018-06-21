@@ -24,9 +24,13 @@ import jaci.pathfinder.Trajectory;
 public class AutoLine extends CommandGroup implements RobotMap{
 
     public AutoLine() {
-    	addSequential(new ResetEncoderButNotYaw());
+    	addSequential(new ResetEncoderYaw());
     	addSequential(new LoadFollowTrajectory(Robot.segment_one_left,Robot.segment_one_right));
-    	addSequential(new ResetEncoderButNotYaw());
+    	addSequential(new ResetEncoderYaw());
+		addSequential(new WaitDrivetrain(2));
+		
+		addSequential(new LoadFollowTrajectoryBackwards(Robot.segment_one_left,Robot.segment_one_right));
+    	addSequential(new ResetEncoderYaw());
 		addSequential(new WaitDrivetrain(0.05));
     }
 }

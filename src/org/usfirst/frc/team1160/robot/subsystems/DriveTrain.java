@@ -24,6 +24,7 @@ import jaci.pathfinder.Waypoint;
 
 import org.usfirst.frc.team1160.robot.*;
 import org.usfirst.frc.team1160.robot.commands.drive.*;
+import org.usfirst.frc.team1160.robot.subsystems.modifiedClasses.EncoderFollowerPlus;
 
 //TODO: Implement Pathfinder encoder followers
 //TODO: Remember that you can't configure ENC COUNTS PER REV
@@ -42,7 +43,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	private DoubleSolenoid ballShifter;
 	
 	
-	private EncoderFollower left,right;
+	private EncoderFollowerPlus left,right;
 	private Trajectory traj;
 	private TankModifier modifier;
 	private Config config;
@@ -73,7 +74,7 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		timerCheck = new Timer();
 		gyro = new AHRS(Port.kMXP);
 		comp = new Compressor(PCM);
-		comp.start();
+		//comp.start();
 		leftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		rightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		
@@ -351,8 +352,8 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		config = new Config(FitMethod.HERMITE_CUBIC, Config.SAMPLES_HIGH, TIME_BETWEEN_POINTS, MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
 		traj = Pathfinder.generate(points,config);
 		modifier = new TankModifier(traj).modify(WHEEL_BASE_DISTANCE);
-		left = new EncoderFollower(modifier.getLeftTrajectory());
-		right = new EncoderFollower(modifier.getRightTrajectory());
+		left = new EncoderFollowerPlus(modifier.getLeftTrajectory());
+		right = new EncoderFollowerPlus(modifier.getRightTrajectory());
 	}
 	
 	public Trajectory generateTrajectorySetup(Waypoint[] points) {
@@ -363,16 +364,16 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	
 	public void generateModifiers(Trajectory traj) { //generate modifiers based off the given trajectory
 		modifier = new TankModifier(traj).modify(WHEEL_BASE_DISTANCE);
-		left = new EncoderFollower(modifier.getLeftTrajectory());
-		right = new EncoderFollower(modifier.getRightTrajectory());
+		left = new EncoderFollowerPlus(modifier.getLeftTrajectory());
+		right = new EncoderFollowerPlus(modifier.getRightTrajectory());
 	}
 	
 	public void loadLeftEncoderFollower(Trajectory traj) { //from a csv!
-		left = new EncoderFollower(traj);
+		left = new EncoderFollowerPlus(traj);
 	}
 	
 	public void loadRightEncoderFollower(Trajectory traj) { //also from a csv!
-		right = new EncoderFollower(traj);
+		right = new EncoderFollowerPlus(traj);
 	}
 	
 	public void resetLeftEncoderFollower() {
@@ -381,20 +382,27 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	public void resetRightEncoderFollower() {
 		right.reset();
 	}
-	public void resetEncoderFollowers() {
-		left.reset();
-		right.reset();
+	public void resetEncoderFollowersBackwards() {
+		left.resetBackwards();
+		right.resetBackwards();
+	}
+	public void resetEncoderFollowersForwards() {
+		left.resetForwards();
+		right.resetForwards();
 	}
 	
-	public EncoderFollower getLeftEncoderFollower() {
+	public EncoderFollowerPlus getLeftEncoderFollower() {
 		return left;
 	}
-	public EncoderFollower getRightEncoderFollower() {
+	public EncoderFollowerPlus getRightEncoderFollower() {
 		return right;
 	}
 	
 	public double totalTimestep = 0;
 	public int numberOfIterations = -1;
+	
+	//don't use reverse profiling option when generating csvs
+	
 	
 	public void followTrajectory() {
 		System.out.println("TIME STEP: " + timer.get());
@@ -440,15 +448,16 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		timer.reset();
 		timer.start();
 		
-		double l = left.calculate(leftMaster.getSelectedSensorPosition(0));
-		double r = right.calculate(-rightMaster.getSelectedSensorPosition(0));
+		double l = left.calculateBackwards(leftMaster.getSelectedSensorPosition(0));
+		double r = right.calculateBackwards(-rightMaster.getSelectedSensorPosition(0));
 		/*
 		SmartDashboard.putNumber("left raw - auto",l);
 		SmartDashboard.putNumber("right raw - auto",r);
 		*/
 		
 		double gyro_heading = gyro.getYaw()*-1 ;
-		double desired_heading = Pathfinder.r2d(left.getHeading())+ 180.0; //Since we're going backwards with the same gyro, our angle is off by 180
+		double desired_heading = Pathfinder.r2d(left.getHeading()) + 180; 
+		//Since we're going backwards with the same gyro, our angle is off by 180
 		SmartDashboard.putNumber("desired yaw",-Pathfinder.boundHalfDegrees(desired_heading));
 		
 		double angleError = Pathfinder.boundHalfDegrees(desired_heading-gyro_heading);

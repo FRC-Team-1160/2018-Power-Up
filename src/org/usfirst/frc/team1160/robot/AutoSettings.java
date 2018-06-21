@@ -14,7 +14,7 @@ public interface AutoSettings {
 	 * true - prioritize the scale
 	 * false - prioritize the switch
 	 */
-	public static final boolean PRIORITIZE_SCALE = true;
+	public static final boolean PRIORITIZE_SCALE = false;
 	
 	/* 
 	 * TWO_CUBE

@@ -85,14 +85,14 @@ public class OI implements RobotMap{
 		 * Attack 3
 		 */
 		
-		climbUp = new JoystickButton(climbStick,6);
-		climbDown = new JoystickButton(climbStick,7);
+		//climbUp = new JoystickButton(climbStick,6);
+		//climbDown = new JoystickButton(climbStick,7);
 		
 		engageBrake = new JoystickButton(climbStick,1);
 		releaseBrake = new JoystickButton(climbStick,3);
 		
-		extendClimber = new JoystickButton(climbStick,8);
-		retractClimber = new JoystickButton(climbStick,9);
+		//extendClimber = new JoystickButton(climbStick,8);
+		//retractClimber = new JoystickButton(climbStick,9);
 		
 		//intakeExtendRetract = new JoystickButton(climbStick,11);
 		
@@ -108,10 +108,10 @@ public class OI implements RobotMap{
 		//dsLowGear = new JoystickButton(dsStick,)
 		dsEngageBrake = new JoystickButton(dsStick,1);
 		dsReleaseBrake = new JoystickButton(dsStick,2);
-		dsExtendClimber = new JoystickButton(dsStick,3);
-		dsRetractClimber = new JoystickButton(dsStick,4);
-		dsClimbUp = new JoystickButton(dsStick,5);
-		dsClimbDown = new JoystickButton(dsStick,6);
+		//dsExtendClimber = new JoystickButton(dsStick,3);
+		//dsRetractClimber = new JoystickButton(dsStick,4);
+		//dsClimbUp = new JoystickButton(dsStick,5);
+		//dsClimbDown = new JoystickButton(dsStick,6);
 		tieButtons();	
 	}
 	private void tieButtons() {
@@ -134,20 +134,20 @@ public class OI implements RobotMap{
 		//intakeFastSpit.whileHeld(new IntakeRotate(0.8));
 		//intakeBigSpit.?
 		
-		extendClimber.whenPressed(new LatchExtend());
-		retractClimber.whenPressed(new LatchRetract());
+		//extendClimber.whenPressed(new LatchExtend());
+		//retractClimber.whenPressed(new LatchRetract());
 		
-		climbUp.whileHeld(new Climb(0.75));
-		climbDown.whileHeld(new Climb(-0.75));
+		//climbUp.whileHeld(new Climb(0.75));
+		//climbDown.whileHeld(new Climb(-0.75));
 		
 		engageBrake.whenPressed(new BrakeEngage());
 		releaseBrake.whenPressed(new BrakeRelease());
 
-		turnAngle.whenPressed(new TurnAngle(180));
+		//turnAngle.whenPressed(new TurnAngle(180));
 		
-		bangBangCarry.whenPressed(new BangBangMove(CARRY_HEIGHT));
-		bangBangScale.whenPressed(new BangBangMove(SCALE_HEIGHT));
-		bangBangSwitch.whenPressed(new BangBangMove(SWITCH_HEIGHT));
+		//bangBangCarry.whenPressed(new BangBangMove(CARRY_HEIGHT));
+		//bangBangScale.whenPressed(new BangBangMove(SCALE_HEIGHT));
+		//bangBangSwitch.whenPressed(new BangBangMove(SWITCH_HEIGHT));
 		
 		//pyramid second layer height: 5150
 		

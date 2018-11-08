@@ -21,12 +21,9 @@
 	<classpathentry exported="true" kind="var" path="opencv" sourcepath="opencv.sources"/>
 	<classpathentry exported="true" kind="var" path="cscore" sourcepath="cscore.sources"/>
 	<classpathentry exported="true" kind="var" path="wpiutil" sourcepath="wpiutil.sources"/>
-	<classpathentry exported="true" kind="var" path="USERLIBS_DIR/CTRE_Phoenix-sources.jar"/>
-	<classpathentry exported="true" kind="var" path="USERLIBS_DIR/CTRE_Phoenix.jar"/>
-	<classpathentry exported="true" kind="var" path="USERLIBS_DIR/niVisionWPI.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Titanium/wpilib/user/java/lib/Pathfinder-Java.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/Titanium/wpilib/user/java/lib/Pathfinder-Java-1.8.jar"/>
-	<classpathentry kind="var" path="USERLIBS_DIR/Pathfinder-Java-1.8.jar"/>
-	<classpathentry kind="var" path="USERLIBS_DIR/Pathfinder-Java.jar"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/CANJaguar.jar"/>
+	<classpathentry kind="var" path="USERLIBS_DIR/CTRLib.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

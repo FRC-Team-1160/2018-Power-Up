@@ -273,6 +273,14 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		return timer.get();
 	}
 	
+	public WPI_TalonSRX getLeftMaster() {
+		return leftMaster;
+	}
+	
+	public WPI_TalonSRX getRightMaster() {
+		return rightMaster;
+	}
+	
 	public boolean done(double finishTime) {
 		return (timer.get() >= finishTime);
 	}

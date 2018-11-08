@@ -41,6 +41,12 @@ public interface RobotMap {
 	public static final int PCM = 4;							//PCM Port
 	
 	/*
+	 * PID
+	 */
+	
+	public static final double CONTROLLER_CONSTANT = 0;
+	
+	/*
 	 * DriveTrain
 	 */
 	public static int DT_LEFT_1 = 2;							//Ports

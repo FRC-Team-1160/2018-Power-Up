@@ -124,7 +124,7 @@ public class OI implements RobotMap{
 		intakeEat.whileHeld(new IntakeRotate(-0.7));
 		intakeSpit.whileHeld(new IntakeRotate(0.5));
 		intakeFastSpit.whileHeld(new IntakeRotate(0.8));
-		testAuto.whenPressed(new DriveForward(10.0));
+		testAuto.whenPressed(new Zoom());
 		//intakeBigSpit.?
 		
 		extendClimber.whenPressed(new LatchExtend());

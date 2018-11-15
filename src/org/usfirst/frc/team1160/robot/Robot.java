@@ -37,12 +37,12 @@ package org.usfirst.frc.team1160.robot;
 
 import java.io.File;
 
-import org.usfirst.frc.team1160.robot.commands.auto.drive.*;
-import org.usfirst.frc.team1160.robot.commands.auto.intake.*;
-import org.usfirst.frc.team1160.robot.commands.auto.paths.*;
-import org.usfirst.frc.team1160.robot.commands.auto.paths.scale.*;
-import org.usfirst.frc.team1160.robot.commands.auto.paths.scale.parallel.*;
-import org.usfirst.frc.team1160.robot.commands.auto.paths.switch_.*;
+//import org.usfirst.frc.team1160.robot.commands.auto.drive.*;
+//import org.usfirst.frc.team1160.robot.commands.auto.intake.*;
+//import org.usfirst.frc.team1160.robot.commands.auto.paths.*;
+//import org.usfirst.frc.team1160.robot.commands.auto.paths.scale.*;
+//import org.usfirst.frc.team1160.robot.commands.auto.paths.scale.parallel.*;
+//import org.usfirst.frc.team1160.robot.commands.auto.paths.switch_.*;
 import org.usfirst.frc.team1160.robot.subsystems.Climber;
 import org.usfirst.frc.team1160.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1160.robot.subsystems.Intake;
@@ -98,8 +98,8 @@ public class Robot extends TimedRobot implements RobotMap{
 		intake = Intake.getInstance();
 		climber = Climber.getInstance();
 		lift = Lift.getInstance();
-		oi = OI.getInstance();
 		pid = PID.getInstance(dt.getLeftMaster(),dt.getRightMaster());
+		oi = OI.getInstance();
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		//System.out.println(System.getProperty("java.library.path"));
 
@@ -161,7 +161,7 @@ public class Robot extends TimedRobot implements RobotMap{
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		autonomousCommand.cancel();
+		//autonomousCommand.cancel();
 	}
 
 	@Override

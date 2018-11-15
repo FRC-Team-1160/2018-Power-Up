@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1160.robot.commands.intake;
 
-import org.usfirst.frc.team1160.robot.commands.auto.drive.WaitDrivetrain;
-import org.usfirst.frc.team1160.robot.commands.auto.lift.WaitLift;
+//import org.usfirst.frc.team1160.robot.commands.auto.drive.WaitDrivetrain;
+//import org.usfirst.frc.team1160.robot.commands.auto.lift.WaitLift;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -12,7 +12,7 @@ public class PlaceBox extends CommandGroup {
 
     public PlaceBox() {
     	addSequential(new IntakeRetract());
-    	addSequential(new WaitLift(0.1));
+    	//addSequential(new WaitLift(0.1));
     	addSequential(new IntakeRotate(0.5),0.25);
     	addSequential(new IntakeExtend());
     	addSequential(new IntakeRotate(0.5),0.25);

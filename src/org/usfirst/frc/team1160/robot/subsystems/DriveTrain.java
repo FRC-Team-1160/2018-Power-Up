@@ -9,18 +9,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
-import jaci.pathfinder.Pathfinder;
-import jaci.pathfinder.Trajectory;
-import jaci.pathfinder.Trajectory.Config;
-import jaci.pathfinder.Trajectory.FitMethod;
-import jaci.pathfinder.Trajectory.Segment;
-import jaci.pathfinder.followers.EncoderFollower;
-import jaci.pathfinder.modifiers.TankModifier;
-import jaci.pathfinder.Waypoint;
+//import jaci.pathfinder.Pathfinder;
+//import jaci.pathfinder.Trajectory;
+//import jaci.pathfinder.Trajectory.Config;
+//import jaci.pathfinder.Trajectory.FitMethod;
+//import jaci.pathfinder.Trajectory.Segment;
+//import jaci.pathfinder.followers.EncoderFollower;
+//import jaci.pathfinder.modifiers.TankModifier;
+//import jaci.pathfinder.Waypoint;
 
 import org.usfirst.frc.team1160.robot.*;
 import org.usfirst.frc.team1160.robot.commands.drive.*;
@@ -29,7 +30,7 @@ import org.usfirst.frc.team1160.robot.commands.drive.*;
 //TODO: Remember that you can't configure ENC COUNTS PER REV
 //TODO: Implement basic drivetrain PID control
 
-public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoints{
+public class DriveTrain extends Subsystem implements RobotMap{
 
 	public static DriveTrain instance;
 	private WPI_TalonSRX leftMaster, rightMaster;
@@ -41,11 +42,11 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 		//timerCheck is supposed to run only upon the turnAngle method
 		//hitting ninety degrees and activating the checking clause
 	
-	private EncoderFollower left,right;
-	private Trajectory traj;
-	private TankModifier modifier;
-	private Config config;
-	
+//	private EncoderFollower left,right;
+//	private Trajectory traj;
+//	private TankModifier modifier;
+//	private Config config;
+//	
 	/*
 	 * turnAngle variables
 	 */
@@ -128,8 +129,47 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	/*
 	 * Drive Methods
 	 */
-	public void manualDrive() {
 
+	public void initAuto(){
+		leftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+		
+		leftMaster.setSensorPhase(true);
+		
+		leftMaster.setInverted(false);
+		
+		leftMaster.configNominalOutputForward(0, 0);
+		leftMaster.configNominalOutputReverse(0, 0);
+		leftMaster.configPeakOutputForward(1, 0);
+		leftMaster.configPeakOutputReverse(-1, 0);
+		
+		leftMaster.config_kF(0, 0.0, 0);
+		leftMaster.config_kP(0, 0.1, 0);
+		leftMaster.config_kI(0, 0.0, 0);
+		leftMaster.config_kD(0, 0.0, 0);
+		
+		rightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+		
+		rightMaster.setSensorPhase(true);
+		
+		rightMaster.setInverted(false);
+		
+		rightMaster.configNominalOutputForward(0, 0);
+		rightMaster.configNominalOutputReverse(0, 0);
+		rightMaster.configPeakOutputForward(1, 0);
+		rightMaster.configPeakOutputReverse(-1, 0);
+		
+		rightMaster.config_kF(0, 0.0, 0);
+		rightMaster.config_kP(0, 0.1, 0);
+		rightMaster.config_kI(0, 0.0, 0);
+		rightMaster.config_kD(0, 0.0, 0);
+	}
+	public void goDistance(){
+		System.out.println("going");
+		leftMaster.set(ControlMode.Position, 10.0*4096);
+		rightMaster.set(ControlMode.Position, 10.0*4096);
+	}
+	public void manualDrive() {
+		System.out.println("mdrive");
 		leftMaster.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() - Robot.oi.getMainstick().getY()));
 		//leftSlave.set(ControlMode.PercentOutput, -(Robot.oi.getMainstick().getZ() - Robot.oi.getMainstick().getY()));
 		
@@ -354,79 +394,79 @@ public class DriveTrain extends Subsystem implements RobotMap,TrajectoryWaypoint
 	/*
 	 * Encoder follower shit (trajectory stuff)
 	 */
-	public void configureEncoderFollowers() {
-		left.configureEncoder(leftMaster.getSelectedSensorPosition(0),2259,6.0/12);
-		right.configureEncoder(rightMaster.getSelectedSensorPosition(0),2259,6.0/12);
-		left.configurePIDVA(LEFT_KP,LEFT_KI,LEFT_KD,LEFT_KF,0);
-		right.configurePIDVA(RIGHT_KP,RIGHT_KI,RIGHT_KD, RIGHT_KF,0);
-	}
-	
-	
-	public void generateTrajectory(Waypoint[] points) { //custom generateTrajectory()
-		config = new Config(FitMethod.HERMITE_CUBIC, Config.SAMPLES_HIGH, TIME_BETWEEN_POINTS, MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
-		traj = Pathfinder.generate(points,config);
-		modifier = new TankModifier(traj).modify(WHEEL_BASE_DISTANCE);
-		left = new EncoderFollower(modifier.getLeftTrajectory());
-		right = new EncoderFollower(modifier.getRightTrajectory());
-	}
-	
-	public Trajectory generateTrajectorySetup(Waypoint[] points) {
-		config = new Config(FitMethod.HERMITE_CUBIC, Config.SAMPLES_HIGH, TIME_BETWEEN_POINTS, MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
-		traj = Pathfinder.generate(points,config);
-		return traj;
-	}
-	
-	public void generateModifiers(Trajectory traj) { //generate modifiers based off the given trajectory
-		modifier = new TankModifier(traj).modify(WHEEL_BASE_DISTANCE);
-		left = new EncoderFollower(modifier.getLeftTrajectory());
-		right = new EncoderFollower(modifier.getRightTrajectory());
-	}
-	
-	public void loadLeftEncoderFollower(Trajectory traj) { //from a csv!
-		left = new EncoderFollower(traj);
-	}
-	
-	public void loadRightEncoderFollower(Trajectory traj) { //also from a csv!
-		right = new EncoderFollower(traj);
-	}
-	
-	public void resetLeftEncoderFollower() {
-		left.reset();
-	}
-	public void resetRightEncoderFollower() {
-		right.reset();
-	}
-	public void resetEncoderFollowers() {
-		left.reset();
-		right.reset();
-	}
-	
-	public void followTrajectory() {
-		double l = left.calculate(-leftMaster.getSelectedSensorPosition(0));
-		double r = right.calculate(rightMaster.getSelectedSensorPosition(0));
-		
-		
-		SmartDashboard.putNumber("left raw - auto",l);
-		SmartDashboard.putNumber("right raw - auto",r);
-		
-		double gyro_heading = gyro.getYaw()*-1;
-		double desired_heading = Pathfinder.r2d(left.getHeading());
-		
-		
-		
-		double angleError = Pathfinder.boundHalfDegrees(desired_heading-gyro_heading);
-		double turn = GYRO_KP * angleError;
-		SmartDashboard.putNumber("AngleError: ", angleError);
-		//leftMaster.setInverted(true);
-		leftMaster.set(ControlMode.PercentOutput,-(l+turn));
-		rightMaster.set(ControlMode.PercentOutput,r-turn);
-		SmartDashboard.putNumber("left master percentoutput",-(l+turn));
-		SmartDashboard.putNumber("right master percentoutput", r-turn);
-		//System.out.println("we got here");
-		//leftMaster.set(ControlMode.PercentOutput,-0.5);
-		//rightMaster.set(ControlMode.PercentOutput,0.5);
-	}
-	
+//	public void configureEncoderFollowers() {
+//		left.configureEncoder(leftMaster.getSelectedSensorPosition(0),2259,6.0/12);
+//		right.configureEncoder(rightMaster.getSelectedSensorPosition(0),2259,6.0/12);
+//		left.configurePIDVA(LEFT_KP,LEFT_KI,LEFT_KD,LEFT_KF,0);
+//		right.configurePIDVA(RIGHT_KP,RIGHT_KI,RIGHT_KD, RIGHT_KF,0);
+//	}
+//	
+//	
+//	public void generateTrajectory(Waypoint[] points) { //custom generateTrajectory()
+//		config = new Config(FitMethod.HERMITE_CUBIC, Config.SAMPLES_HIGH, TIME_BETWEEN_POINTS, MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
+//		traj = Pathfinder.generate(points,config);
+//		modifier = new TankModifier(traj).modify(WHEEL_BASE_DISTANCE);
+//		left = new EncoderFollower(modifier.getLeftTrajectory());
+//		right = new EncoderFollower(modifier.getRightTrajectory());
+//	}
+//	
+//	public Trajectory generateTrajectorySetup(Waypoint[] points) {
+//		config = new Config(FitMethod.HERMITE_CUBIC, Config.SAMPLES_HIGH, TIME_BETWEEN_POINTS, MAX_VELOCITY, MAX_ACCELERATION, MAX_JERK);
+//		traj = Pathfinder.generate(points,config);
+//		return traj;
+//	}
+//	
+//	public void generateModifiers(Trajectory traj) { //generate modifiers based off the given trajectory
+//		modifier = new TankModifier(traj).modify(WHEEL_BASE_DISTANCE);
+//		left = new EncoderFollower(modifier.getLeftTrajectory());
+//		right = new EncoderFollower(modifier.getRightTrajectory());
+//	}
+//	
+//	public void loadLeftEncoderFollower(Trajectory traj) { //from a csv!
+//		left = new EncoderFollower(traj);
+//	}
+//	
+//	public void loadRightEncoderFollower(Trajectory traj) { //also from a csv!
+//		right = new EncoderFollower(traj);
+//	}
+//	
+//	public void resetLeftEncoderFollower() {
+//		left.reset();
+//	}
+//	public void resetRightEncoderFollower() {
+//		right.reset();
+//	}
+//	public void resetEncoderFollowers() {
+//		left.reset();
+//		right.reset();
+//	}
+//	
+//	public void followTrajectory() {
+//		double l = left.calculate(-leftMaster.getSelectedSensorPosition(0));
+//		double r = right.calculate(rightMaster.getSelectedSensorPosition(0));
+//		
+//		
+//		SmartDashboard.putNumber("left raw - auto",l);
+//		SmartDashboard.putNumber("right raw - auto",r);
+//		
+//		double gyro_heading = gyro.getYaw()*-1;
+//		double desired_heading = Pathfinder.r2d(left.getHeading());
+//		
+//		
+//		
+//		double angleError = Pathfinder.boundHalfDegrees(desired_heading-gyro_heading);
+//		double turn = GYRO_KP * angleError;
+//		SmartDashboard.putNumber("AngleError: ", angleError);
+//		//leftMaster.setInverted(true);
+//		leftMaster.set(ControlMode.PercentOutput,-(l+turn));
+//		rightMaster.set(ControlMode.PercentOutput,r-turn);
+//		SmartDashboard.putNumber("left master percentoutput",-(l+turn));
+//		SmartDashboard.putNumber("right master percentoutput", r-turn);
+//		//System.out.println("we got here");
+//		//leftMaster.set(ControlMode.PercentOutput,-0.5);
+//		//rightMaster.set(ControlMode.PercentOutput,0.5);
+//	}
+//	
 	@Override
 	protected void initDefaultCommand() {
     	setDefaultCommand(new ManualDrive());
